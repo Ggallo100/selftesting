@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Atractivo Rol del Químico Farmacéutico en Perú</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #FF8C00; /* Naranja de la U. Autónoma */
+            --secondary-color: #8B4513; /* Marrón para texto principal */
+            --light-bg: #FFF8E1; /* Fondo muy claro */
+            --card-bg: #FFFFFF;
+            --accent-light: #FFDAB9; /* Melocotón claro */
+            --text-dark: #333;
+            --text-light: #f8f8f8;
+            --border-color: #EEE;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            padding: 2.5rem 1rem;
+            text-align: center;
+            border-bottom: 8px solid var(--secondary-color);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        header h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.8rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        header p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .logo-ua {
+            max-width: 150px;
+            margin-top: 1rem;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        section {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+            padding: 2.5rem;
+            margin-bottom: 2.5rem;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.2rem;
+            color: var(--secondary-color);
+            text-align: center;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        h2::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background-color: var(--primary-color);
+            margin: 10px auto 0;
+            border-radius: 2px;
+        }
+
+        .intro-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        .intro-card {
+            background-color: var(--accent-light);
+            padding: 1.8rem;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            transition: background-color 0.3s ease;
+        }
+        .intro-card:hover {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+        }
+        .intro-card h3 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--secondary-color);
+            font-size: 1.5rem;
+            margin-bottom: 0.8rem;
+        }
+        .intro-card:hover h3 {
+            color: var(--text-light);
+        }
+
+        /* Acordeones */
+        .accordion-item {
+            border-bottom: 1px solid var(--border-color);
+        }
+        .accordion-header {
+            background-color: var(--light-bg);
+            color: var(--secondary-color);
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+        }
+        .accordion-header:hover, .accordion-header.active {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+        }
+        .accordion-header span {
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+        .accordion-header.active span {
+            transform: rotate(90deg);
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+            padding: 0 1.5rem;
+        }
+        .accordion-content.show {
+            max-height: 500px; /* Adjust as needed */
+            padding: 1rem 1.5rem;
+        }
+        .accordion-content ul {
+            list-style: disc;
+            padding-left: 20px;
+            margin: 0;
+        }
+        .accordion-content li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Tabs */
+        .tab-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+        .tab-button {
+            background-color: var(--light-bg);
+            color: var(--secondary-color);
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 8px 8px 0 0;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            margin: 0 5px;
+            transition: all 0.3s ease;
+        }
+        .tab-button:hover, .tab-button.active {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .tab-content {
+            background-color: var(--accent-light);
+            padding: 1.8rem;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Salary Grid */
+        .salary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        .salary-card {
+            background-color: var(--accent-light);
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            border: 2px solid transparent;
+            transition: border-color 0.3s ease;
+        }
+        .salary-card.private { border-color: #4CAF50; } /* Verde para privado */
+        .salary-card.public { border-color: #2196F3; }  /* Azul para público */
+        .salary-card.entrepreneur { border-color: #FFC107; } /* Amarillo para emprendimiento */
+
+        .salary-card h3 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--secondary-color);
+            font-size: 1.6rem;
+            margin-bottom: 0.8rem;
+            text-align: center;
+        }
+        .salary-card ul {
+            list-style: none;
+            padding: 0;
+        }
+        .salary-card li {
+            margin-bottom: 0.6rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        .salary-card li::before {
+            content: '💊'; /* Icono de pastilla */
+            position: absolute;
+            left: 0;
+            color: var(--primary-color);
+        }
+        .salary-card .range {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-top: 0.5rem;
+            display: block;
+        }
+        .salary-card .note {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 0.8rem;
+        }
+
+        /* Call to action */
+        .cta {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 2rem;
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .cta h2 {
+            color: var(--text-light);
+        }
+        .cta h2::after {
+            background-color: var(--text-light);
+        }
+        .cta p {
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 1rem auto 2rem;
+        }
+        .cta button {
+            background-color: var(--secondary-color);
+            color: var(--text-light);
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-family: 'Montserrat', sans-serif;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .cta button:hover {
+            background-color: #A0522D;
+            transform: translateY(-3px);
+        }
+
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+            color: #666;
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.2rem;
+            }
+            header p {
+                font-size: 1rem;
+            }
+            h2 {
+                font-size: 1.8rem;
+            }
+            section {
+                padding: 1.5rem;
+            }
+            .intro-grid, .salary-grid {
+                grid-template-columns: 1fr;
+            }
+            .accordion-header, .tab-button {
+                font-size: 1rem;
+                padding: 0.8rem 1rem;
+            }
+            .accordion-content.show {
+                padding: 0.8rem 1rem;
+            }
+            .tab-button {
+                margin: 5px 2px;
+                padding: 0.6rem 1rem;
+            }
+            .tab-content {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Universidad_Aut%C3%B3noma_del_Per%C3%BA.svg/1200px-Universidad_Aut%C3%B3noma_del_Per%C3%BA.svg.png" alt="Logo Universidad Autónoma del Perú" class="logo-ua">
+        <h1>El Atractivo Mundo Profesional del Químico Farmacéutico en Perú</h1>
+        <p>Descubre el impacto, el desarrollo y las oportunidades salariales que te esperan en el dinámico campo de la oficina farmacéutica.</p>
+    </header>
+
+    <main class="container">
+
+        <section id="introduction">
+            <h2>Un Rol Vital en la Salud del Perú</h2>
+            <p>El Químico Farmacéutico en la oficina farmacéutica es mucho más que un dispensador de medicamentos; es un pilar fundamental de la salud pública, interactuando directamente con la comunidad y ofreciendo una atención especializada y humana. Su labor es crucial para promover el bienestar de los pacientes y garantizar el acceso seguro a los tratamientos.</p>
+            <div class="intro-grid">
+                <div class="intro-card">
+                    <h3>Impacto Directo</h3>
+                    <p>Contribuye significativamente a la mejora de la calidad de vida de las personas.</p>
+                </div>
+                <div class="intro-card">
+                    <h3>Agente de Salud</h3>
+                    <p>Educador y consejero, crucial en la prevención y promoción de la salud.</p>
+                </div>
+                <div class="intro-card">
+                    <h3>Accesibilidad</h3>
+                    <p>Facilita el acceso a medicamentos y servicios de atención primaria en la comunidad.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="roles">
+            <h2>Funciones Clave y Responsabilidades del Director Técnico</h2>
+            <p>El Químico Farmacéutico, en su rol de Director Técnico, asume responsabilidades fundamentales para asegurar el funcionamiento óptimo y legal de la oficina farmacéutica, tal como lo establece el D.S. 014-2011.</p>
+
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    Rol Principal y Permanencia <span>+</span>
+                </div>
+                <div class="accordion-content">
+                    <p>Las Farmacias o Boticas operan bajo la responsabilidad de un Químico Farmacéutico como Director Técnico. Es imprescindible su presencia durante las horas de funcionamiento, salvo ausencias justificadas y registradas en el libro de ocurrencias.</p>
+                    <p><strong>Dato Importante:</strong> Solo puede existir un único Director Técnico por establecimiento farmacéutico.</p>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    Control y Dispensación de Productos <span>+</span>
+                </div>
+                <div class="accordion-content">
+                    <ul>
+                        <li>Dispensar y supervisar el expendio de productos farmacéuticos según su condición de venta.</li>
+                        <li>Verificar y controlar recetas de estupefacientes, psicotrópicos y precursores.</li>
+                        <li>Solicitar, almacenar, custodiar y controlar sustancias controladas.</li>
+                        <li>Controlar la venta por unidad y supervisar la elaboración de preparados farmacéuticos.</li>
+                        <li>Supervisar las condiciones de almacenamiento para garantizar la conservación, estabilidad y calidad.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    Gestión de Calidad y Atención al Paciente <span>+</span>
+                </div>
+                <div class="accordion-content">
+                    <ul>
+                        <li>Capacitar y supervisar permanentemente al personal asistente y técnico.</li>
+                        <li>Verificar la inexistencia de productos contaminados, adulterados, falsificados o expirados, y disponer su retiro para destrucción.</li>
+                        <li>Notificar sospechas de reacciones adversas e incidentes adversos de productos farmacéuticos.</li>
+                        <li>Mantener la confidencialidad de las notificaciones de reacciones adversas.</li>
+                        <li>Orientar e informar al usuario sobre el uso adecuado del producto farmacéutico.</li>
+                        <li>Ofrecer al usuario alternativas de medicamentos.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    Cumplimiento Normativo y Reportes <span>+</span>
+                </div>
+                <div class="accordion-content">
+                    <ul>
+                        <li>Mantener actualizados los libros oficiales o registros electrónicos de datos.</li>
+                        <li>Elaborar y presentar los balances requeridos en el Reglamento de Estupefacientes, Psicotrópicos y Otras Sustancias Sujetas a Fiscalización Sanitaria.</li>
+                        <li>Cumplir y hacer cumplir las Buenas Prácticas de Almacenamiento, Dispensación, Farmacovigilancia, Distribución y Transporte y Seguimiento Farmacoterapéutico.</li>
+                        <li>Verificar que la promoción y difusión de los anuncios publicitarios sean acordes a la normatividad vigente.</li>
+                        <li>Verificar el cumplimiento de todas las demás disposiciones de la Ley N° 29459 y el Reglamento.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="social-growth">
+            <h2>Impacto Social y Oportunidades de Crecimiento</h2>
+            <p>La profesión farmacéutica en Perú no solo ofrece estabilidad, sino también un profundo sentido de propósito y múltiples caminos para el desarrollo.</p>
+
+            <div class="tab-container">
+                <button class="tab-button active" data-tab="social-impact">Impacto Social</button>
+                <button class="tab-button" data-tab="job-growth">Crecimiento Laboral</button>
+                <button class="tab-button" data-tab="professional-adv">Avance Profesional</button>
+            </div>
+
+            <div id="social-impact" class="tab-content active">
+                <h3>Un Pilar en la Comunidad</h3>
+                <ul>
+                    <li><strong>Accesibilidad:</strong> Las oficinas farmacéuticas son el primer punto de contacto para muchos, brindando acceso a medicamentos y servicios de atención primaria.</li>
+                    <li><strong>Educación en Salud:</strong> Los Q.F. son educadores clave, proporcionando información vital sobre medicamentos y promoviendo estilos de vida saludables.</li>
+                    <li><strong>Apoyo Continuo:</strong> Ofrecen soporte integral para el manejo de enfermedades crónicas, mejorando la calidad de vida de los pacientes.</li>
+                </ul>
+            </div>
+
+            <div id="job-growth" class="tab-content">
+                <h3>Un Mercado en Expansión</h3>
+                <p>El sector farmacéutico en Perú está en constante crecimiento, ofreciendo una alta demanda de profesionales:</p>
+                <ul>
+                    <li>El incremento de boticas y farmacias, tanto de cadenas como independientes, genera una constante necesidad de Químicos Farmacéuticos.</li>
+                    <li>El <strong>emprendimiento</strong> es una oportunidad tangible y gratificante, permitiendo al Q.F. establecer su propia farmacia comunitaria y atender directamente las necesidades de su entorno.</li>
+                </ul>
+            </div>
+
+            <div id="professional-adv" class="tab-content">
+                <h3>Desarrollo Constante</h3>
+                <p>La profesión incentiva la mejora continua y la especialización:</p>
+                <ul>
+                    <li>El avance en tecnología y servicios farmacéuticos abre nuevas áreas de crecimiento.</li>
+                    <li>La implementación de normativas vigentes eleva la competencia profesional y asegura la calidad.</li>
+                    <li>Las <strong>colaboraciones interprofesionales</strong> con otros proveedores de salud mejoran la coordinación del cuidado del paciente.</li>
+                    <li>La creación de nuevas asociaciones y ONGs amplía el desarrollo y la influencia del sector.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="salaries">
+            <h2>Oportunidades Remunerativas: Tu Inversión Rentable</h2>
+            <p class="text-center">El Químico Farmacéutico en Perú goza de un mercado laboral robusto y diversas escalas salariales que reflejan su vital importancia. A continuación, un panorama actualizado de ingresos aproximados:</p>
+            <p class="note text-center"><em>Nota: Los montos son rangos mensuales brutos y pueden variar significativamente según la región, experiencia, tamaño de la institución, especialización y capacidad de negociación.</em></p>
+
+            <div class="salary-grid">
+                <div class="salary-card private">
+                    <h3>Sector Privado: Oficina Farmacéutica</h3>
+                    <ul>
+                        <li><strong>Cadenas de Boticas (DT):</strong>
+                            <span class="range">S/ 2,800 - S/ 6,000+</span>
+                            <span class="note"><em>(Inicial a DT con experiencia)</em></span>
+                        </li>
+                        <li><strong>Farmacias Independientes (DT):</strong>
+                            <span class="range">S/ 3,000 - S/ 5,000+</span>
+                            <span class="note"><em>(Con experiencia, según volumen)</em></span>
+                        </li>
+                        <li><strong>Servicio Farmacéutico en Clínicas:</strong>
+                            <span class="range">S/ 3,500 - S/ 7,000+</span>
+                            <span class="note"><em>(Con experiencia, puede ser mayor en jefaturas)</em></span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="salary-card public">
+                    <h3>Sector Público: Salud y Estado</h3>
+                    <ul>
+                        <li><strong>MINSA / EsSalud:</strong>
+                            <span class="range">S/ 2,800 - S/ 8,000+</span>
+                            <span class="note"><em>(Inicial a puestos de carrera con especialización, con beneficios sociales y estabilidad)</em></span>
+                        </li>
+                        <li><strong>Municipalidades:</strong>
+                            <span class="range">S/ 2,500 - S/ 4,000</span>
+                            <span class="note"><em>(Proyectos de salud comunitaria)</em></span>
+                        </li>
+                        <li><strong>Fuerzas Armadas / Policiales:</strong>
+                            <span class="range">S/ 3,000 - S/ 6,000+</span>
+                            <span class="note"><em>(Según grado y responsabilidades, con beneficios institucionales)</em></span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="salary-card entrepreneur">
+                    <h3>Emprendimiento: Tu Propio Negocio</h3>
+                    <ul>
+                        <li><strong>Farmacia Propia (Director Técnico/Dueño):</strong>
+                            <span class="range">S/ 4,000 - S/ 15,000+</span>
+                            <span class="note"><em>(Ingresos netos variables, alto potencial de crecimiento, autonomía total)</em></span>
+                        </li>
+                        <li><strong>Consultoría/Servicios Especializados:</strong>
+                            <span class="range">Variable, por proyecto</span>
+                            <span class="note"><em>(Potencial ilimitado, basado en experiencia y red de contactos)</em></span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <p class="note text-center" style="margin-top: 1.5rem;">
+                La estabilidad laboral, el impacto social directo y las múltiples vías de crecimiento profesional y económico hacen del Químico Farmacéutico una carrera altamente atractiva en el Perú.
+            </p>
+        </section>
+
+        <section id="skills">
+            <h2>Habilidades que Impulsan tu Éxito</h2>
+            <p>El ejercicio profesional del Químico Farmacéutico exige y desarrolla un conjunto robusto de habilidades, posicionándote como un profesional integral y altamente valorado.</p>
+
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    Habilidades Técnicas <span>+</span>
+                </div>
+                <div class="accordion-content">
+                    <ul>
+                        <li>Conocimiento profundo en farmacología y dosificación de medicamentos.</li>
+                        <li>Dominio de sistemas de gestión de farmacias.</li>
+                        <li>Proactividad en la identificación y resolución de problemas relacionados con medicamentos.</li>
+                        <li>Capacidad para preparar y supervisar la elaboración de preparados farmacéuticos.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    Habilidades Comunicativas <span>+</span>
+                </div>
+                <div class="accordion-content">
+                    <ul>
+                        <li>Excelentes habilidades de escucha y comunicación para brindar asesoramiento efectivo a los pacientes.</li>
+                        <li>Capacidad para crear relaciones interpersonales positivas con clientes y otros profesionales de la salud.</li>
+                        <li>Claridad y empatía al orientar sobre el uso adecuado de productos y alternativas.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    Habilidades de Gestión <span>+</span>
+                </div>
+                <div class="accordion-content">
+                    <ul>
+                        <li>Capacidad para administrar eficientemente el inventario y los registros de los pacientes.</li>
+                        <li>Habilidad para colaborar con el equipo y trabajar en un entorno de ritmo acelerado.</li>
+                        <li>Competencia en el cumplimiento y supervisión de normativas y buenas prácticas.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="challenges-opportunities">
+            <h2>Desafíos y Oportunidades: Crece con la Demanda</h2>
+            <p>La carrera de Químico Farmacéutico, como cualquier profesión, presenta desafíos que, a su vez, son oportunidades para destacar y seguir creciendo profesionalmente.</p>
+            <div class="intro-grid">
+                <div class="intro-card">
+                    <h3>Alto Volumen de Trabajo</h3>
+                    <p>Las oficinas farmacéuticas a menudo enfrentan altas demandas y tiempos de espera. Esto desarrolla tu eficiencia, organización y capacidad de trabajar bajo presión.</p>
+                </div>
+                <div class="intro-card">
+                    <h3>Complejidades en los Seguros</h3>
+                    <p>La resolución de problemas con cobertura de seguros y autorizaciones puede ser desafiante. Es una oportunidad para desarrollar habilidades de negociación, resolución de problemas y atención al detalle.</p>
+                </div>
+                <div class="intro-card">
+                    <h3>Innovación Constante</h3>
+                    <p>El avance tecnológico y la evolución de los servicios farmacéuticos te impulsan a una formación continua, manteniéndote siempre relevante y en la vanguardia.</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="cta">
+            <h2>¡Tu Futuro Brillante Comienza Aquí!</h2>
+            <p>La profesión de Químico Farmacéutico te ofrece un camino de crecimiento constante, impacto social y excelentes perspectivas económicas. Prepárate para ser un líder en la salud y el bienestar de tu comunidad.</p>
+            <button onclick="window.location.href='https://www.autonoma.edu.pe/carreras/farmacia-y-bioquimica/'">Explora Farmacia y Bioquímica en la Autónoma</button>
+        </div>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Universidad Autónoma del Perú. Todos los derechos reservados.</p>
+    </footer>
+
+    <script>
+        // Lógica de Acordeón
+        document.querySelectorAll('.accordion-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const content = header.nextElementSibling;
+                header.classList.toggle('active');
+                if (content.classList.contains('show')) {
+                    content.classList.remove('show');
+                } else {
+                    // Cierra otros acordeones si es necesario (opcional)
+                    document.querySelectorAll('.accordion-content.show').forEach(openContent => {
+                        openContent.classList.remove('show');
+                        openContent.previousElementSibling.classList.remove('active');
+                    });
+                    content.classList.add('show');
+                }
+            });
+        });
+
+        // Lógica de Tabs
+        document.querySelectorAll('.tab-button').forEach(button => {
+            button.addEventListener('click', () => {
+                // Remover 'active' de todos los botones y contenidos
+                document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+                // Añadir 'active' al botón clicado
+                button.classList.add('active');
+
+                // Mostrar el contenido correspondiente
+                const targetTab = button.dataset.tab;
+                document.getElementById(targetTab).classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
