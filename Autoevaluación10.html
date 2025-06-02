@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cuestionario Rol del Químico Farmacéutico - Universidad Autónoma del Perú</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    /* Estilos mantienen su forma original... */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 20px;
+      background-color: #fffaf0;
+    }
+    .institutional-header {
+      background-color: #FF8C00;
+      color: white;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+    h1.section-title, #customTitleInput {
+      text-align: center;
+      color: #FF8C00;
+      margin-bottom: 20px;
+    }
+    #customTitleInput {
+      display: block;
+      margin: 0 auto 20px;
+      padding: 10px;
+      width: 80%;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+      background-color: #fff0e6;
+    }
+    .question {
+      background: #ffffff;
+      padding: 20px;
+      margin-bottom: 15px;
+      border-radius: 10px;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    }
+    h2.question-title {
+      color: #8B4513;
+      font-size: 18px;
+      border-bottom: 2px solid #FF8C00;
+      padding-bottom: 5px;
+      margin-bottom: 10px;
+    }
+    label {
+      display: block;
+      margin: 5px 0;
+      cursor: pointer;
+    }
+    select, input[type="file"] {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background: #8B4513;
+      color: white;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      display: inline-block;
+      margin: 15px 10px;
+    }
+    button:hover {
+      background: #A0522D;
+    }
+    .mcq { background-color: #fff0e6; }
+    .tf { background-color: #FFEBCD; }
+    .fill { background-color: #FAEBD7; }
+    .multi { background-color: #F5DEB3; }
+    .drag { background-color: #F5F5DC; }
+    .feedback {
+      display: none;
+      margin-top: 5px;
+      font-weight: bold;
+      color: #8B4513;
+    }
+    #progress-container {
+      width: 100%;
+      background-color: #FFE4C4;
+      border-radius: 8px;
+      margin: 20px 0;
+    }
+    #progress-bar {
+      width: 0%;
+      height: 20px;
+      background-color: #FF8C00;
+      border-radius: 8px;
+      text-align: center;
+      color: white;
+      transition: width 0.3s ease-in-out;
+    }
+    #result {
+      text-align: center;
+      font-size: 20px;
+      margin-top: 20px;
+      color: #FF8C00;
+      white-space: pre-line;
+    }
+    #chartContainer {
+      margin-top: 30px;
+      display: none;
+    }
+    .drag-container {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      min-height: 50px;
+      border: 1px dashed #FF8C00;
+      padding: 10px;
+      border-radius: 5px;
+      background: #FFF8DC; /* Light background for contrast */
+    }
+    .draggable {
+      padding: 8px;
+      background: white;
+      color: #8B4513; /* Darker text */
+      border-radius: 4px;
+      cursor: grab;
+      border: 1px solid #FF8C00;
+      text-align: center;
+    }
+    .draggable.dragging {
+      background: #FFA500;
+      color: white;
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+  <!-- Cabecera -->
+  <div class="institutional-header">
+    <h1>Universidad Autónoma del Perú</h1>
+    <h2>Facultad de Ciencias de la Salud</h2>
+    <h3>Escuela de Farmacia y Bioquímica</h3>
+  </div>
+  <!-- Título personalizable -->
+  <input id="customTitleInput" type="text" value="Autoevaluación - Rol del Químico Farmacéutico en Perú" oninput="document.getElementById('dynamicTitle').textContent = this.value" />
+  <h1 id="dynamicTitle" class="section-title">Autoevaluación - Rol del Químico Farmacéutico en Perú</h1>
+  <!-- Temporizador -->
+  <div id="timer" style="text-align: center; font-size: 18px; color: #8B4513; margin-bottom: 20px;">
+    Tiempo restante: <span id="time">10:00</span>
+  </div>
+  <!-- Barra de progreso -->
+  <div id="progress-container">
+    <div id="progress-bar">0%</div>
+  </div>
+  <!-- Contador de intentos -->
+  <div id="attempts" style="text-align: center; font-size: 16px; color: #8B4513;">
+    Intentos: <span id="attemptCount">0</span>
+  </div>
+  <!-- Formulario de preguntas -->
+  <form id="quizForm"></form>
+  <!-- Botones -->
+  <button type="button" onclick="calculateScore()">Calificar</button>
+  <button type="button" id="retryButton" onclick="resetQuiz()" style="display:none">Intentar de nuevo</button>
+  <!-- Resultados -->
+  <div id="result"></div>
+  <!-- Gráfico -->
+  <div id="chartContainer">
+    <canvas id="performanceChart" width="400" height="300"></canvas>
+  </div>
+  <script>
+    let quizQuestions = [
+      // MCQ Questions (15 preguntas)
+      { id: 1, type: 'mcq', text: '¿Cuál es un papel crucial de los farmacéuticos en las oficinas farmacéuticas, según la Diapositiva 7?', options: ['Realizar operaciones financieras', 'Diseñar campañas publicitarias', 'Promover la salud y el bienestar de los pacientes', 'Supervisar la producción de medicamentos'], answer: 'c' },
+      { id: 2, type: 'mcq', text: '¿Quién es el principal responsable de la operación de una oficina farmacéutica, según el Art. 41 del D.S. 014-2011?', options: ['El Administrador', 'El Director Técnico', 'El Jefe de Ventas', 'El Asistente de Farmacia'], answer: 'b' },
+      { id: 3, type: 'mcq', text: '¿Cuál de las siguientes *NO* es una responsabilidad del Director Técnico según el Art. 42 del D.S. 014-2011?', options: ['Dispensar productos farmacéuticos', 'Capacitar al personal asistente', 'Administrar el personal de limpieza', 'Reportar reacciones adversas'], answer: 'c' },
+      { id: 4, type: 'mcq', text: '¿Qué rol cumplen las oficinas farmacéuticas en el aspecto de "Accesibilidad" según la Diapositiva 10?', options: ['Vender solo productos de marca', 'Restringir el acceso a ciertos medicamentos', 'Brindar acceso conveniente a medicamentos y servicios de atención primaria', 'Promover solo servicios de alta especialización'], answer: 'c' },
+      { id: 5, type: 'mcq', text: '¿Por qué hay una alta oportunidad laboral en el sector de la oficina farmacéutica, según la Diapositiva 11?', options: ['Disminución de la demanda de medicamentos', 'Incremento de boticas y farmacias', 'Reducción de la población', 'Baja necesidad de profesionales calificados'], answer: 'b' },
+      { id: 6, type: 'mcq', text: '¿Cuál es el rango salarial típico mencionado para el puesto en una "Cadena de Boticas" según la Diapositiva 12?', options: ['S/ 2000', 'S/ 2500', 'S/ 3000', 'S/ 3500'], answer: 'c' },
+      { id: 7, type: 'mcq', text: '"Capacidad para administrar eficientemente el inventario y los registros de los pacientes" es una habilidad que corresponde a:', options: ['Habilidades Técnicas', 'Habilidades Comunicativas', 'Habilidades de Gestión', 'Habilidades de Investigación'], answer: 'c' },
+      { id: 8, type: 'mcq', text: '¿Cuál es un desafío común en las Oficinas Farmacéuticas relacionado con la carga de trabajo, según la Diapositiva 14?', options: ['Bajo Volumen de Ventas', 'Alto Volumen de Trabajo', 'Falta de pacientes', 'Exceso de personal'], answer: 'b' },
+      { id: 9, type: 'mcq', text: '¿Qué tipo de información proporciona el Director Técnico al usuario para el uso adecuado de un producto farmacéutico?', options: ['Precios de la competencia', 'Horarios de atención', 'Uso adecuado del producto', 'Información sobre otras enfermedades'], answer: 'c' },
+      { id: 10, type: 'mcq', text: 'Según la Diapositiva 7, los farmacéuticos desempeñan un papel crucial en:', options: ['La contabilidad de la empresa', 'La promoción de la salud y el bienestar de los pacientes', 'La investigación de mercados', 'La gestión de recursos humanos'], answer: 'b' },
+      { id: 11, type: 'mcq', text: 'Si hay una ausencia justificada del Director Técnico, ¿dónde debe ser registrada, según el Art. 41 del D.S. 014-2011?', options: ['En el libro de caja', 'En el libro de ocurrencias', 'En el registro de ventas', 'En el expediente del personal'], answer: 'b' },
+      { id: 12, type: 'mcq', text: '¿Qué acción debe tomar el Director Técnico con productos falsificados o adulterados según el Art. 42 del D.S. 014-2011?', options: ['Venderlos a menor precio', 'Comunicar a la Autoridad Sanitaria', 'Devolverlos al proveedor sin notificación', 'Distribuirlos en otras sucursales'], answer: 'b' },
+      { id: 13, type: 'mcq', text: '¿Qué beneficio aportan las oficinas farmacéuticas en cuanto al "Papel en la Educación" según la Diapositiva 10?', options: ['Otorgan títulos universitarios', 'Proporcionan información sobre medicamentos y promueven educación en salud', 'Realizan investigaciones biológicas', 'Gestionan becas estudiantiles'], answer: 'b' },
+      { id: 14, type: 'mcq', text: 'El "avance en tecnología y servicios farmacéuticos" ha llevado a:', options: ['Menos oportunidades de crecimiento', 'Oportunidades de crecimiento para las oficinas farmacéuticas', 'La desaparición de las farmacias', 'Un aumento de costos sin beneficios'], answer: 'b' },
+      { id: 15, type: 'mcq', text: 'Las "Habilidades de Gestión" incluyen la capacidad de colaborar con el equipo y trabajar en:', options: ['Un entorno individualista', 'Un entorno de ritmo acelerado', 'Un entorno de baja presión', 'Un entorno sin supervisión'], answer: 'b' },
+
+      // True/False Questions (10 preguntas)
+      { id: 16, type: 'tf', text: 'El Director Técnico solo es responsable de la dispensación, no de la supervisión de almacenamiento.', answer: 'false' },
+      { id: 17, type: 'tf', text: 'Las Farmacias o Boticas pueden funcionar sin un químico farmacéutico Director Técnico.', answer: 'false' },
+      { id: 18, type: 'tf', text: 'El Director Técnico no necesita verificar que los anuncios publicitarios en el establecimiento sean acordes a la normatividad.', answer: 'false' },
+      { id: 19, type: 'tf', text: 'La atención farmacéutica busca orientar e informar al usuario sobre el uso adecuado del producto.', answer: 'true' },
+      { id: 20, type: 'tf', text: 'El emprendimiento en Boticas y Farmacias no es una oportunidad laboral para el Químico Farmacéutico.', answer: 'false' },
+      { id: 21, type: 'tf', text: 'El Q.F. es el único profesional autorizado para preparar preparados farmacéuticos.', answer: 'false' }, // Supervisa, no necesariamente el único que prepara.
+      { id: 22, type: 'tf', text: 'La remuneración del Químico Farmacéutico en Boticas Comunitarias es generalmente más alta que en Cadenas de Boticas.', answer: 'false' }, // Diapo 12: S/2500 vs S/3000
+      { id: 23, type: 'tf', text: 'La resolución de problemas con cobertura de seguros puede ser un desafío en las Oficinas Farmacéuticas.', answer: 'true' },
+      { id: 24, type: 'tf', text: 'La creación de nuevas asociaciones u ONGs no amplía el desarrollo del sector farmacéutico.', answer: 'false' },
+      { id: 25, type: 'tf', text: 'El Químico Farmacéutico no tiene un papel en la promoción de la educación en temas de salud.', answer: 'false' },
+
+      // Fill-in-the-blank Questions (9 preguntas)
+      { id: 26, type: 'fill', text: 'El Director Técnico debe ______ las recetas de estupefacientes y psicotrópicos.', options: ['registrar', 'verificar y controlar', 'prescribir', 'almacenar'], answer: 'b' },
+      { id: 27, type: 'fill', text: 'Las oficinas farmacéuticas ofrecen ______ integral para el manejo de enfermedades crónicas.', options: ['apoyo', 'diagnóstico', 'tratamiento invasivo', 'diversión'], answer: 'a' },
+      { id: 28, type: 'fill', text: 'La remuneración en las Farmacias puede depender de ______ .', options: ['la publicidad', 'las ventas', 'el número de empleados', 'el tamaño del local'], answer: 'b' },
+      { id: 29, type: 'fill', text: 'Una "Habilidad Comunicativa" es brindar ______ efectivo a los pacientes.', options: ['entretenimiento', 'asesoramiento', 'orden', 'silencio'], answer: 'b' },
+      { id: 30, type: 'fill', text: 'El Director Técnico debe ______ las sospechas de reacciones adversas e incidentes adversos.', options: ['ignorar', 'notificar', 'ocultar', 'investigar personalmente'], answer: 'b' },
+      { id: 31, type: 'fill', text: 'Según el D.S. 014-2011, solo debe existir ______ Director Técnico por establecimiento farmacéutico.', options: ['más de uno', 'uno', 'dos', 'ninguno'], answer: 'b' },
+      { id: 32, type: 'fill', text: 'El Q.F. debe verificar que no existan productos ______, adulterados o falsificados.', options: ['promocionales', 'contaminados', 'nuevos', 'económicos'], answer: 'b' },
+      { id: 33, type: 'fill', text: 'El campo laboral en la oficina farmacéutica ofrece oportunidades para interactuar con la ______ .', options: ['industria', 'universidad', 'comunidad', 'competencia'], answer: 'c' },
+      { id: 34, type: 'fill', text: 'El Químico Farmacéutico debe mantener actualizados los ______ o registros electrónicos de datos.', options: ['balances de cuenta', 'libros oficiales', 'catálogos de productos', 'listados de precios'], answer: 'b' },
+
+      // Multiple Answer Questions (8 preguntas)
+      { id: 35, type: 'multi', text: '¿Cuáles son responsabilidades del Director Técnico según el Art. 42 del D.S. 014-2011? (Selecciona 3)', options: ['Dispensar productos farmacéuticos', 'Supervisar condiciones de almacenamiento', 'Negociar contratos de alquiler', 'Capacitar al personal asistente', 'Realizar campañas de marketing'], answer: 'a,b,d' },
+      { id: 36, type: 'multi', text: '¿Qué aspectos cubre el "Apoyo Continuo" que ofrecen las oficinas farmacéuticas? (Selecciona 2)', options: ['Asesoramiento nutricional', 'Manejo de enfermedades crónicas', 'Cuidado de la salud', 'Vacunación masiva', 'Terapia física'], answer: 'b,c' },
+      { id: 37, type: 'multi', text: '¿Cuáles son algunas de las "Habilidades Técnicas" esenciales para un Químico Farmacéutico? (Selecciona 3)', options: ['Conocimiento en farmacología y dosificación', 'Habilidad para debatir', 'Sistemas de gestión de farmacias', 'Proactividad en la resolución de problemas relacionados con medicamentos', 'Diseño gráfico'], answer: 'a,c,d' },
+      { id: 38, type: 'multi', text: '¿Qué describe las "Habilidades Comunicativas" para un Químico Farmacéutico? (Selecciona 2)', options: ['Excelente capacidad de escucha', 'Capacidad para construir relaciones interpersonales positivas', 'Capacidad para memorizar todo', 'Ser el único que habla'], answer: 'a,b' },
+      { id: 39, type: 'multi', text: '¿Qué elementos impulsan el desarrollo de la profesión farmacéutica en el ámbito interprofesional? (Selecciona 2)', options: ['Colaboraciones entre farmacias y otros proveedores', 'Creación de nuevas asociaciones u ONGs', 'Reducción de servicios farmacéuticos', 'Competencia desleal'], answer: 'a,b' },
+      { id: 40, type: 'multi', text: '¿Qué factores contribuyen al "Crecimiento Profesional" para los farmacéuticos? (Selecciona 2) ', options: ['Avance en tecnología y servicios farmacéuticos', 'Aumento de los precios de los medicamentos', 'Implementación de normativas vigentes', 'Disminución de la demanda de profesionales'], answer: 'a,c' },
+      { id: 41, type: 'multi', text: '¿Cuáles son tipos de sustancias y productos cuya atención y control son responsabilidad del Director Técnico? (Selecciona 3)', options: ['Estupefacientes', 'Psicofármacos veterinarios', 'Psicotrópicos', 'Precursores', 'Cosméticos'], answer: 'a,c,d' },
+      { id: 42, type: 'multi', text: '¿Qué aspectos son parte de las "Buenas Prácticas" que el Director Técnico debe cumplir y hacer cumplir? (Selecciona 3)', options: ['Almacenamiento', 'Contabilidad', 'Dispensación', 'Farmacovigilancia', 'Recursos humanos'], answer: 'a,c,d' },
+
+      // Drag and Drop Questions (5 preguntas)
+      { id: 43, type: 'drag', text: 'Ordena los pasos para la evaluación del Q.F. (Elementos):', options: ['Recopilación de información', 'Presentación de resultados', 'Análisis de desempeño'], answer: 'a,c,b' },
+      { id: 44, type: 'drag', text: 'Ordena las etapas del acto farmacéutico (simplificado):', options: ['Prescripción médica', 'Dispensación de medicamentos', 'Asesoramiento al paciente'], answer: 'a,b,c' },
+      { id: 45, type: 'drag', text: 'Ordena los componentes del aseguramiento de calidad:', options: ['Planificación de la calidad', 'Mejora continua', 'Control de la calidad'], answer: 'a,c,b' },
+      { id: 46, type: 'drag', text: 'Ordena los pasos para elaborar una fórmula magistral (general):', options: ['Control de calidad final', 'Pesado y mezclado de ingredientes', 'Envasado y etiquetado'], answer: 'b,c,a' },
+      { id: 47, type: 'drag', text: 'Ordena las acciones del Director Técnico frente a productos no conformes antes de su destrucción:', options: ['Notificar a la Autoridad Sanitaria', 'Retirar de la venta', 'Identificar y lacrar'], answer: 'b,c,a' } // Reordered for logical sequence of the DT's actions
+    ];
+
+    let attemptCount = 0;
+    let timeLeft = 600; // 10 minutes timer (600 seconds)
+    let timerInterval;
+    const timerDisplay = document.getElementById('time');
+    let attemptsData = [];
+    let chartInstance = null;
+
+    // Function to initialize drag and drop
+    function initDraggableElements() {
+        const draggables = document.querySelectorAll('.draggable');
+        const containers = document.querySelectorAll('.drag-container');
+
+        draggables.forEach(draggable => {
+            draggable.addEventListener('dragstart', () => {
+                draggable.classList.add('dragging');
+            });
+
+            draggable.addEventListener('dragend', () => {
+                draggable.classList.remove('dragging');
+                updateProgress(); // Update progress after dropping
+            });
+        });
+
+        containers.forEach(container => {
+            container.addEventListener('dragover', e => {
+                e.preventDefault();
+                const afterElement = getDragAfterElement(container, e.clientY);
+                const dragging = document.querySelector('.dragging');
+                if (!dragging || !container.contains(dragging.parentElement)) return; // Ensure dragging element belongs to a container
+
+                if (afterElement == null) {
+                    container.appendChild(dragging);
+                } else {
+                    container.insertBefore(dragging, afterElement);
+                }
+            });
+        });
+    }
+
+
+    function getDragAfterElement(container, y) {
+      const draggableElements = [...container.querySelectorAll('.draggable:not(.dragging)')];
+
+      return draggableElements.reduce((closest, child) => {
+        const box = child.getBoundingClientRect();
+        const offset = y - box.top - box.height / 2;
+        if (offset < 0 && offset > closest.offset) {
+          return { offset: offset, element: child };
+        } else {
+          return closest;
+        }
+      }, { offset: Number.NEGATIVE_INFINITY }).element;
+    }
+
+    function renderQuestions() {
+      const form = document.getElementById('quizForm');
+      form.innerHTML = ''; // Clear previous questions
+      quizQuestions.forEach(q => {
+        const div = document.createElement('div');
+        div.className = `question ${q.type}`;
+        div.id = `question-${q.id}`; // Add ID for easier selection
+
+        const h2 = document.createElement('h2');
+        h2.className = 'question-title';
+        h2.innerText = `${q.id}. ${q.text}`;
+        div.appendChild(h2);
+
+        if (q.type === 'mcq' || q.type === 'tf') {
+          const options = q.type === 'tf' ? ['Verdadero', 'Falso'] : q.options;
+          options.forEach((option, index) => {
+            const label = document.createElement('label');
+            const value = q.type === 'tf' ? (index === 0 ? 'true' : 'false') : String.fromCharCode(97 + index);
+            // Sanitize option text to prevent potential XSS if options were dynamic
+            const sanitizedOption = document.createElement('span');
+            sanitizedOption.textContent = ` ${option}`;
+            label.innerHTML = `<input type="radio" name="q${q.id}" value="${value}">`;
+            label.appendChild(sanitizedOption);
+            div.appendChild(label);
+          });
+        } else if (q.type === 'multi') {
+          q.options.forEach((option, index) => {
+            const label = document.createElement('label');
+            const value = String.fromCharCode(97 + index);
+            const sanitizedOption = document.createElement('span');
+            sanitizedOption.textContent = ` ${option}`;
+            label.innerHTML = `<input type="checkbox" name="q${q.id}" value="${value}">`;
+            label.appendChild(sanitizedOption);
+            div.appendChild(label);
+          });
+        } else if (q.type === 'fill') {
+          const select = document.createElement('select');
+          select.name = `q${q.id}`;
+          const defaultOpt = document.createElement('option');
+          defaultOpt.value = '';
+          defaultOpt.text = 'Seleccione una opción';
+          select.appendChild(defaultOpt);
+          q.options.forEach((option, index) => {
+            const opt = document.createElement('option');
+            opt.value = String.fromCharCode(97 + index);
+            opt.text = option; // Assuming options are safe text
+            select.appendChild(opt);
+          });
+          div.appendChild(select);
+        } else if (q.type === 'drag') {
+            const container = document.createElement('div');
+            container.className = 'drag-container';
+            container.setAttribute('data-question-id', q.id); // Link container to question ID
+
+            // Shuffle options for initial display
+            const shuffledOptions = [...q.options].map((option, index) => ({ option, index }))
+                                                  .sort(() => Math.random() - 0.5);
+
+            shuffledOptions.forEach(item => {
+                const elem = document.createElement('div');
+                elem.className = 'draggable';
+                elem.setAttribute('draggable', 'true');
+                // Use original index for value mapping
+                elem.setAttribute('data-value', String.fromCharCode(97 + item.index));
+                elem.textContent = item.option; // Display option text
+                container.appendChild(elem);
+            });
+            div.appendChild(container);
+        }
+
+        const fb = document.createElement('div');
+        fb.className = 'feedback';
+        div.appendChild(fb);
+        form.appendChild(div);
+      });
+
+      // Add event listeners after rendering
+      document.querySelectorAll('input[type="radio"], input[type="checkbox"], select')
+        .forEach(input => input.addEventListener('change', updateProgress));
+
+      // Special handling for drag containers needed? Dragend handles it.
+      updateProgress(); // Initial progress calculation
+      initDraggableElements(); // Initialize drag and drop functionality
+    }
+
+    function calculateScore() {
+      if (!quizQuestions.length) {
+        alert("No hay preguntas cargadas.");
+        return;
+      }
+      attemptCount++;
+      document.getElementById('attemptCount').textContent = attemptCount;
+      document.getElementById('retryButton').style.display = 'inline-block';
+      let score = 0;
+      let feedbackText = ''; // Changed variable name for clarity
+
+      quizQuestions.forEach(q => {
+        const questionDiv = document.getElementById(`question-${q.id}`); // Select by ID
+        if (!questionDiv) return; // Skip if question div not found
+
+        const fb = questionDiv.querySelector('.feedback');
+        fb.style.display = 'block'; // Show feedback div
+        let isCorrect = false;
+
+        try { // Add try-catch for robustness
+          if (q.type === 'mcq' || q.type === 'tf') {
+            const selected = questionDiv.querySelector(`input[name="q${q.id}"]:checked`);
+            isCorrect = selected && selected.value === q.answer;
+          } else if (q.type === 'fill') {
+            const select = questionDiv.querySelector(`select[name="q${q.id}"]`);
+            isCorrect = select && select.value === q.answer;
+          } else if (q.type === 'multi') {
+            const selectedNodes = questionDiv.querySelectorAll(`input[name="q${q.id}"]:checked`);
+            const selectedValues = [...selectedNodes].map(i => i.value).sort().join(',');
+            const correctAnswer = q.answer.split(',').sort().join(',');
+            isCorrect = selectedValues === correctAnswer;
+          } else if (q.type === 'drag') {
+            const container = questionDiv.querySelector('.drag-container');
+            const items = container.querySelectorAll('.draggable');
+            const currentOrder = [...items].map(item => item.dataset.value).join(',');
+            const correctOrder = q.answer; // Answer is already comma-separated string
+            isCorrect = currentOrder === correctOrder;
+          }
+        } catch (error) {
+          console.error(`Error processing question ${q.id}:`, error);
+          fb.textContent = `⚠️ Error al procesar`;
+        }
+
+        if (isCorrect) {
+          score++;
+          fb.textContent = '✔️ Correcto';
+          fb.style.color = 'green';
+        } else {
+          fb.textContent = '❌ Incorrecto';
+           fb.style.color = 'red';
+           // Optionally show correct answer:
+           // if (q.type !== 'drag') { // Harder to show for drag
+           //    fb.textContent += ` (Respuesta: ${q.answer.toUpperCase()})`;
+           // }
+        }
+        feedbackText += `${q.id}. ${fb.textContent}\n`; // Append individual feedback
+
+        // Disable inputs for the current question
+        const inputs = questionDiv.querySelectorAll('input, select, .draggable');
+        inputs.forEach(input => {
+            input.disabled = true;
+            input.style.cursor = 'not-allowed';
+            if (input.classList.contains('draggable')) {
+                input.setAttribute('draggable', 'false');
+                // Clean up drag listeners might be needed if re-enabling, but disabling is usually enough
+            }
+        });
+      });
+
+      const percentage = (score / quizQuestions.length) * 100;
+      let level = '';
+      if (percentage >= 86) level = 'Dominio avanzado';
+      else if (percentage >= 71) level = 'Competente';
+      else if (percentage >= 56) level = 'En desarrollo';
+      else if (percentage >= 41) level = 'Básico';
+      else level = 'No competente';
+
+      let timeUsed = 600 - timeLeft; // Use 600 for 10 minutes
+      let minutesUsed = Math.floor(timeUsed / 60);
+      let secondsUsed = timeUsed % 60;
+      let formattedTime = `${minutesUsed}:${secondsUsed < 10 ? '0' : ''}${secondsUsed}`;
+
+      document.getElementById('result').innerText =
+        `Intento #: ${attemptCount}\n` +
+        `Puntuación: ${score}/${quizQuestions.length} (${Math.round(percentage)}%)\n` +
+        `Nivel: ${level}\n` +
+        `Tiempo utilizado: ${formattedTime}\n\n` +
+        `--- Retroalimentación ---\n` +
+        feedbackText; // Display collected feedback
+
+      clearInterval(timerInterval); // Stop the timer
+
+      attemptsData.push({
+        attempt: attemptCount,
+        score: Math.round(percentage),
+        level
+      });
+
+      document.getElementById('chartContainer').style.display = 'block';
+      updateChart();
+    }
+
+
+    function updateTimer() {
+      const minutes = Math.floor(timeLeft / 60);
+      const seconds = timeLeft % 60;
+      timerDisplay.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+      if (timeLeft <= 0) {
+        clearInterval(timerInterval);
+        alert('¡Tiempo terminado! Se calificará automáticamente.');
+        calculateScore(); // Auto-submit
+      }
+      timeLeft--;
+    }
+
+    function resetQuiz() {
+        if (!confirm("¿Está seguro que desea reiniciar el cuestionario? Esto contará como un nuevo intento.")) return;
+
+        // Increment attempt count logic handled by calculateScore on next submit
+        // Reset timer
+        clearInterval(timerInterval);
+        timeLeft = 600; // Reset time to 10 minutes
+        updateTimer(); // Display initial time
+        timerInterval = setInterval(updateTimer, 1000); // Restart timer
+
+        // Clear results and hide retry button
+        document.getElementById('result').innerText = '';
+        document.getElementById('retryButton').style.display = 'none'; // Hide until next grading
+
+        // Reset progress bar
+        document.getElementById('progress-bar').style.width = '0%';
+        document.getElementById('progress-bar').textContent = '0%';
+
+        // Re-render questions to reset state and shuffle drag options again
+        renderQuestions();
+
+        // Note: Attempt count display will update when calculateScore is called next.
+        // If you want the attempt counter to show the *next* attempt number immediately,
+        // you could increment a variable here, but it might be confusing if the user doesn't submit.
+        // It's clearer to let calculateScore handle the attempt counting.
+    }
+
+
+    function updateProgress() {
+        const total = quizQuestions.length;
+        if (!total) return;
+        let answeredCount = 0;
+
+        quizQuestions.forEach(q => {
+            const questionDiv = document.getElementById(`question-${q.id}`);
+            if (!questionDiv) return;
+
+            let isAnswered = false;
+            if (q.type === 'mcq' || q.type === 'tf') {
+                if (questionDiv.querySelector(`input[name="q${q.id}"]:checked`)) {
+                    isAnswered = true;
+                }
+            } else if (q.type === 'fill') {
+                const select = questionDiv.querySelector(`select[name="q${q.id}"]`);
+                if (select && select.value !== '') { // Check if a non-default option is selected
+                    isAnswered = true;
+                }
+            } else if (q.type === 'multi') {
+                // Consider answered if at least one checkbox is checked
+                if (questionDiv.querySelector(`input[name="q${q.id}"]:checked`)) {
+                    isAnswered = true;
+                }
+            } else if (q.type === 'drag') {
+                // Consider answered if items are present in the container (always true after render)
+                // A better check might be if the order has changed from initial, but simple presence is ok.
+                const container = questionDiv.querySelector('.drag-container');
+                 // Check if the user has interacted (difficult to track reliably without more complex logic)
+                 // For simplicity, we can count it if rendered. Or require interaction flag (more complex).
+                 // Let's count if rendered, assuming user will arrange it.
+                 if (container && container.querySelectorAll('.draggable').length > 0) {
+                    isAnswered = true; // Simplistic check: if items exist, assume interaction potential
+                 }
+            }
+
+            if (isAnswered) {
+                answeredCount++;
+            }
+        });
+
+        const percent = Math.min(Math.round((answeredCount / total) * 100), 100);
+        const progressBar = document.getElementById('progress-bar');
+        progressBar.style.width = percent + '%';
+        progressBar.textContent = percent + '%';
+    }
+
+
+    function updateChart() {
+      const ctx = document.getElementById('performanceChart').getContext('2d');
+      if (chartInstance) {
+        chartInstance.destroy(); // Destroy previous chart instance
+      }
+      chartInstance = new Chart(ctx, {
+        type: 'bar', // Bar chart to show scores per attempt
+        data: {
+          labels: attemptsData.map(d => `Intento ${d.attempt}`), // Labels for each attempt
+          datasets: [{
+            label: 'Puntuación (%)', // Dataset label
+            data: attemptsData.map(d => d.score), // Scores for each attempt
+            backgroundColor: '#FF8C00', // Bar color
+            borderColor: '#A0522D', // Bar border color
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true, // Make chart responsive
+          maintainAspectRatio: false, // Allow custom aspect ratio if needed
+          scales: {
+            y: { // Y-axis configuration
+              beginAtZero: true, // Start axis at 0
+              max: 100, // End axis at 100 (for percentage)
+              title: { display: true, text: 'Porcentaje (%)' } // Y-axis title
+            },
+            x: { // X-axis configuration
+              title: { display: true, text: 'Intentos' } // X-axis title
+            }
+          },
+          plugins: {
+            tooltip: { // Tooltip configuration
+              callbacks: {
+                label: function(context) {
+                  // Custom tooltip text showing score and level
+                  let label = context.dataset.label || '';
+                  if (label) {
+                    label += ': ';
+                  }
+                  if (context.parsed.y !== null) {
+                    label += `${context.parsed.y}%`;
+                    // Find the corresponding attempt data to show the level
+                    const attemptData = attemptsData[context.dataIndex];
+                    if (attemptData && attemptData.level) {
+                        label += ` (${attemptData.level})`;
+                    }
+                  }
+                  return label;
+                }
+              }
+            },
+            legend: {
+                display: true, // Show legend
+                position: 'top',
+            }
+          }
+        }
+      });
+    }
+
+    // Initialize quiz on page load
+    window.addEventListener('DOMContentLoaded', () => {
+      renderQuestions(); // Display questions
+      updateTimer(); // Display initial timer value
+      timerInterval = setInterval(updateTimer, 1000); // Start the countdown
+    });
+  </script>
+</body>
+</html>
