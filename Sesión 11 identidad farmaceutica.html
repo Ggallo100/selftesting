@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Químico Farmacéutico en la Industria Peruana: Un Futuro de Oportunidades</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f4f8; /* Un fondo suave */
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .presentation-container {
+            max-width: 1000px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            overflow: hidden;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* To push footer down */
+        }
+
+        .slide {
+            padding: 40px 60px;
+            display: none; /* Hidden by default */
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            min-height: 500px; /* Adjust as needed */
+        }
+
+        .slide.active {
+            display: flex; /* Show active slide */
+        }
+
+        /* Specific slide styles */
+        #cover-slide {
+            background-color: #FF8C00; /* Color principal de la universidad */
+            color: white;
+            padding-top: 80px;
+            padding-bottom: 80px;
+        }
+        #cover-slide h1 {
+            font-size: 3em;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        #cover-slide h2 {
+            font-size: 1.8em;
+            font-weight: 300;
+            margin-bottom: 5px;
+        }
+        #cover-slide h3 {
+            font-size: 1.2em;
+            font-weight: 200;
+            margin-top: 0;
+        }
+        #cover-slide .university-logo {
+            width: 150px;
+            margin-top: 30px;
+        }
+
+        .slide-title {
+            color: #8B4513; /* Marrón para títulos */
+            font-size: 2.2em;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #FF8C00;
+            padding-bottom: 10px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .slide-content {
+            font-size: 1.1em;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: left;
+        }
+        .slide-content ul {
+            list-style: none;
+            padding: 0;
+        }
+        .slide-content li {
+            margin-bottom: 10px;
+            padding-left: 25px;
+            position: relative;
+        }
+        .slide-content li::before {
+            content: '•';
+            color: #FF8C00;
+            font-size: 1.2em;
+            position: absolute;
+            left: 0;
+            top: -2px;
+        }
+        .slide-content p {
+            margin-bottom: 15px;
+        }
+
+        .image-container {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .image-container img {
+            max-width: 300px;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+
+        .grid-3-col {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            width: 100%;
+            margin-top: 20px;
+        }
+        .grid-item {
+            background-color: #fff0e6;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+        .grid-item h4 {
+            color: #8B4513;
+            margin-top: 0;
+            font-size: 1.2em;
+        }
+        .grid-item p {
+            font-size: 0.95em;
+            line-height: 1.4;
+        }
+
+        /* Navigation buttons */
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px 60px;
+            background-color: #f0f4f8;
+            border-top: 1px solid #e0e6ec;
+            margin-top: auto; /* Push to bottom */
+        }
+        .nav-button {
+            background-color: #FF8C00;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+        }
+        .nav-button:hover:not(:disabled) {
+            background-color: #A0522D;
+        }
+        .nav-button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        /* Remuneration specific styles */
+        .remuneration-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .tab-button {
+            background-color: #e0e6ec;
+            color: #8B4513;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.95em;
+            transition: all 0.3s ease;
+        }
+        .tab-button.active {
+            background-color: #FF8C00;
+            color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .tab-content {
+            display: none;
+            padding: 25px 0;
+            border-top: 1px solid #eee;
+            margin-top: 20px;
+            flex-direction: column; /* Allow content to stack */
+            align-items: center; /* Center table/chart */
+        }
+        .tab-content.active {
+            display: flex;
+        }
+        .remuneration-table-container {
+            width: 100%;
+            overflow-x: auto; /* Enable horizontal scroll for small screens */
+            margin-bottom: 30px;
+        }
+        .remuneration-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9em;
+            text-align: left;
+        }
+        .remuneration-table th, .remuneration-table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+        }
+        .remuneration-table th {
+            background-color: #FF8C00;
+            color: white;
+            font-weight: bold;
+        }
+        .remuneration-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .remuneration-table tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .chart-container {
+            width: 90%;
+            max-width: 700px;
+            height: 400px; /* Fixed height for consistency */
+            margin-top: 20px;
+            background-color: #fcfcfc;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        #motivation-slide {
+            background-color: #FF8C00;
+            color: white;
+            padding-top: 80px;
+            padding-bottom: 80px;
+        }
+        #motivation-slide p {
+            font-size: 2.5em;
+            font-style: italic;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        #motivation-slide span {
+            font-size: 1.5em;
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+        }
+        
+        .footer-logo {
+            text-align: center;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e0e6ec;
+            border-radius: 0 0 12px 12px;
+        }
+        .footer-logo img {
+            width: 100px;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="presentation-container">
+
+        <!-- Slide 1: Cover -->
+        <section id="cover-slide" class="slide active">
+            <img src="https://static.wixstatic.com/media/25292a_7e01230e70404491910d54a2b97c270c~mv2.png/v1/fill/w_360,h_102,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/UNIVERSIDAD%20AUTONOMA%20DEL%20PERU%20RGB%20BLANCO.png" alt="Universidad Autónoma del Perú Logo" class="university-logo">
+            <h1>El Químico Farmacéutico en la Industria Peruana</h1>
+            <h2>Un Futuro Lleno de Impacto y Oportunidades</h2>
+            <h3>Facultad de Ciencias de la Salud - Escuela de Farmacia y Bioquímica</h3>
+            <p style="margin-top: 50px; font-size: 1.1em; font-weight: 300;">Explora el poder de tu profesión en el corazón de la innovación en salud.</p>
+        </section>
+
+        <!-- Slide 2: Introducción a la Sesión -->
+        <section id="slide-2" class="slide">
+            <h2 class="slide-title">Sesión 11: Campo Laboral y Remuneraciones</h2>
+            <div class="slide-content">
+                <p>Esta sesión explorará en detalle las emocionantes vías de desarrollo profesional para el Químico Farmacéutico en el dinámico campo de la industria:</p>
+                <ul>
+                    <li>**Desarrollo en el Campo Laboral:** En la industria farmacéutica, de dispositivos médicos y productos sanitarios.</li>
+                    <li>**Funciones Clave:** Comprender el papel crucial en cada etapa de la cadena de valor.</li>
+                    <li>**Oportunidades Remunerativas:** Una visión actualizada de los ingresos en diversos sectores y tipos de empresas.</li>
+                </ul>
+                <p style="text-align: center; margin-top: 30px;">¡Prepárate para descubrir un mundo de posibilidades!</p>
+            </div>
+        </section>
+
+        <!-- Slide 3: Reglas de la Sesión -->
+        <section id="slide-3" class="slide">
+            <h2 class="slide-title">Reglas para un Aprendizaje Exitoso</h2>
+            <div class="slide-content" style="text-align: center;">
+                <p>Para asegurar una sesión productiva y motivadora, te invitamos a:</p>
+                <div class="grid-3-col">
+                    <div class="grid-item">
+                        <h4>Puntualidad</h4>
+                        <p>Valoramos tu tiempo y el de tus compañeros.</p>
+                    </div>
+                    <div class="grid-item">
+                        <h4>Participación Activa</h4>
+                        <p>Tu curiosidad y preguntas enriquecen el debate.</p>
+                    </div>
+                    <div class="grid-item">
+                        <h4>Respeto Mutuo</h4>
+                        <p>Creamos un ambiente positivo para todos.</p>
+                    </div>
+                </div>
+                <p style="margin-top: 30px;">¡Tu compromiso es clave para tu crecimiento profesional!</p>
+            </div>
+        </section>
+
+        <!-- Slide 4: Resultado de la Sesión -->
+        <section id="slide-4" class="slide">
+            <h2 class="slide-title">Nuestro Objetivo de Aprendizaje</h2>
+            <div class="slide-content">
+                <p style="text-align: center;">Al finalizar esta sesión, serás capaz de:</p>
+                <p style="font-size: 1.3em; font-weight: bold; color: #8B4513; text-align: center; margin-top: 30px;">
+                    Desarrollar una infografía que ilustre el papel fundamental del Químico Farmacéutico en la industria farmacéutica, con orden y claridad.
+                </p>
+                <p style="text-align: center; margin-top: 30px;">Esta infografía será un reflejo de tu comprensión y visión de tu futuro impacto.</p>
+            </div>
+        </section>
+
+        <!-- Slide 5: Contenido Temático (Overview) -->
+        <section id="slide-5" class="slide">
+            <h2 class="slide-title">Explorando tu Futuro: Contenido Temático</h2>
+            <div class="slide-content" style="text-align: center;">
+                <div class="grid-3-col">
+                    <div class="grid-item">
+                        <h4>Tema 01</h4>
+                        <p>Funciones y Campo de Acción</p>
+                    </div>
+                    <div class="grid-item">
+                        <h4>Tema 02</h4>
+                        <p>Desarrollo Profesional y Remunerativo</p>
+                    </div>
+                    <div class="grid-item">
+                        <h4>Tema 03</h4>
+                        <p>Avance y Desafíos Profesionales</p>
+                    </div>
+                </div>
+                <p style="margin-top: 30px;">Cada tema es un paso hacia la consolidación de tu identidad profesional.</p>
+            </div>
+        </section>
+
+        <!-- Slide 6: Actividad Inicial -->
+        <section id="slide-6" class="slide">
+            <h2 class="slide-title">Actividad Inicial: Tu Visión del Laboratorio</h2>
+            <div class="slide-content">
+                <p style="text-align: center; font-size: 1.2em; font-weight: bold; color: #8B4513;">
+                    ¿En qué áreas de un laboratorio farmacéutico crees que puede desempeñarse un Químico Farmacéutico?
+                </p>
+                <div class="image-container">
+                    <img src="https://www.tuvsud.com/-/media/regions/us/images/services/risk-assessment-and-technical-advisory/tuvsud-ss-1053677978-pharmaceutical-risk-assessments-360x240.jpg?la=es-mx&h=240&w=360&hash=2AAC373D4538D8149DFCF1564E0C01C7" alt="Laboratorio Farmacéutico">
+                </div>
+                <p style="text-align: center; margin-top: 30px;">Piensa en la diversidad de funciones que hacen posible un producto seguro y eficaz.</p>
+            </div>
+        </section>
+
+        <!-- Slide 7: Funciones y Campo de Acción - General -->
+        <section id="slide-7" class="slide">
+            <h2 class="slide-title">Tema 01: Funciones y Campo de Acción</h2>
+            <div class="slide-content">
+                <p>El campo laboral en la Industria Farmacéutica, de Dispositivos Médicos y Productos Sanitarios ofrece un espectro vasto de oportunidades. Tu rol es vital en cada fase del ciclo de vida del producto:</p>
+                <ul>
+                    <li>Desde la **recepción y almacenamiento** de la materia prima.</li>
+                    <li>Pasando por el **control y aseguramiento de la calidad**.</li>
+                    <li>Hasta la **investigación, desarrollo y fabricación** del producto final.</li>
+                </ul>
+                <p>Los Químicos Farmacéuticos desempeñan un papel crucial en el cumplimiento de las **Buenas Prácticas de Manufactura (BPM)**, asegurando la calidad indispensable para la seguridad del paciente.</p>
+            </div>
+        </section>
+
+        <!-- Slide 8: Funciones y Campo de Acción - Roles Clave D.S. 014-2011 -->
+        <section id="slide-8" class="slide">
+            <h2 class="slide-title">Roles Clave según D.S. 014-2011 (Art. 41)</h2>
+            <div class="slide-content">
+                <h3>Director Técnico de Laboratorios:</h3>
+                <ul>
+                    <li>Los laboratorios de productos farmacéuticos, dispositivos médicos y productos sanitarios operan bajo la **responsabilidad legal y técnica de un Químico Farmacéutico**, quien actúa como su Director Técnico.</li>
+                </ul>
+                <h3>Jefaturas de Aseguramiento de Calidad, Control y Producción:</h3>
+                <ul>
+                    <li>El sistema de aseguramiento de la calidad y las áreas de producción y control de calidad deben funcionar bajo la **jefatura de un Q.F.**</li>
+                    <li>Es fundamental que estas jefaturas **no tengan relación jerárquica entre sí**, desarrollando sus funciones bajo la autoridad del Director Técnico, garantizando la independencia y objetividad en la calidad.</li>
+                </ul>
+                <p style="text-align: center; margin-top: 20px;">Tu liderazgo asegura la integridad del proceso productivo.</p>
+            </div>
+        </section>
+
+        <!-- Slide 9: Responsabilidades del Director Técnico (Art. 97) - Parte 1 -->
+        <section id="slide-9" class="slide">
+            <h2 class="slide-title">Responsabilidades del Director Técnico (Art. 97, Parte 1)</h2>
+            <div class="slide-content">
+                <p>El Director Técnico tiene un rol fundamental en la calidad y cumplimiento normativo:</p>
+                <ul>
+                    <li>**a) Supervisión:** Verificar que el proceso de fabricación esté supervisado por el profesional respectivo.</li>
+                    <li>**b) Documentación:** Aprobar, custodiar y mantener actualizada toda la documentación técnica para Registros Sanitarios.</li>
+                    <li>**c) Veracidad:** Asegurar la veracidad de la información presentada para Registros Sanitarios.</li>
+                    <li>**d) Cumplimiento y Actualización:** Velar por el correcto cumplimiento de las especificaciones técnicas y actualizar procedimientos según el avance científico.</li>
+                    <li>**e) Buenas Prácticas:** Cumplir y hacer cumplir las Buenas Prácticas de Manufactura, Laboratorio y Farmacovigilancia, incluso en operaciones tercerizadas.</li>
+                    <li>**f) Capacitación:** Capacitar y supervisar permanentemente al personal asistente y técnico.</li>
+                    <li>**g) Aprobación:** Aprobar procedimientos de manufactura y control de calidad.</li>
+                    <li>**h) Liberación de Lotes:** Autorizar, conjuntamente con el jefe de aseguramiento de calidad, la puesta en el mercado de cada lote.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Slide 10: Responsabilidades del Director Técnico (Art. 97) - Parte 2 -->
+        <section id="slide-10" class="slide">
+            <h2 class="slide-title">Responsabilidades del Director Técnico (Art. 97, Parte 2)</h2>
+            <div class="slide-content">
+                <p>Tu compromiso se extiende a la seguridad y control:</p>
+                <ul>
+                    <li>**j) Retiro del Mercado:** Ordenar el retiro de lotes no conformes y comunicarlo a la Autoridad Sanitaria.</li>
+                    <li>**k) Sustancias Fiscalizadas:** Solicitar, custodiar y controlar el empleo de estupefacientes, psicotrópicos y precursores.</li>
+                    <li>**l) Balances:** Elaborar y presentar balances de sustancias fiscalizadas.</li>
+                    <li>**m) Distribución Segura:** Asegurar que los productos sean distribuidos solo a establecimientos farmacéuticos autorizados.</li>
+                    <li>**n) Farmacovigilancia:** Coordinar acciones de farmacovigilancia y tecnovigilancia, garantizando la notificación confidencial de reacciones e incidentes adversos.</li>
+                    <li>**o) Cumplimiento Legal:** Verificar el cumplimiento de la Ley N° 29459 y el Reglamento.</li>
+                </ul>
+                <p style="text-align: center; margin-top: 20px;">Cada responsabilidad fortalece la confianza pública en tu profesión.</p>
+            </div>
+        </section>
+
+        <!-- Slide 11: Jefe de Producción, Control y Aseguramiento (Art. 99) -->
+        <section id="slide-11" class="slide">
+            <h2 class="slide-title">Jefe de Producción, Control y Aseguramiento (Art. 99)</h2>
+            <div class="slide-content">
+                <p>Las funciones específicas de los jefes de producción, control de calidad y aseguramiento de la calidad se alinean estrictamente con:</p>
+                <ul>
+                    <li>**Buenas Prácticas de Manufactura (BPM)**</li>
+                    <li>**Buenas Prácticas de Laboratorio (BPL)**</li>
+                    <li>**Buenas Prácticas de Almacenamiento (BPA)**</li>
+                    <li>**Buenas Prácticas de Distribución y Transporte (BPDT)**</li>
+                    <li>Y otras normas complementarias vigentes.</li>
+                </ul>
+                <p>Además, según la Ley de los Productos Farmacéuticos, las responsabilidades que afectan al Director Técnico son **compartidas solidariamente** con el propietario o representante legal del laboratorio. Esto subraya la importancia de la colaboración y la responsabilidad compartida en la garantía de la calidad.</p>
+            </div>
+        </section>
+
+        <!-- Slide 12: Área de Manufactura (Art. 105) -->
+        <section id="slide-12" class="slide">
+            <h2 class="slide-title">El Corazón de la Producción: Área de Manufactura (Art. 105)</h2>
+            <div class="slide-content">
+                <p>Las áreas de manufactura son cruciales para la seguridad y calidad del producto:</p>
+                <ul>
+                    <li>Deben estar **diseñadas, estructuradas, acondicionadas y equipadas** para cada sección de fabricación.</li>
+                    <li>Su objetivo principal es **evitar la contaminación cruzada** y cualquier condición que afecte negativamente la calidad.</li>
+                    <li>Deben disponer de **secciones específicas, exclusivas y separadas físicamente**.</li>
+                    <li>Excepcionalmente, con autorización de la ANM, se pueden fabricar ciertos productos farmacéuticos en las mismas áreas si no tienen áreas específicas.</li>
+                </ul>
+                <p>Para la autorización, se requiere la **fórmula, flujograma, atributos críticos, tamaño del lote, protocolo de validación de limpieza, naturaleza del IFA y frecuencia de fabricación.**</p>
+            </div>
+        </section>
+
+        <!-- Slide 13: Área de Control de Calidad (Art. 106) -->
+        <section id="slide-13" class="slide">
+            <h2 class="slide-title">El Guardián de la Calidad: Área de Control de Calidad (Art. 106)</h2>
+            <div class="slide-content">
+                <p>El área de control de calidad es el pilar de la garantía de producto:</p>
+                <ul>
+                    <li>Debe estar **diseñada, estructurada, acondicionada, equipada y dotada de personal** para el análisis de productos farmacéuticos, dispositivos médicos y sanitarios.</li>
+                    <li>Aquí se realizan **ensayos físico-químicos, biológicos, microbiológicos, farmacológicos**, entre otros, para verificar el cumplimiento de las especificaciones.</li>
+                    <li>Es IMPRESCINDIBLE que el área de control de calidad esté **separada de las áreas de manufactura**.</li>
+                    <li>Las áreas de pruebas biológicas, microbiológicas o radioisótopos deben estar **separadas entre sí**, y los instrumentos deben tener un área separada para su protección y aislamiento.</li>
+                </ul>
+                <p style="text-align: center; margin-top: 20px;">Tu rigor científico asegura la seguridad de millones de vidas.</p>
+            </div>
+        </section>
+
+        <!-- Slide 14: Desarrollo Social y Remunerativo - Actividades Operativas: Dirección Técnica -->
+        <section id="slide-14" class="slide">
+            <h2 class="slide-title">Tema 02: Desarrollo Profesional y Remunerativo</h2>
+            <div class="slide-content">
+                <h3>Actividades Operativas: Dirección Técnica</h3>
+                <p>El Químico Farmacéutico en la Dirección Técnica es el responsable directo del buen funcionamiento del Laboratorio, y para ello, requiere competencias clave:</p>
+                <ul>
+                    <li>**Conocimientos Sólidos:** En biotecnología, industria farmacéutica y análisis de datos.</li>
+                    <li>**Habilidades de Comunicación:** Esencial para interactuar con equipos, autoridades y otros profesionales.</li>
+                    <li>**Liderazgo y Gestión:** Capacidad para dirigir equipos, optimizar procesos y asegurar el cumplimiento normativo.</li>
+                </ul>
+                <div class="image-container">
+                    <img src="https://www.shutterstock.com/image-photo/science-tablet-portrait-male-scientist-260nw-2240312465.jpg" alt="Científico en laboratorio">
+                </div>
+                <p style="text-align: center; margin-top: 20px;">Tu perfil profesional es el motor de la innovación y la calidad.</p>
+            </div>
+        </section>
+
+        <!-- Slide 15: Desarrollo Social y Remunerativo - Actividades Operativas: Áreas -->
+        <section id="slide-15" class="slide">
+            <h2 class="slide-title">El Corazón de la Operación: Áreas Clave</h2>
+            <div class="slide-content" style="text-align: center;">
+                <p>El Químico Farmacéutico es el eje en diversas áreas operativas de la industria:</p>
+                <div class="grid-3-col">
+                    <div class="grid-item">
+                        <h4>Aseguramiento de la Calidad</h4>
+                        <img src="https://www.universia.net/content/dam/universia/imagenes/2023/07/C%C3%B3mo%20es%20trabajar%20en%20un%20laboratorio%20farmac%C3%A9utico.jpg" alt="Aseguramiento de la calidad" style="max-width: 150px; height: auto;">
+                    </div>
+                    <div class="grid-item">
+                        <h4>Control de la Calidad</h4>
+                        <img src="https://www.shutterstock.com/image-photo/science-tablet-portrait-male-scientist-260nw-2240312465.jpg" alt="Control de la calidad" style="max-width: 150px; height: auto;">
+                    </div>
+                    <div class="grid-item">
+                        <h4>Producción</h4>
+                        <img src="https://www.tuvsud.com/-/media/regions/us/images/services/risk-assessment-and-technical-advisory/tuvsud-ss-1053677978-pharmaceutical-risk-assessments-360x240.jpg?la=es-mx&h=240&w=360&hash=2AAC373D4538D8149DFCF1564E0C01C7" alt="Producción" style="max-width: 150px; height: auto;">
+                    </div>
+                    <div class="grid-item">
+                        <h4>Almacén</h4>
+                        <img src="https://mecaluxes.cdnwm.com/casos-practicos/estanterias-de-paletizacion/almacen-de-estanterias-para-paletizacion-convencional/image-pcpal.1.0.jpg" alt="Almacén" style="max-width: 150px; height: auto;">
+                    </div>
+                    <div class="grid-item">
+                        <h4>Investigación y Desarrollo</h4>
+                        <img src="https://ingenium.edu.pe/wp-content/uploads/programas/medium/Programa-de-Especializacion-de-investigacion-y-desarrollo-en-la-industria-farmaceutica%20(1)-637d5eca79ce7.jpg" alt="Investigación y desarrollo" style="max-width: 150px; height: auto;">
+                    </div>
+                </div>
+                <p style="margin-top: 30px;">Cada área representa una oportunidad para aplicar tus conocimientos y marcar la diferencia.</p>
+            </div>
+        </section>
+
+        <!-- Slide 16: Oportunidades de Empleo en Laboratorios -->
+        <section id="slide-16" class="slide">
+            <h2 class="slide-title">Oportunidades de Empleo en Laboratorios</h2>
+            <div class="slide-content">
+                <p>El sector industrial ofrece una **alta oportunidad laboral** para el Químico Farmacéutico. Tu formación te capacita para desempeñarte en una amplia gama de cargos:</p>
+                <ul>
+                    <li>Desde roles de **Analista** en control de calidad o I+D.</li>
+                    <li>Hasta posiciones de **Director Técnico** o **Gerente de Área**.</li>
+                    <li>También en funciones especializadas como **Asuntos Regulatorios** o **Garantía de Calidad**.</li>
+                </ul>
+                <p style="text-align: center; margin-top: 30px; font-weight: bold; color: #8B4513;">¡Tu carrera profesional tiene un camino diverso y prometedor!</p>
+            </div>
+        </section>
+
+        <!-- Slide 17: Remuneraciones Actualizadas (Tabbed Interface) -->
+        <section id="slide-17" class="slide">
+            <h2 class="slide-title">Remuneraciones en la Industria Peruana (Estimaciones 2023-2024)</h2>
+            <div class="slide-content" style="width: 100%; text-align: center;">
+                <p style="font-style: italic; margin-bottom: 20px;">
+                    Las cifras son estimaciones brutas mensuales en Soles (S/) y varían por experiencia, tamaño de empresa y habilidades.
+                </p>
+
+                <div class="remuneration-tabs">
+                    <button class="tab-button active" onclick="openTab(event, 'pharma')">Medicamentos</button>
+                    <button class="tab-button" onclick="openTab(event, 'cosmetics')">Cosmética</button>
+                    <button class="tab-button" onclick="openTab(event, 'meddev')">Dispositivos Médicos / Productos Sanitarios</button>
+                    <button class="tab-button" onclick="openTab(event, 'natural')">Productos Naturales</button>
+                    <button class="tab-button" onclick="openTab(event, 'marketing')">Marketing & Asuntos Médicos</button>
+                </div>
+
+                <div id="pharma" class="tab-content active">
+                    <div class="remuneration-table-container">
+                        <table class="remuneration-table">
+                            <thead>
+                                <tr>
+                                    <th>Rol / Nivel</th>
+                                    <th>Empresa Nacional (S/)</th>
+                                    <th>Empresa Multinacional (S/)</th>
+                                    <th>Funciones Principales</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Analista QC/QA/Producción (Junior/Semi-Senior)</td><td>2,200 - 4,000</td><td>3,500 - 6,000</td><td>Ejecución de ensayos, seguimiento de procesos, apoyo en documentación GMP, inspecciones básicas.</td></tr>
+                                <tr><td>Especialista Asuntos Reg./I+D (Formulación)</td><td>3,200 - 5,500</td><td>4,800 - 8,000</td><td>Elaboración de expedientes de registro, investigación de nuevas formulaciones, pruebas de estabilidad.</td></tr>
+                                <tr><td>Jefe QC/QA/Producción</td><td>4,000 - 7,500</td><td>6,500 - 10,000</td><td>Supervisión de equipos, gestión de procesos, implementación de BPF, control de calidad, optimización.</td></tr>
+                                <tr><td>Jefe Asuntos Reg./Desarrollo Galénico</td><td>5,500 - 9,000</td><td>8,500 - 14,000</td><td>Gestión de trámites regulatorios complejos, desarrollo de productos, liderazgo de proyectos.</td></tr>
+                                <tr><td>Director Técnico (Planta Industrial)/Gerente de Área</td><td>7,500 - 13,000</td><td>12,000 - 20,000+</td><td>Responsabilidad legal y técnica de la planta, dirección de departamentos clave, estrategia y cumplimiento normativo.</td></tr>
+                                <tr><td>Gerente de Operaciones/Planta/Asuntos Corporativos</td><td>10,000 - 18,000+</td><td>18,000 - 30,000+</td><td>Liderazgo estratégico de toda la operación industrial, optimización de costos, relaciones con stakeholders.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="pharmaChart"></canvas>
+                    </div>
+                </div>
+
+                <div id="cosmetics" class="tab-content">
+                    <div class="remuneration-table-container">
+                        <table class="remuneration-table">
+                            <thead>
+                                <tr>
+                                    <th>Rol / Nivel</th>
+                                    <th>Empresa Nacional (S/)</th>
+                                    <th>Empresa Multinacional (S/)</th>
+                                    <th>Funciones Principales</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Analista QC/I+D (Formulación Cosmética)</td><td>1,800 - 3,200</td><td>2,800 - 4,500</td><td>Realización de pruebas fisicoquímicas, desarrollo de nuevas fórmulas, seguimiento de estabilidad.</td></tr>
+                                <tr><td>Jefe Producción/Calidad Cosmética</td><td>3,500 - 6,500</td><td>5,500 - 9,000</td><td>Supervisión de líneas de producción, implementación de buenas prácticas de manufactura cosmética, gestión de calidad.</td></tr>
+                                <tr><td>Director Técnico/Asuntos Reg. (Cosméticos)</td><td>6,000 - 10,000</td><td>9,000 - 15,000+</td><td>Garantizar el cumplimiento normativo (NTA cosméticos), dirección de procesos de producción y calidad, registros sanitarios.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="cosmeticsChart"></canvas>
+                    </div>
+                </div>
+
+                <div id="meddev" class="tab-content">
+                    <div class="remuneration-table-container">
+                        <table class="remuneration-table">
+                            <thead>
+                                <tr>
+                                    <th>Rol / Nivel</th>
+                                    <th>Empresa Nacional (S/)</th>
+                                    <th>Empresa Multinacional (S/)</th>
+                                    <th>Funciones Principales</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Especialista Calidad/Asuntos Reg. (Dispositivos Médicos/Productos Sanitarios)</td><td>2,800 - 5,000</td><td>4,500 - 7,500</td><td>Gestión de sistemas de calidad (ISO 13485), preparación de expedientes técnicos para dispositivos, vigilancia post-comercialización.</td></tr>
+                                <tr><td>Jefe Calidad/Asuntos Reg. (Dispositivos Médicos/Productos Sanitarios)</td><td>5,500 - 9,500</td><td>8,500 - 14,000</td><td>Liderazgo del equipo de calidad/regulatorio, auditorías internas y externas, cumplimiento de normativas nacionales e internacionales específicas.</td></tr>
+                                <tr><td>Gerente Asuntos Reg./Calidad (Dispositivos Médicos/Productos Sanitarios)</td><td>8,500 - 14,000+</td><td>13,000 - 22,000+</td><td>Establecimiento de la estrategia regulatoria y de calidad de la empresa, relaciones con autoridades sanitarias, certificaciones.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="meddevChart"></canvas>
+                    </div>
+                </div>
+
+                <div id="natural" class="tab-content">
+                    <div class="remuneration-table-container">
+                        <table class="remuneration-table">
+                            <thead>
+                                <tr>
+                                    <th>Rol / Nivel</th>
+                                    <th>Empresa Nacional (S/)</th>
+                                    <th>Empresa Multinacional (S/)</th>
+                                    <th>Funciones Principales</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Analista Control de Calidad / I+D (Productos Naturales)</td><td>1,800 - 3,000</td><td>2,500 - 4,000</td><td>Análisis de materias primas naturales, estandarización de extractos, desarrollo de formulaciones.</td></tr>
+                                <tr><td>Jefe de Producción / Calidad (Productos Naturales)</td><td>3,000 - 5,500</td><td>4,000 - 7,000</td><td>Supervisión de procesos de extracción/producción, aseguramiento de la calidad de productos naturales.</td></tr>
+                                <tr><td>Director Técnico / Asuntos Regulatorios (Productos Naturales)</td><td>5,000 - 9,000</td><td>7,000 - 12,000</td><td>Garantizar el cumplimiento normativo (digemid, registros de suplementos), gestión de procesos de producción y calidad.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="naturalChart"></canvas>
+                    </div>
+                </div>
+
+                <div id="marketing" class="tab-content">
+                    <div class="remuneration-table-container">
+                        <table class="remuneration-table">
+                            <thead>
+                                <tr>
+                                    <th>Rol / Nivel</th>
+                                    <th>Empresa Nacional (S/)</th>
+                                    <th>Empresa Multinacional (S/)</th>
+                                    <th>Funciones Principales</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Product Specialist / Associate Product Manager</td><td>3,500 - 6,500</td><td>5,500 - 9,000</td><td>Apoyo en el desarrollo y ejecución de estrategias de marketing de productos específicos, análisis de mercado.</td></tr>
+                                <tr><td>Medical Science Liaison (MSL)</td><td>6,000 - 11,000</td><td>9,000 - 18,000+</td><td>Interacción científica con líderes de opinión y profesionales de la salud, provisión de información médica no promocional.</td></tr>
+                                <tr><td>Product Manager / Brand Manager</td><td>7,000 - 14,000</td><td>11,000 - 22,000+</td><td>Responsabilidad completa de la estrategia de marketing y crecimiento de una cartera de productos.</td></tr>
+                                <tr><td>Medical Affairs Manager / Marketing Director</td><td>10,000 - 18,000+</td><td>18,000 - 35,000+</td><td>Liderazgo del departamento médico o de marketing, definición de la estrategia científica/comercial, gestión de equipos.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="marketingChart"></canvas>
+                    </div>
+                </div>
+
+                <p style="font-style: italic; font-size: 0.9em; margin-top: 20px;">
+                    **Nota:** Las remuneraciones de Marketing y Asuntos Médicos a menudo incluyen un porcentaje significativo de **bonos por cumplimiento de objetivos** (no reflejados en la base mensual), lo que puede aumentar sustancialmente el total anual.
+                </p>
+
+            </div>
+        </section>
+
+        <!-- Slide 18: Avance Profesional - Desafíos -->
+        <section id="slide-18" class="slide">
+            <h2 class="slide-title">Tema 03: Avance Profesional - Los Desafíos te Fortalecen</h2>
+            <div class="slide-content" style="text-align: center;">
+                <p>El camino profesional en la industria está lleno de desafíos, pero cada uno es una oportunidad para crecer:</p>
+                <div class="grid-3-col">
+                    <div class="grid-item" style="background-color: #fce8e6;">
+                        <h4>Regulaciones Rigurosas</h4>
+                        <p>El cumplimiento con normativas nacionales e internacionales es exigente, pero garantiza seguridad y calidad.</p>
+                    </div>
+                    <div class="grid-item" style="background-color: #e6f6f0;">
+                        <h4>Innovación Constante</h4>
+                        <p>Mantenerse a la vanguardia de la ciencia y tecnología es un reto que te impulsa a la excelencia.</p>
+                    </div>
+                    <div class="grid-item" style="background-color: #e6f0f6;">
+                        <h4>Competencia Global</h4>
+                        <p>El mercado mundial exige una actualización continua de conocimientos y habilidades para destacar.</p>
+                    </div>
+                </div>
+                <p style="margin-top: 30px; font-weight: bold; color: #8B4513;">¡Estos desafíos son la clave de tu constante evolución!</p>
+            </div>
+        </section>
+
+        <!-- Slide 19: Avance Profesional - Programas de Capacitación -->
+        <section id="slide-19" class="slide">
+            <h2 class="slide-title">Invierte en Ti: Programas de Capacitación</h2>
+            <div class="slide-content" style="text-align: center;">
+                <p>Tu crecimiento profesional es un viaje continuo. ¡Aprovecha estas oportunidades!</p>
+                <div class="grid-3-col">
+                    <div class="grid-item" style="background-color: #f7e6f6;">
+                        <h4>Investigación e Innovación</h4>
+                        <p>Desarrollo de habilidades en investigación y aplicación de hallazgos innovadores.</p>
+                    </div>
+                    <div class="grid-item" style="background-color: #f6e6f7;">
+                        <h4>Aprendizaje Continuo</h4>
+                        <p>Programas educativos que mantienen tus habilidades y conocimientos actualizados.</p>
+                    </div>
+                    <div class="grid-item" style="background-color: #e6f7f6;">
+                        <h4>Gestión y Liderazgo</h4>
+                        <p>Entrenamientos en habilidades de liderazgo y desarrollo profesional personalizado.</p>
+                    </div>
+                    <div class="grid-item" style="background-color: #e6f6f7;">
+                        <h4>Trabajo en Equipo</h4>
+                        <p>Desarrollo de capacidades para el trabajo colaborativo y multifuncional.</p>
+                    </div>
+                </div>
+                <p style="margin-top: 30px; font-weight: bold; color: #FF8C00;">¡Cada aprendizaje te acerca a la cima de tu potencial!</p>
+            </div>
+        </section>
+
+        <!-- Slide 20: Conclusiones -->
+        <section id="slide-20" class="slide">
+            <h2 class="slide-title">Conclusiones Clave: Tu Rol Indispensable</h2>
+            <div class="slide-content">
+                <ul>
+                    <li>El campo laboral del Químico Farmacéutico en la industria es **amplio y diverso**, abarcando desde la concepción hasta la comercialización de productos esenciales.</li>
+                    <li>Los **cargos técnicos** en la industria son cruciales para asegurar el cumplimiento normativo y la correcta ejecución de funciones, garantizando la seguridad y eficacia.</li>
+                    <li>Las **oportunidades remunerativas** son significativas, con un claro diferencial entre empresas nacionales y multinacionales, y con un gran potencial de crecimiento profesional.</li>
+                    <li>Tu carrera es un camino de **aprendizaje constante, innovación y liderazgo**, donde cada desafío te impulsa a ser mejor.</li>
+                </ul>
+                <p style="text-align: center; margin-top: 30px; font-weight: bold; color: #8B4513;">¡Eres un pilar fundamental en la salud pública y la innovación tecnológica!</p>
+            </div>
+        </section>
+
+        <!-- Slide 21: Actividad Colaborativa -->
+        <section id="slide-21" class="slide">
+            <h2 class="slide-title">Actividad Colaborativa: Impactando con tu Infografía</h2>
+            <div class="slide-content">
+                <p style="text-align: center; font-size: 1.2em; font-weight: bold; color: #8B4513;">
+                    Desarrolla una infografía creativa que resalte el papel multifacético del Químico Farmacéutico en la industria farmacéutica.
+                </p>
+                <div class="image-container">
+                    <img src="https://image.slidesharecdn.com/10-02-15-farmacocinetica-y-farmacodinamia-150212000547-conversion-gate01/95/10-02-15-farmacocinetica-y-farmacodinamia-3-638.jpg?cb=1423719001" alt="Grupo colaborando">
+                </div>
+                <p style="text-align: center; margin-top: 30px;">¡Comparte tu visión y el impacto de tu futura profesión!</p>
+            </div>
+        </section>
+
+        <!-- Slide 22: Estrategia Metacognitiva -->
+        <section id="slide-22" class="slide">
+            <h2 class="slide-title">Estrategia Metacognitiva: Reflexionando sobre tu Aprendizaje</h2>
+            <div class="slide-content" style="text-align: center;">
+                <div class="grid-3-col">
+                    <div class="grid-item">
+                        <h4>¿Qué aprendimos hoy?</h4>
+                    </div>
+                    <div class="grid-item">
+                        <h4>¿Cómo lo aprendimos?</h4>
+                    </div>
+                    <div class="grid-item">
+                        <h4>¿Para qué lo aprendimos?</h4>
+                    </div>
+                    <div class="grid-item" style="grid-column: span 3;">
+                        <h4>¿Con qué competencia lo vinculamos?</h4>
+                    </div>
+                </div>
+                <p style="margin-top: 30px;">Tu autoevaluación es el cimiento de tu aprendizaje continuo.</p>
+            </div>
+        </section>
+
+        <!-- Slide 23: Referencias -->
+        <section id="slide-23" class="slide">
+            <h2 class="slide-title">Referencias</h2>
+            <div class="slide-content">
+                <ul>
+                    <li>D.S. 014-2011 Reglamento de Establecimientos Farmacéuticos.</li>
+                    <li>Ley del trabajo del Químico Farmacéutico N° 28173.</li>
+                    <li>Investigación de mercado salarial Perú (fuentes varias: consultoras de RRHH, bolsas de trabajo especializadas del sector salud y farmacéutico).</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Slide 24: Motivación -->
+        <section id="motivation-slide" class="slide">
+            <p>"Nunca debes de tener miedo de lo que estás haciendo cuando es correcto"</p>
+            <span>Marie Curie</span>
+            <p style="margin-top: 40px; font-size: 1.5em; font-weight: bold; text-shadow: 1px 1px 2px rgba(0,0,0,0.1);">¡Tu futuro como Químico Farmacéutico está lleno de impacto y propósito!</p>
+        </section>
+        
+        <!-- Footer con logo de la universidad -->
+        <div class="footer-logo">
+            <img src="https://static.wixstatic.com/media/25292a_7e01230e70404491910d54a2b97c270c~mv2.png/v1/fill/w_360,h_102,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/UNIVERSIDAD%20AUTONOMA%20DEL%20PERU%20RGB%20BLANCO.png" alt="Universidad Autónoma del Perú Logo">
+            <p style="color: #8B4513; font-size: 0.8em; margin-top: 5px;">Universidad Autónoma del Perú</p>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        let charts = {}; // To store Chart.js instances
+
+        const remunerationData = {
+            pharma: {
+                labels: ['Analista (J/S)', 'Especialista', 'Jefe', 'Director Técnico/Gerente'],
+                national: [3100, 4350, 5750, 10250], // Mid-point of ranges
+                multinational: [4750, 6400, 8250, 16000]
+            },
+            cosmetics: {
+                labels: ['Analista QC/I+D', 'Jefe Prod./Calidad', 'Director Técnico/Asuntos Reg.'],
+                national: [2500, 5000, 8000],
+                multinational: [3650, 7250, 12000]
+            },
+            meddev: {
+                labels: ['Especialista Calidad/AR', 'Jefe Calidad/AR', 'Gerente Calidad/AR'],
+                national: [3900, 7500, 11250],
+                multinational: [6000, 11250, 17500]
+            },
+            natural: {
+                labels: ['Analista QC/I+D', 'Jefe Prod./Calidad', 'Director Técnico/AR'],
+                national: [2400, 4250, 7000],
+                multinational: [3250, 5500, 9500]
+            },
+            marketing: {
+                labels: ['Product Specialist', 'MSL', 'Product Manager', 'Medical Affairs Mgr/Dir'],
+                national: [5000, 8500, 10500, 14000],
+                multinational: [7250, 13500, 16500, 26500]
+            }
+        };
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.remove('active');
+            });
+            slides[index].classList.add('active');
+            currentSlide = index;
+            updateNavButtons();
+            
+            // Re-render charts only when the remuneration slide is active
+            if (slides[index].id === 'slide-17') {
+                // Ensure the active tab's chart is rendered
+                const activeTabButton = document.querySelector('.remuneration-tabs .tab-button.active');
+                if (activeTabButton) {
+                    openTab(null, activeTabButton.dataset.tab); // Pass null for event, use dataset to get tab ID
+                }
+            } else {
+                // Destroy charts when not on the remuneration slide to save resources
+                Object.values(charts).forEach(chart => chart.destroy());
+                charts = {};
+            }
+        }
+
+        function updateNavButtons() {
+            const prevButton = document.getElementById('prev-slide');
+            const nextButton = document.getElementById('next-slide');
+            if (prevButton) prevButton.disabled = currentSlide === 0;
+            if (nextButton) nextButton.disabled = currentSlide === totalSlides - 1;
+        }
+
+        function createNavigationButtons() {
+            const navDiv = document.createElement('div');
+            navDiv.className = 'navigation';
+            navDiv.innerHTML = `
+                <button id="prev-slide" class="nav-button" onclick="navigateSlides(-1)">Anterior</button>
+                <button id="next-slide" class="nav-button" onclick="navigateSlides(1)">Siguiente</button>
+            `;
+            document.querySelector('.presentation-container').appendChild(navDiv);
+        }
+
+        function navigateSlides(direction) {
+            let newIndex = currentSlide + direction;
+            if (newIndex >= 0 && newIndex < totalSlides) {
+                showSlide(newIndex);
+            }
+        }
+
+        function openTab(evt, tabId) {
+            // Get all elements with class="tab-content" and hide them
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(tabContent => {
+                tabContent.classList.remove('active');
+            });
+
+            // Get all elements with class="tab-button" and remove the "active" class
+            const tabButtons = document.querySelectorAll('.tab-button');
+            tabButtons.forEach(tabButton => {
+                tabButton.classList.remove('active');
+            });
+
+            // Show the current tab, and add an "active" class to the button that opened the tab
+            document.getElementById(tabId).classList.add('active');
+            if (evt) { // If called from an event click
+                evt.currentTarget.classList.add('active');
+            } else { // If called programmatically (e.g., on slide activation)
+                document.querySelector(`.tab-button[onclick="openTab(event, '${tabId}')"]`).classList.add('active');
+            }
+
+            renderChartForTab(tabId);
+        }
+
+        function renderChartForTab(tabId) {
+            // Destroy any existing chart for this canvas
+            if (charts[tabId]) {
+                charts[tabId].destroy();
+            }
+
+            const ctx = document.getElementById(tabId + 'Chart').getContext('2d');
+            const data = remunerationData[tabId];
+
+            charts[tabId] = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: data.labels,
+                    datasets: [
+                        {
+                            label: 'Empresa Nacional (S/)',
+                            data: data.national,
+                            backgroundColor: '#FF8C00', // Primary university color
+                            borderColor: '#E67E22',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Empresa Multinacional (S/)',
+                            data: data.multinational,
+                            backgroundColor: '#A0522D', // Complementary brown
+                            borderColor: '#7F3F1F',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: `Comparación de Remuneraciones (${tabId.charAt(0).toUpperCase() + tabId.slice(1)})`,
+                            font: { size: 16, weight: 'bold' },
+                            color: '#333'
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.y !== null) {
+                                        label += `S/ ${context.parsed.y.toLocaleString()}`;
+                                    }
+                                    return label;
+                                }
+                            }
+                        },
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: '#555'
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: {
+                                color: '#555'
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Remuneración Bruta Mensual (S/)',
+                                color: '#555'
+                            },
+                            ticks: {
+                                callback: function(value, index, values) {
+                                    return 'S/ ' + value.toLocaleString();
+                                },
+                                color: '#555'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            createNavigationButtons();
+            showSlide(0); // Start with the first slide
+
+            // Initial render for the default active tab if on the remuneration slide
+            if (slides[currentSlide].id === 'slide-17') {
+                openTab(null, 'pharma'); // Manually trigger for the first tab
+            }
+        });
+    </script>
+</body>
+</html>
