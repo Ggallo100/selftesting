@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presentación Interactiva: Farmacia y Bioquímica</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-principal: #F39C12; --color-secundario: #2c3e50; --color-texto: #34495e;
+            --color-fondo: #f4f6f9; --color-blanco: #ffffff;
+        }
+        body, html {
+            margin: 0; padding: 0; font-family: 'Poppins', sans-serif; background-color: var(--color-fondo);
+            display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden;
+        }
+        .presentation-container {
+            width: 90vw; max-width: 1100px; height: 60vh; max-height: 620px; aspect-ratio: 16 / 9;
+            background: var(--color-blanco); box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-radius: 10px; position: relative; overflow: hidden;
+        }
+        .slide {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; padding: 40px 60px;
+            box-sizing: border-box; display: flex; flex-direction: column; justify-content: center;
+            align-items: center; text-align: center; opacity: 0; visibility: hidden;
+            transition: opacity 0.6s ease-in-out; background-size: cover; background-position: center;
+        }
+        .slide.active { opacity: 1; visibility: visible; }
+        .slide h1 { font-size: 2.8rem; color: var(--color-principal); margin: 0 0 10px 0; font-weight: 700; }
+        .slide h2 { font-size: 2rem; color: var(--color-secundario); margin: 0 0 25px 0; font-weight: 600; }
+        .slide p { font-size: 1.1rem; color: var(--color-texto); line-height: 1.6; max-width: 800px; }
+        .slide ul { list-style-type: none; padding: 0; text-align: left; }
+        .slide li::before { content: '✓'; color: var(--color-principal); font-weight: bold; display: inline-block; width: 1em; margin-left: -1em; }
+        
+        /* --- ESTILOS CORREGIDOS Y MEJORADOS PARA SLIDE-3 --- */
+        #slide-3 h2 {
+            margin-bottom: 20px; /* Reducido para dar más espacio al contenido */
+        }
+        .functions-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px; /* Espacio entre tarjetas reducido */
+            width: 100%;
+        }
+        .function-card {
+            width: calc(50% - 40px); /* Ancho ajustado para 2 columnas + padding + gap */
+            display: flex;
+            align-items: center;
+            background-color: #f8f9fa;
+            padding: 15px; /* Padding reducido */
+            border-radius: 10px;
+            border-left: 5px solid var(--color-principal);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            text-align: left;
+        }
+        .function-card .card-icon {
+            font-size: 2.5rem; /* Icono más pequeño */
+            color: var(--color-principal);
+            margin-right: 15px; /* Margen reducido */
+        }
+        .function-card .card-text h3 {
+            font-size: 1rem; /* Título de tarjeta más pequeño */
+            margin: 0 0 5px 0;
+            color: var(--color-secundario);
+        }
+        .function-card .card-text p {
+            font-size: 0.85rem; /* Texto de tarjeta más pequeño */
+            margin: 0;
+            line-height: 1.4;
+            color: var(--color-texto);
+        }
+        
+        /* --- OTROS ESTILOS (sin cambios) --- */
+        .areas-list { display: flex; flex-direction: column; gap: 15px; width: 100%; text-align: left; }
+        .area-item { display: flex; align-items: center; background: #f8f9fa; padding: 15px 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.04); }
+        .area-item strong { color: var(--color-secundario); background-color: #e9ecef; padding: 8px 12px; border-radius: 5px; margin-right: 20px; font-size: 1rem; font-weight: 600; min-width: 220px; text-align: right; }
+        .area-item p { font-size: 1rem; margin: 0; flex: 1; color: var(--color-texto); }
+        #slide-1 { background-color: var(--color-secundario); color: var(--color-blanco); }
+        #slide-1 h1, #slide-1 h2 { color: var(--color-blanco); }
+        #slide-1 h1 { color: var(--color-principal); }
+        .salary-chart { display: flex; flex-direction: column; gap: 12px; width: 100%; margin-top: 20px; font-size: 0.9rem; }
+        .salary-bar-container { display: flex; align-items: center; gap: 10px; }
+        .salary-label { width: 220px; text-align: right; font-weight: 600; }
+        .salary-bar { height: 28px; background: linear-gradient(90deg, #f39c12, #f1c40f); border-radius: 5px; color: var(--color-blanco); display: flex; align-items: center; justify-content: flex-end; padding-right: 15px; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .career-path { display: flex; justify-content: space-between; width: 100%; margin-top: 30px; }
+        .career-step { flex: 1; padding: 15px; border-top: 5px solid var(--color-principal); background-color: #fafafa; border-radius: 5px; margin: 0 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .career-step h3 { font-size: 1.1rem; color: var(--color-secundario); margin-top: 0; }
+        .career-step p { font-size: 0.9rem; }
+        .key-points-list { display: flex; flex-direction: column; gap: 15px; width: 100%; text-align: left; margin-top: 20px; }
+        .key-point { background-color: rgba(243, 156, 18, 0.05); border-left: 3px solid var(--color-principal); padding: 15px; border-radius: 5px; }
+        .key-point h3 { font-size: 1.1rem; margin: 0 0 5px 0; color: var(--color-secundario); }
+        .key-point p { font-size: 0.95rem; margin: 0; line-height: 1.5; }
+        .quote-block { margin-top: 30px; padding: 20px; background-color: var(--color-secundario); color: var(--color-blanco); border-radius: 8px; text-align: center; max-width: 90%; }
+        .quote-block .quote-text { font-style: italic; font-size: 1.1rem; margin-bottom: 10px; }
+        .quote-block .quote-author { font-weight: bold; color: var(--color-principal); }
+        .slide-footer { position: absolute; bottom: 25px; right: 40px; z-index: 5;}
+        .slide-footer img { height: 40px; }
+        .navigation-controls { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); display: flex; gap: 15px; z-index: 10; }
+        .nav-btn { padding: 10px 25px; border: none; background-color: var(--color-secundario); color: var(--color-blanco); border-radius: 50px; cursor: pointer; font-size: 1rem; transition: background-color 0.3s, transform 0.2s; }
+        .nav-btn:hover { background-color: var(--color-principal); transform: translateY(-2px); }
+        .nav-btn:disabled { background-color: #ccc; cursor: not-allowed; transform: none; }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+
+        <!-- Diapositivas 1 y 2 (sin cambios) -->
+        <div class="slide active" id="slide-1" style="background-image: url('https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'); background-blend-mode: overlay; background-color: rgba(44, 62, 80, 0.7);">
+            <h1>IDENTIDAD PROFESIONAL EN FARMACIA Y BIOQUÍMICA</h1>
+            <h2>Conquistando el Sector Clínico y Hospitalario del Futuro</h2>
+        </div>
+        <div class="slide" id="slide-2">
+            <h2>¿Qué Descubriremos Hoy?</h2>
+            <ul style="text-align:center; list-style:none;">
+                <li style="border:none; padding: 5px 0;"><strong>Parte 1:</strong> Fundamentos del Rol (Funciones, Áreas, Salarios)</li>
+                <li style="border:none; padding: 5px 0;"><strong>Parte 2:</strong> Visión Estratégica y Futuro de la Profesión</li>
+                <li style="border:none; padding: 5px 0;"><strong>Parte 3:</strong> Tu Desarrollo y Línea de Carrera</li>
+            </ul>
+        </div>
+        
+        <!-- **DIAPOSITIVA 3 CORREGIDA** -->
+        <div class="slide" id="slide-3">
+            <h2>Tu Misión Esencial: Funciones Clave</h2>
+            <div class="functions-grid">
+                <div class="function-card">
+                    <div class="card-icon">💊</div>
+                    <div class="card-text">
+                        <h3>Dispensación y Cuidado</h3>
+                        <p>Supervisar el expendio, orientar al paciente y asegurar el uso adecuado de medicamentos.</p>
+                    </div>
+                </div>
+                <div class="function-card">
+                    <div class="card-icon">📦</div>
+                    <div class="card-text">
+                        <h3>Gestión y Logística</h3>
+                        <p>Almacenar y custodiar productos garantizando su conservación, estabilidad y calidad.</p>
+                    </div>
+                </div>
+                <div class="function-card">
+                    <div class="card-icon">🔬</div>
+                    <div class="card-text">
+                        <h3>Calidad y Preparados</h3>
+                        <p>Elaborar preparados farmacéuticos y verificar que no existan productos no conformes.</p>
+                    </div>
+                </div>
+                <div class="function-card">
+                    <div class="card-icon">🔔</div>
+                    <div class="card-text">
+                        <h3>Vigilancia y Capacitación</h3>
+                        <p>Liderar la Farmacovigilancia y entrenar permanentemente al personal técnico y asistente.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Diapositivas restantes (sin cambios) -->
+        <div class="slide" id="slide-4">
+            <h2>Áreas de Desempeño: ¿Cuál es tu Pasión?</h2>
+            <div class="areas-list">
+                <div class="area-item"><strong>Farmacia Clínica</strong><p>Optimiza la farmacoterapia en piso. Incluye Dosis Unitaria y Farmacovigilancia.</p></div>
+                <div class="area-item"><strong>Seguimiento Farmacoterapéutico</strong><p>Servicio personalizado a pacientes para maximizar la efectividad y adherencia.</p></div>
+                <div class="area-item"><strong>Farmacotecnia</strong><p>Elaboración de fórmulas magistrales, nutrición parenteral y mezclas estériles.</p></div>
+                <div class="area-item"><strong>Almacén Especializado</strong><p>Gestión logística, control de inventarios, cadena de frío y distribución interna.</p></div>
+                <div class="area-item"><strong>Farmacia Ambulatoria</strong><p>Atención y dispensación a pacientes de consulta externa con educación sanitaria.</p></div>
+            </div>
+        </div>
+        <div class="slide" id="slide-5">
+            <h2>Hablemos de Números: Proyección Salarial 2024</h2>
+            <p style="font-size: 0.9rem; margin-bottom: 20px;">Sueldos brutos mensuales estimados. Varían según institución, experiencia y especialización.</p>
+            <div class="salary-chart">
+                <div class="salary-bar-container"><span class="salary-label">Junior / Post-SERUMS</span><div class="salary-bar" style="width: 50%;">S/ 3,500 - S/ 4,500</div></div>
+                <div class="salary-bar-container"><span class="salary-label">Clínica Privada (Inicial)</span><div class="salary-bar" style="width: 60%;">S/ 3,800 - S/ 5,000</div></div>
+                <div class="salary-bar-container"><span class="salary-label">EsSalud (Nombrado)</span><div class="salary-bar" style="width: 75%;">S/ 4,500 - S/ 6,500+</div></div>
+                <div class="salary-bar-container"><span class="salary-label">QF con Especialidad</span><div class="salary-bar" style="width: 90%;">S/ 5,500 - S/ 8,000+</div></div>
+                <div class="salary-bar-container"><span class="salary-label">Jefe / Director Técnico</span><div class="salary-bar" style="width: 100%;">S/ 7,000 - S/ 12,000+</div></div>
+            </div>
+        </div>
+        <div class="slide" id="slide-6">
+            <div class="slide-icon">🎯</div>
+            <h2>Visión Estratégica: El "Hospital Líquido"</h2>
+            <p style="max-width: 850px;">Reflexionemos sobre la transformación de la farmacia hospitalaria en un sistema de salud dinámico, digitalizado y centrado en el paciente, donde no existen barreras rígidas y fluye la información, las decisiones y los medicamentos.</p>
+        </div>
+        <div class="slide" id="slide-7">
+            <h2>1. La Transformación del Rol Farmacéutico</h2>
+            <div class="key-points-list">
+                <div class="key-point"><h3>De lo Operativo a lo Clínico-Asistencial</h3><p>Asumimos una función activa en la toma de decisiones terapéuticas, no solo en la logística.</p></div>
+                <div class="key-point"><h3>Participación Multidisciplinaria</h3><p>Nos integramos en comités clínicos y rondas médicas como garantes del uso racional del medicamento.</p></div>
+                <div class="key-point"><h3>Enfoque Centrado en el Paciente</h3><p>Personalizamos tratamientos, evaluamos interacciones y promovemos el uso seguro en todos los niveles.</p></div>
+            </div>
+        </div>
+        <div class="slide" id="slide-8">
+            <h2>2. Innovación y Tecnología Clave</h2>
+            <div class="key-points-list">
+                <div class="key-point"><h3>Automatización y Digitalización</h3><p>Robots de dispensación, historias clínicas electrónicas y validación remota mejoran la precisión y trazabilidad.</p></div>
+                <div class="key-point"><h3>Impacto en Seguridad y Eficiencia</h3><p>Disminuyen los errores de medicación, se reducen tiempos de espera y se optimiza el control de inventarios.</p></div>
+                <p style="text-align:center; font-weight:600; color:var(--color-principal);">La tecnología nos libera para centrarnos en el rol clínico.</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-9">
+            <h2>3. Nuevas Competencias Profesionales</h2>
+            <div class="key-points-list">
+                <div class="key-point"><h3>Gestión del Riesgo Clínico</h3><p>Identificamos eventos adversos y participamos activamente en comités de seguridad del paciente.</p></div>
+                <div class="key-point"><h3>Evaluación de Tecnologías Sanitarias (ETS)</h3><p>Aportamos evidencia sobre la eficacia, seguridad y costo-beneficio de nuevas terapias.</p></div>
+                <div class="key-point"><h3>Educación y Comunicación</h3><p>Desarrollamos habilidades para interactuar con pacientes, cuidadores y todo el equipo de salud.</p></div>
+            </div>
+        </div>
+        <div class="slide" id="slide-10">
+            <h2>Conclusión: Un Actor Estratégico</h2>
+            <ul style="list-style: none; padding: 0;">
+                <li style="padding:10px 0; border:none;">Contribuimos a la <strong>seguridad del paciente</strong> y a la <strong>sostenibilidad</strong> del sistema.</li>
+                <li style="padding:10px 0; border:none;">Requerimos una combinación de competencias <strong>clínicas, tecnológicas y comunicativas</strong>.</li>
+            </ul>
+            <div class="quote-block">
+                <p class="quote-text">"No se trata solo de cambiar la forma en que trabajamos, sino de redefinir el lugar que ocupamos en el proceso asistencial."</p>
+                <p class="quote-author">— Prof. José Luis Poveda</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-11">
+            <h2>Construye tu Futuro: Línea de Carrera</h2>
+            <div class="career-path">
+                <div class="career-step"><h3>1. Punto de Partida</h3><p>Titulado, Colegiado y Habilitado. Realización del SERUMS es clave para el sector público.</p></div>
+                <div class="career-step"><h3>2. Especialización</h3><p>Segunda Especialidad (Residentado). ¡La clave para diferenciarte y acceder a mejores salarios!</p></div>
+                <div class="career-step"><h3>3. Crecimiento Vertical</h3><p>Coordinador de Área o Especialista Senior. Lidera equipos y conviértete en un referente técnico.</p></div>
+                <div class="career-step"><h3>4. Cima del Liderazgo</h3><p>Jefe de Departamento o Director Técnico. Máxima responsabilidad administrativa y sanitaria.</p></div>
+            </div>
+        </div>
+        <div class="slide" id="slide-12">
+            <h2 style="font-size: 1.5rem; color: var(--color-texto);">Motivación Final</h2>
+            <p style="font-size: 2.2rem; font-style: italic; font-weight: 600; color: var(--color-secundario); max-width: 700px;">"Nunca debes de tener miedo de lo que estas haciendo cuando es correcto"</p>
+            <h3 style="color: var(--color-principal);">- Marie Curie</h3>
+        </div>
+
+        <div class="slide-footer">
+            <img src="https://autonoma.pe/wp-content/uploads/2023/04/logo-autonoma-png-2.png" alt="Logo Universidad Autónoma del Perú">
+        </div>
+
+        <div class="navigation-controls">
+            <button id="prevBtn" class="nav-btn">Anterior</button>
+            <button id="nextBtn" class="nav-btn">Siguiente</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const slides = document.querySelectorAll('.slide');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            let currentSlide = 0;
+
+            function showSlide(n) {
+                slides.forEach(slide => slide.classList.remove('active'));
+                slides[n].classList.add('active');
+                prevBtn.disabled = (n === 0);
+                nextBtn.disabled = (n === slides.length - 1);
+            }
+
+            nextBtn.addEventListener('click', () => {
+                if (currentSlide < slides.length - 1) {
+                    currentSlide++;
+                    showSlide(currentSlide);
+                }
+            });
+
+            prevBtn.addEventListener('click', () => {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    showSlide(currentSlide);
+                }
+            });
+            
+            showSlide(currentSlide);
+        });
+    </script>
+</body>
+</html>
