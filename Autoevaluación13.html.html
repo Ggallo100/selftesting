@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Autoevaluación - Rol del Químico Farmacéutico: Toxicología, Remuneración y Avance</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    /* Estilos mantienen su forma original... */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 20px;
+      background-color: #fffaf0;
+    }
+    .institutional-header {
+      background-color: #FF8C00;
+      color: white;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+    h1.section-title, #customTitleInput {
+      text-align: center;
+      color: #FF8C00;
+      margin-bottom: 20px;
+    }
+    #customTitleInput {
+      display: block;
+      margin: 0 auto 20px;
+      padding: 10px;
+      width: 80%;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+      background-color: #fff0e6;
+    }
+    .question {
+      background: #ffffff;
+      padding: 20px;
+      margin-bottom: 15px;
+      border-radius: 10px;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    }
+    h2.question-title {
+      color: #8B4513;
+      font-size: 18px;
+      border-bottom: 2px solid #FF8C00;
+      padding-bottom: 5px;
+      margin-bottom: 10px;
+    }
+    label {
+      display: block;
+      margin: 5px 0;
+      cursor: pointer;
+    }
+    select, input[type="file"] {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background: #8B4513;
+      color: white;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      display: inline-block;
+      margin: 15px 10px;
+    }
+    button:hover {
+      background: #A0522D;
+    }
+    .mcq { background-color: #fff0e6; }
+    .tf { background-color: #FFEBCD; }
+    .fill { background-color: #FAEBD7; }
+    .multi { background-color: #F5DEB3; }
+    .drag { background-color: #F5F5DC; }
+    .feedback {
+      display: none;
+      margin-top: 5px;
+      font-weight: bold;
+      color: #8B4513;
+    }
+    #progress-container {
+      width: 100%;
+      background-color: #FFE4C4;
+      border-radius: 8px;
+      margin: 20px 0;
+    }
+    #progress-bar {
+      width: 0%;
+      height: 20px;
+      background-color: #FF8C00;
+      border-radius: 8px;
+      text-align: center;
+      color: white;
+      transition: width 0.3s ease-in-out;
+    }
+    #result {
+      text-align: center;
+      font-size: 20px;
+      margin-top: 20px;
+      color: #FF8C00;
+      white-space: pre-line;
+    }
+    #chartContainer {
+      margin-top: 30px;
+      display: none;
+    }
+    .drag-container {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      min-height: 50px;
+      border: 1px dashed #FF8C00;
+      padding: 10px;
+      border-radius: 5px;
+      background: #FFF8DC; /* Light background for contrast */
+    }
+    .draggable {
+      padding: 8px;
+      background: white;
+      color: #8B4513; /* Darker text */
+      border-radius: 4px;
+      cursor: grab;
+      border: 1px solid #FF8C00;
+      text-align: center;
+    }
+    .draggable.dragging {
+      background: #FFA500;
+      color: white;
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+  <!-- Cabecera -->
+  <div class="institutional-header">
+    <h1>Universidad Autónoma del Perú</h1>
+    <h2>Facultad de Ciencias de la Salud</h2>
+    <h3>Escuela de Farmacia y Bioquímica</h3>
+  </div>
+  <!-- Título personalizable -->
+  <input id="customTitleInput" type="text" value="Autoevaluación - Rol del Químico Farmacéutico: Toxicología, Remuneración y Avance" oninput="document.getElementById('dynamicTitle').textContent = this.value" />
+  <h1 id="dynamicTitle" class="section-title">Autoevaluación - Rol del Químico Farmacéutico: Toxicología, Remuneración y Avance</h1>
+  <!-- Temporizador -->
+  <div id="timer" style="text-align: center; font-size: 18px; color: #8B4513; margin-bottom: 20px;">
+    Tiempo restante: <span id="time">10:00</span>
+  </div>
+  <!-- Barra de progreso -->
+  <div id="progress-container">
+    <div id="progress-bar">0%</div>
+  </div>
+  <!-- Contador de intentos -->
+  <div id="attempts" style="text-align: center; font-size: 16px; color: #8B4513;">
+    Intentos: <span id="attemptCount">0</span>
+  </div>
+  <!-- Formulario de preguntas -->
+  <form id="quizForm"></form>
+  <!-- Botones -->
+  <button type="button" onclick="calculateScore()">Calificar</button>
+  <button type="button" id="retryButton" onclick="resetQuiz()" style="display:none">Intentar de nuevo</button>
+  <!-- Resultados -->
+  <div id="result"></div>
+  <!-- Gráfico -->
+  <div id="chartContainer">
+    <canvas id="performanceChart" width="400" height="300"></canvas>
+  </div>
+  <script>
+    let quizQuestions = [
+      // MCQ Questions (8 preguntas)
+      { id: 1, type: 'mcq', text: 'Un Químico Farmacéutico de investigación y desarrollo en la industria descubre un nuevo principio activo con potencial terapéutico, pero con indicios de toxicidad hepática significativa. ¿A qué sub-área de la Toxicología debería recurrirse prioritariamente para una evaluación especializada que informe su continuidad en el desarrollo?', options: ['Toxicología Alimentaria', 'Toxicología Clínica', 'Peritaje en Criminalística', 'Toxicología Ocupacional'], answer: 'b' },
+      { id: 2, type: 'mcq', text: 'La labor analítica del Químico Farmacéutico en toxicología, al realizar ensayos y exámenes a muestras biológicas para determinar la causa de un hecho, se interrelaciona directamente con otra área de competencia para la gestión de la calidad de los resultados. ¿Cuál es esta área?', options: ['Marketing de productos farmacéuticos', 'Control y aseguramiento de la calidad', 'Logística de almacén hospitalario', 'Diseño de envases'], answer: 'b' },
+      { id: 3, type: 'mcq', text: 'Si un Director Técnico de una Oficina Farmacéutica recibe una notificación de reacción adversa grave que involucra una interacción medicamentosa poco documentada, ¿qué habilidad de gestión sería más relevante para su adecuado manejo, en colaboración con un Toxicólogo Clínico?', options: ['Habilidad en negociación de precios', 'Capacidad de liderazgo y gestión de equipos', 'Dominio de software de facturación', 'Experiencia en diseño publicitario'], answer: 'b' },
+      { id: 4, type: 'mcq', text: 'La implementación de las Buenas Prácticas de Manufactura (BPM) en un laboratorio industrial y las Buenas Prácticas de Dispensación (BPD) en una farmacia hospitalaria buscan asegurar la calidad. ¿Qué principio fundamental de la Toxicología Legal resuena con este objetivo de garantía de calidad y seguridad para el paciente?', options: ['Principios de negociación comercial', 'Principios de evidencia científica vigente', 'Principios de optimización de costos', 'Principios de marketing farmacéutico'], answer: 'b' },
+      { id: 5, type: 'mcq', text: 'Un Químico Farmacéutico que ha realizado su SERUMS y busca una oportunidad laboral en el sector público de Toxicología. ¿Qué tipo de establecimiento de salud es análogo, en su naturaleza pública y necesidad de SERUMS, a las oportunidades en Ministerio Público o PNP en el ámbito toxicológico?', options: ['Una clínica privada especializada', 'Un hospital de nivel III operado por el MINSA', 'Una botica comunitaria independiente', 'Una empresa transnacional de dispositivos médicos'], answer: 'b' },
+      { id: 6, type: 'mcq', text: 'La evaluación de factores tóxicos y anti nutricionales en alimentos es vital. ¿Con qué proceso crítico en la cadena de suministro farmacéutico se compara la importancia de asegurar la inocuidad para el consumidor final?', options: ['La investigación de mercados de nuevos fármacos', 'La gestión de ventas y distribución de medicamentos', 'El control y aseguramiento de la calidad en la fabricación', 'La planificación de campañas de salud'], answer: 'c' },
+      { id: 7, type: 'mcq', text: 'En el campo de la Toxicología Legal en Perú, ¿cuál es el rango salarial típico para un Químico Farmacéutico que inicia como Perito Químico en el sector público (MINP/PNP)?', options: ['S/ 3,000 - S/ 4,500', 'S/ 5,000 - S/ 7,000', 'S/ 7,500 - S/ 9,000', 'Más de S/ 10,000'], answer: 'b' },
+      { id: 8, type: 'mcq', text: 'El incremento de nuevas sustancias sintéticas representa un desafío constante en el campo de la Toxicología. ¿Qué habilidad fundamental para el Químico Farmacéutico en cualquier sector de la salud se vuelve aún más crítica ante este escenario de constante evolución del conocimiento?', options: ['Habilidades de gestión de inventarios', 'Conocimientos en biotecnología y análisis de datos', 'Destreza en negociación con proveedores', 'Experiencia en marketing digital'], answer: 'b' },
+
+      // True/False Questions (5 preguntas)
+      { id: 9, type: 'tf', text: 'El alcance del Químico Farmacéutico como perito en criminalística es más amplio que solo la identificación de drogas, incluyendo análisis de otras sustancias tóxicas y evidencias biológicas para la investigación.', answer: 'true' },
+      { id: 10, type: 'tf', text: 'La capacitación del personal asistente y técnico, una responsabilidad clave en el ámbito farmacéutico, es análoga a la formación continua necesaria para los profesionales de Toxicología ante la aparición incesante de nuevas sustancias.', answer: 'true' },
+      { id: 11, type: 'tf', text: 'El concepto de "Liderazgo y Gestión" es fundamental para un Director Técnico de un laboratorio industrial o farmacia hospitalaria, pero carece de relevancia directa para un Químico Farmacéutico que trabaja en Toxicología Clínica.', answer: 'false' },
+      { id: 12, type: 'tf', text: 'La preparación de mezclas intravenosas en Farmacia Hospitalaria, aunque no sea toxicología forense, requiere un estricto control de calidad que comparte el principio de minimizar el riesgo al paciente a través de un manejo riguroso de sustancias.', answer: 'true' },
+      { id: 13, type: 'tf', text: 'Un Químico Farmacéutico que labora en el almacén especializado de un hospital debe aplicar principios de buenas prácticas de almacenamiento, un concepto directamente relevante para la conservación de la integridad de las muestras toxicológicas.', answer: 'true' },
+
+      // Fill-in-the-blank Questions (6 preguntas)
+      { id: 14, type: 'fill', text: 'El Químico Farmacéutico es un actor clave en la ______ de los productos farmacéuticos, desde la recepción de la materia prima hasta la fabricación, aplicando principios de calidad que resuenan con la prevención de riesgos toxicológicos.', options: ['comercialización', 'fabricación', 'publicidad', 'distribución'], answer: 'b' },
+      { id: 15, type: 'fill', text: 'Cuando un Químico Farmacéutico se desempeña como ______ en criminalística, su trabajo contribuye directamente a la investigación de hechos delictuosos, analizando evidencias para la justicia.', options: ['abogado', 'perito', 'fiscal', 'juez'], answer: 'b' },
+      { id: 16, type: 'fill', text: 'Para garantizar la seguridad y eficacia en la atención, la promoción del diagnóstico y tratamiento de pacientes intoxicados por el Toxicólogo químico y legal debe basarse en los principios de ______ científica vigente.', options: ['opinión', 'evidencia', 'suposición', 'tradición'], answer: 'b' },
+      { id: 17, type: 'fill', text: 'La toxicología ______ estudia cómo las sustancias químicas contaminantes afectan a plantas, animales y seres humanos en el ambiente, incluyendo suelos y masas de agua.', options: ['clínica', 'forense', 'ambiental', 'ocupacional'], answer: 'c' },
+      { id: 18, type: 'fill', text: 'En el sector privado de toxicología, el rango salarial para un Analista Toxicológico comúnmente inicia en S/ ______ a más.', options: ['2500', '3000', '4000', '5000'], answer: 'c' },
+      { id: 19, type: 'fill', text: 'El Avance Profesional en toxicología se ve impactado por el constante ______ de nuevas sustancias sintéticas, lo que demanda una actualización y especialización continuas en la disciplina.', options: ['estancamiento', 'descenso', 'incremento', 'desconocimiento'], answer: 'c' },
+
+      // Multiple Answer Questions (7 preguntas)
+      { id: 20, type: 'multi', text: 'Considerando el campo laboral general del Químico Farmacéutico, ¿en cuáles de los siguientes sectores o sub-áreas puede desempeñar un rol crucial en la seguridad de los productos y la salud pública, aplicando su formación? (Selecciona 3)', options: ['Industria farmacéutica (Aseguramiento de Calidad)', 'Farmacia Hospitalaria (Farmacovigilancia)', 'Toxicología Alimentaria', 'Agencias de publicidad', 'Empresas de bienes raíces'], answer: 'a,b,c' },
+      { id: 21, type: 'multi', text: 'Las responsabilidades del Director Técnico de una Oficina Farmacéutica abarcan diversas áreas. ¿Cuáles de las siguientes tareas reflejan una intersección directa con principios de la química legal o la toxicología en su quehacer diario? (Selecciona 3)', options: ['Verificar y controlar recetas de estupefacientes', 'Disponer el retiro de productos contaminados/falsificados', 'Notificar sospechas de reacciones adversas', 'Negociar contratos de alquiler del local', 'Diseñar el uniforme del personal'], answer: 'a,b,c' },
+      { id: 22, type: 'multi', text: '¿Qué competencias o habilidades son transversalmente esenciales para un Químico Farmacéutico que busca el avance profesional en cualquier sector del área de la salud, incluyendo la toxicología? (Selecciona 3)', options: ['Conocimientos en biotecnología', 'Habilidades de comunicación', 'Liderazgo y Gestión', 'Experiencia en construcción civil', 'Dominio de idiomas antiguos'], answer: 'a,b,c' },
+      { id: 23, type: 'multi', text: 'Los servicios que brinda una farmacia de establecimiento de salud demuestran su amplio impacto. ¿Cuáles de los siguientes servicios tienen una conexión intrínseca con la evaluación de riesgos o el manejo de sustancias, temas relevantes en toxicología? (Selecciona 2)', options: ['Farmacotecnia', 'Seguimiento Farmacoterapéutico', 'Contabilidad', 'Mantenimiento de infraestructura'], answer: 'a,b' },
+      { id: 24, type: 'multi', text: 'El avance profesional del Químico Farmacéutico contempla diversas rutas para su especialización. ¿Qué programas o áreas de desarrollo son fundamentales para la adaptación a las complejidades del sector farmacéutico y toxicológico? (Selecciona 3)', options: ['Segunda especialidad', 'Aprendizaje Continuo', 'Liderazgo y Desarrollo Personal', 'Cursos de marketing para redes sociales', 'Talleres de escritura creativa'], answer: 'a,b,c' },
+      { id: 25, type: 'multi', text: '¿Cuáles de las siguientes son actividades laborales específicas dentro de las unidades productoras de farmacia clínica y hospitalaria que se benefician de una comprensión de los principios toxicológicos, dada su relación con la seguridad del paciente y manejo de sustancias? (Selecciona 2)', options: ['Dispensación en Dosis Unitaria', 'Farmacovigilancia', 'Almacén Especializado', 'Farmacia Ambulatoria'], answer: 'a,b' },
+      { id: 26, type: 'multi', text: 'En el contexto de la Química Legal y Toxicología, ¿cuáles son los organismos del sector público en Perú que ofrecen oportunidades laborales para Químicos Farmacéuticos y que comúnmente requieren la realización del SERUMS? (Selecciona 2)', options: ['Ministerio Público', 'Empresas mineras', 'Policía Nacional del Perú (PNP)', 'Farmacias comunitarias privadas'], answer: 'a,c' },
+
+      // Drag and Drop Questions (4 preguntas)
+      { id: 27, type: 'drag', text: 'Ordena la secuencia lógica de los pasos de una intervención típica del Toxicólogo químico y legal (forense) en un caso de investigación de la causa de un hecho delictuoso:', options: ['Muestreo y levantamiento de indicios', 'Ensayos y exámenes analíticos a objetos de prueba', 'Dictámenes periciales'], answer: 'a,b,c' }, 
+      { id: 28, type: 'drag', text: 'Ordena la progresión de responsabilidades en la cadena de un producto farmacéutico, desde la fase industrial hasta la dispensación final, que requieren un control riguroso por parte del Químico Farmacéutico:', options: ['Aprobación de procedimientos de manufactura (Industria)', 'Gestión de productos farmacéuticos (Hospitalario)', 'Verificación de la promoción publicitaria (Oficina Farmacéutica)'], answer: 'a,b,c' }, 
+      { id: 29, type: 'drag', text: 'Ordena los tipos de toxicología abordados como "Actividades Operativas" para el Químico Farmacéutico, desde las más directamente ligadas a casos forenses hasta las relacionadas con el entorno:', options: ['Toxicólogo químico y legal (forense)', 'Toxicología Clínica', 'Toxicología Alimentaria/Ambiental'], answer: 'a,b,c' }, 
+      { id: 30, type: 'drag', text: 'Ordena los componentes del "Desarrollo Profesional" para un Químico Farmacéutico, desde las áreas de especialización más técnica hasta aquellas de crecimiento más amplio:', options: ['Segunda especialidad (Incremento de nuevas especialidades)', 'Aprendizaje Continuo (Programas educativos)', 'Gestión y Liderazgo (Desarrollo personal y trabajo en equipo)'], answer: 'a,b,c' } 
+    ];
+
+    let attemptCount = 0;
+    let timeLeft = 600; // 10 minutes timer (600 seconds)
+    let timerInterval;
+    const timerDisplay = document.getElementById('time');
+    let attemptsData = [];
+    let chartInstance = null;
+
+    // Function to initialize drag and drop
+    function initDraggableElements() {
+        const draggables = document.querySelectorAll('.draggable');
+        const containers = document.querySelectorAll('.drag-container');
+
+        draggables.forEach(draggable => {
+            draggable.addEventListener('dragstart', () => {
+                draggable.classList.add('dragging');
+            });
+
+            draggable.addEventListener('dragend', () => {
+                draggable.classList.remove('dragging');
+                updateProgress(); // Update progress after dropping
+            });
+        });
+
+        containers.forEach(container => {
+            container.addEventListener('dragover', e => {
+                e.preventDefault();
+                const afterElement = getDragAfterElement(container, e.clientY);
+                const dragging = document.querySelector('.dragging');
+                if (!dragging || !container.contains(dragging.parentElement)) return; // Ensure dragging element belongs to a container
+
+                if (afterElement == null) {
+                    container.appendChild(dragging);
+                } else {
+                    container.insertBefore(dragging, afterElement);
+                }
+            });
+        });
+    }
+
+
+    function getDragAfterElement(container, y) {
+      const draggableElements = [...container.querySelectorAll('.draggable:not(.dragging)')];
+
+      return draggableElements.reduce((closest, child) => {
+        const box = child.getBoundingClientRect();
+        const offset = y - box.top - box.height / 2;
+        if (offset < 0 && offset > closest.offset) {
+          return { offset: offset, element: child };
+        } else {
+          return closest;
+        }
+      }, { offset: Number.NEGATIVE_INFINITY }).element;
+    }
+
+    function renderQuestions() {
+      const form = document.getElementById('quizForm');
+      form.innerHTML = ''; // Clear previous questions
+      quizQuestions.forEach(q => {
+        const div = document.createElement('div');
+        div.className = `question ${q.type}`;
+        div.id = `question-${q.id}`; // Add ID for easier selection
+
+        const h2 = document.createElement('h2');
+        h2.className = 'question-title';
+        h2.innerText = `${q.id}. ${q.text}`;
+        div.appendChild(h2);
+
+        if (q.type === 'mcq' || q.type === 'tf') {
+          const options = q.type === 'tf' ? ['Verdadero', 'Falso'] : q.options;
+          options.forEach((option, index) => {
+            const label = document.createElement('label');
+            const value = q.type === 'tf' ? (index === 0 ? 'true' : 'false') : String.fromCharCode(97 + index);
+            const sanitizedOption = document.createElement('span');
+            sanitizedOption.textContent = ` ${option}`;
+            label.innerHTML = `<input type="radio" name="q${q.id}" value="${value}">`;
+            label.appendChild(sanitizedOption);
+            div.appendChild(label);
+          });
+        } else if (q.type === 'multi') {
+          q.options.forEach((option, index) => {
+            const label = document.createElement('label');
+            const value = String.fromCharCode(97 + index);
+            const sanitizedOption = document.createElement('span');
+            sanitizedOption.textContent = ` ${option}`;
+            label.innerHTML = `<input type="checkbox" name="q${q.id}" value="${value}">`;
+            label.appendChild(sanitizedOption);
+            div.appendChild(label);
+          });
+        } else if (q.type === 'fill') {
+          const select = document.createElement('select');
+          select.name = `q${q.id}`;
+          const defaultOpt = document.createElement('option');
+          defaultOpt.value = '';
+          defaultOpt.text = 'Seleccione una opción';
+          select.appendChild(defaultOpt);
+          q.options.forEach((optionText, index) => { 
+            const opt = document.createElement('option');
+            opt.value = String.fromCharCode(97 + index); 
+            opt.text = optionText; 
+            select.appendChild(opt);
+          });
+          div.appendChild(select);
+        } else if (q.type === 'drag') {
+            const container = document.createElement('div');
+            container.className = 'drag-container';
+            container.setAttribute('data-question-id', q.id); // Link container to question ID
+
+            // Shuffle options for initial display
+            const shuffledOptions = [...q.options].map((option, index) => ({ option, index }))
+                                                  .sort(() => Math.random() - 0.5);
+
+            shuffledOptions.forEach(item => {
+                const elem = document.createElement('div');
+                elem.className = 'draggable';
+                elem.setAttribute('draggable', 'true');
+                // Use original index for value mapping (a, b, c)
+                elem.setAttribute('data-value', String.fromCharCode(97 + item.index));
+                elem.textContent = item.option; // Display option text
+                container.appendChild(elem);
+            });
+            div.appendChild(container);
+        }
+
+        const fb = document.createElement('div');
+        fb.className = 'feedback';
+        div.appendChild(fb);
+        form.appendChild(div);
+      });
+
+      // Add event listeners after rendering
+      document.querySelectorAll('input[type="radio"], input[type="checkbox"], select')
+        .forEach(input => input.addEventListener('change', updateProgress));
+
+      updateProgress(); // Initial progress calculation
+      initDraggableElements(); // Initialize drag and drop functionality
+    }
+
+    function calculateScore() {
+      if (!quizQuestions.length) {
+        alert("No hay preguntas cargadas.");
+        return;
+      }
+      attemptCount++;
+      document.getElementById('attemptCount').textContent = attemptCount;
+      document.getElementById('retryButton').style.display = 'inline-block';
+      let score = 0;
+      let feedbackText = ''; 
+
+      quizQuestions.forEach(q => {
+        const questionDiv = document.getElementById(`question-${q.id}`); 
+        if (!questionDiv) return; 
+
+        const fb = questionDiv.querySelector('.feedback');
+        fb.style.display = 'block'; 
+        let isCorrect = false;
+
+        try { 
+          if (q.type === 'mcq' || q.type === 'tf') {
+            const selected = questionDiv.querySelector(`input[name="q${q.id}"]:checked`);
+            isCorrect = selected && selected.value === q.answer;
+          } else if (q.type === 'fill') {
+            const select = questionDiv.querySelector(`select[name="q${q.id}"]`);
+            isCorrect = select && select.value === q.answer;
+          } else if (q.type === 'multi') {
+            const selectedNodes = questionDiv.querySelectorAll(`input[name="q${q.id}"]:checked`);
+            const selectedValues = [...selectedNodes].map(i => i.value).sort().join(',');
+            const correctAnswer = q.answer.split(',').sort().join(',');
+            isCorrect = selectedValues === correctAnswer;
+          } else if (q.type === 'drag') {
+            const container = questionDiv.querySelector('.drag-container');
+            const items = container.querySelectorAll('.draggable');
+            const currentOrder = [...items].map(item => item.dataset.value).join(',');
+            const correctOrder = q.answer; 
+            isCorrect = currentOrder === correctOrder;
+          }
+        } catch (error) {
+          console.error(`Error processing question ${q.id}:`, error);
+          fb.textContent = `⚠️ Error al procesar`;
+        }
+
+        if (isCorrect) {
+          score++;
+          fb.textContent = '✔️ Correcto';
+          fb.style.color = 'green';
+        } else {
+          fb.textContent = '❌ Incorrecto';
+           fb.style.color = 'red';
+        }
+        feedbackText += `${q.id}. ${fb.textContent}\n`; 
+
+        // Disable inputs for the current question
+        const inputs = questionDiv.querySelectorAll('input, select, .draggable');
+        inputs.forEach(input => {
+            input.disabled = true;
+            input.style.cursor = 'not-allowed';
+            if (input.classList.contains('draggable')) {
+                input.setAttribute('draggable', 'false');
+            }
+        });
+      });
+
+      const percentage = (score / quizQuestions.length) * 100;
+      let level = '';
+      if (percentage >= 86) level = 'Dominio avanzado';
+      else if (percentage >= 71) level = 'Competente';
+      else if (percentage >= 56) level = 'En desarrollo';
+      else if (percentage >= 41) level = 'Básico';
+      else level = 'No competente';
+
+      let timeUsed = 600 - timeLeft; 
+      let minutesUsed = Math.floor(timeUsed / 60);
+      let secondsUsed = timeUsed % 60;
+      let formattedTime = `${minutesUsed}:${secondsUsed < 10 ? '0' : ''}${secondsUsed}`;
+
+      document.getElementById('result').innerText =
+        `Intento #: ${attemptCount}\n` +
+        `Puntuación: ${score}/${quizQuestions.length} (${Math.round(percentage)}%)\n` +
+        `Nivel: ${level}\n` +
+        `Tiempo utilizado: ${formattedTime}\n\n` +
+        `--- Retroalimentación ---\n` +
+        feedbackText; 
+
+      clearInterval(timerInterval); 
+
+      attemptsData.push({
+        attempt: attemptCount,
+        score: Math.round(percentage),
+        level
+      });
+
+      document.getElementById('chartContainer').style.display = 'block';
+      updateChart();
+    }
+
+
+    function updateTimer() {
+      const minutes = Math.floor(timeLeft / 60);
+      const seconds = timeLeft % 60;
+      timerDisplay.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+      if (timeLeft <= 0) {
+        clearInterval(timerInterval);
+        alert('¡Tiempo terminado! Se calificará automáticamente.');
+        calculateScore(); // Auto-submit
+      }
+      timeLeft--;
+    }
+
+    function resetQuiz() {
+        if (!confirm("¿Está seguro que desea reiniciar el cuestionario? Esto contará como un nuevo intento.")) return;
+
+        clearInterval(timerInterval);
+        timeLeft = 600; 
+        updateTimer(); 
+        timerInterval = setInterval(updateTimer, 1000); 
+
+        document.getElementById('result').innerText = '';
+        document.getElementById('retryButton').style.display = 'none'; 
+
+        document.getElementById('progress-bar').style.width = '0%';
+        document.getElementById('progress-bar').textContent = '0%';
+
+        renderQuestions();
+    }
+
+
+    function updateProgress() {
+        const total = quizQuestions.length;
+        if (!total) return;
+        let answeredCount = 0;
+
+        quizQuestions.forEach(q => {
+            const questionDiv = document.getElementById(`question-${q.id}`);
+            if (!questionDiv) return;
+
+            let isAnswered = false;
+            if (q.type === 'mcq' || q.type === 'tf') {
+                if (questionDiv.querySelector(`input[name="q${q.id}"]:checked`)) {
+                    isAnswered = true;
+                }
+            } else if (q.type === 'fill') {
+                const select = questionDiv.querySelector(`select[name="q${q.id}"]`);
+                if (select && select.value !== '') { 
+                    isAnswered = true;
+                }
+            } else if (q.type === 'multi') {
+                if (questionDiv.querySelector(`input[name="q${q.id}"]:checked`)) {
+                    isAnswered = true;
+                }
+            } else if (q.type === 'drag') {
+                 const container = questionDiv.querySelector('.drag-container');
+                 if (container && container.querySelectorAll('.draggable').length > 0) {
+                    isAnswered = true; 
+                 }
+            }
+
+            if (isAnswered) {
+                answeredCount++;
+            }
+        });
+
+        const percent = Math.min(Math.round((answeredCount / total) * 100), 100);
+        const progressBar = document.getElementById('progress-bar');
+        progressBar.style.width = percent + '%';
+        progressBar.textContent = percent + '%';
+    }
+
+
+    function updateChart() {
+      const ctx = document.getElementById('performanceChart').getContext('2d');
+      if (chartInstance) {
+        chartInstance.destroy(); 
+      }
+      chartInstance = new Chart(ctx, {
+        type: 'bar', 
+        data: {
+          labels: attemptsData.map(d => `Intento ${d.attempt}`), 
+          datasets: [{
+            label: 'Puntuación (%)', 
+            data: attemptsData.map(d => d.score), 
+            backgroundColor: '#FF8C00', 
+            borderColor: '#A0522D', 
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true, 
+          maintainAspectRatio: false, 
+          scales: {
+            y: { 
+              beginAtZero: true, 
+              max: 100, 
+              title: { display: true, text: 'Porcentaje (%)' } 
+            },
+            x: { 
+              title: { display: true, text: 'Intentos' } 
+            }
+          },
+          plugins: {
+            tooltip: { 
+              callbacks: {
+                label: function(context) {
+                  let label = context.dataset.label || '';
+                  if (label) {
+                    label += ': ';
+                  }
+                  if (context.parsed.y !== null) {
+                    label += `${context.parsed.y}%`;
+                    const attemptData = attemptsData[context.dataIndex];
+                    if (attemptData && attemptData.level) {
+                        label += ` (${attemptData.level})`;
+                    }
+                  }
+                  return label;
+                }
+              }
+            },
+            legend: {
+                display: true, 
+                position: 'top',
+            }
+          }
+        }
+      });
+    }
+
+    // Initialize quiz on page load
+    window.addEventListener('DOMContentLoaded', () => {
+      renderQuestions(); 
+      updateTimer(); 
+      timerInterval = setInterval(updateTimer, 1000); 
+    });
+  </script>
+</body>
+</html>
