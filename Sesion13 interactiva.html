@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presentación: Toxicología y Química Legal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-principal: #F39C12; --color-secundario: #2c3e50; --color-texto: #34495e;
+            --color-fondo: #f4f6f9; --color-blanco: #ffffff;
+        }
+        body, html {
+            margin: 0; padding: 0; font-family: 'Poppins', sans-serif; background-color: var(--color-fondo);
+            display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden;
+        }
+        .presentation-container {
+            width: 90vw; max-width: 1100px; height: 60vh; max-height: 620px; aspect-ratio: 16 / 9;
+            background: var(--color-blanco); box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-radius: 10px; position: relative; overflow: hidden;
+        }
+        .slide {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; padding: 40px 60px;
+            box-sizing: border-box; display: flex; flex-direction: column; justify-content: center;
+            align-items: center; text-align: center; opacity: 0; visibility: hidden;
+            transition: opacity 0.6s ease-in-out; background-size: cover; background-position: center;
+        }
+        .slide.active { opacity: 1; visibility: visible; }
+        .slide h1 { font-size: 2.8rem; color: var(--color-principal); margin: 0 0 10px 0; font-weight: 700; }
+        .slide h2 { font-size: 2rem; color: var(--color-secundario); margin: 0 0 25px 0; font-weight: 600; }
+        .slide p { font-size: 1.1rem; color: var(--color-texto); line-height: 1.6; max-width: 800px; }
+        
+        #slide-1 { background-color: var(--color-secundario); color: var(--color-blanco); }
+        #slide-1 h1, #slide-1 h2 { color: var(--color-blanco); }
+        #slide-1 h1 { color: var(--color-principal); }
+
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; width: 100%; margin-top: 20px; text-align: left; }
+        .info-card { background-color: #f8f9fa; border-left: 5px solid var(--color-principal); padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .info-card h3 { font-size: 1.2rem; margin-top: 0; color: var(--color-secundario); }
+        .info-card p, .info-card li { font-size: 0.9rem; line-height: 1.5; color: var(--color-texto);}
+        .info-card .card-icon { font-size: 2.5rem; color: var(--color-principal); margin-bottom: 10px; }
+        .info-card ul { list-style: none; padding: 0; }
+        .info-card li { padding: 5px 0; }
+        .info-card li::before { content: '✓'; color: var(--color-principal); font-weight: bold; display: inline-block; width: 1em; margin-left: -1.2em; }
+        
+        .career-path { display: flex; justify-content: space-between; width: 100%; margin-top: 20px; gap: 15px; }
+        .career-step { flex: 1; padding: 15px; border-top: 5px solid var(--color-principal); background-color: #fafafa; border-radius: 5px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .career-step h3 { font-size: 1.1rem; color: var(--color-secundario); margin-top: 0; }
+        .career-step p { font-size: 0.85rem; line-height: 1.4; }
+
+        .salary-chart { display: flex; flex-direction: column; gap: 15px; width: 100%; margin-top: 20px; }
+        .salary-bar-container { display: flex; align-items: center; gap: 10px; }
+        .salary-label { width: 250px; text-align: right; font-size: 0.9rem; font-weight: 600; }
+        .salary-bar { height: 30px; background: linear-gradient(90deg, #f39c12, #f1c40f); border-radius: 5px; color: var(--color-blanco); display: flex; align-items: center; justify-content: flex-end; padding-right: 15px; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+
+        .media-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; width: 100%; max-width: 800px; }
+        .media-card { background-color: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.1); text-align: left; }
+        .media-card img { width: 100%; height: 150px; object-fit: cover; }
+        .media-card-content { padding: 15px; }
+        .media-card h3 { font-size: 1.1rem; margin: 0 0 10px 0; color: var(--color-secundario); }
+        .media-card p { font-size: 0.9rem; line-height: 1.5; margin-bottom: 10px; }
+        .media-card a { display: inline-block; text-decoration: none; background-color: #e74c3c; color: white; padding: 8px 15px; border-radius: 5px; font-weight: 600; font-size: 0.8rem; margin-top: 10px; transition: background-color 0.3s; }
+        .media-card a:hover { background-color: #c0392b; }
+
+        .slide-footer { position: absolute; bottom: 25px; right: 40px; z-index: 5;}
+        .slide-footer img { height: 40px; }
+        .navigation-controls { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); display: flex; gap: 15px; z-index: 10; }
+        .nav-btn { padding: 10px 25px; border: none; background-color: var(--color-secundario); color: var(--color-blanco); border-radius: 50px; cursor: pointer; font-size: 1rem; transition: background-color 0.3s, transform 0.2s; }
+        .nav-btn:hover { background-color: var(--color-principal); transform: translateY(-2px); }
+        .nav-btn:disabled { background-color: #ccc; cursor: not-allowed; transform: none; }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+
+        <!-- Diapositivas 1 a 10 (sin cambios) -->
+        <div class="slide active" id="slide-1" style="background-image: url('https://images.unsplash.com/photo-1554189118-c52f693c9b34?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'); background-blend-mode: overlay; background-color: rgba(44, 62, 80, 0.7);">
+            <h1>DESARROLLO EN EL CAMPO LABORAL</h1>
+            <h2>Toxicología y Química Legal</h2>
+        </div>
+        <div class="slide" id="slide-2">
+            <h2>Agenda de la Sesión</h2>
+             <ul style="list-style: none; padding: 0; text-align: center;">
+                <li style="padding: 8px 0;"><strong>Funciones y Áreas:</strong> ¿Qué hace un toxicólogo y dónde?</li>
+                <li style="padding: 8px 0;"><strong>Oportunidades y Salarios:</strong> El mercado laboral peruano.</li>
+                <li style="padding: 8px 0;"><strong>Desarrollo Profesional:</strong> Desafíos, capacitación y consejos.</li>
+                <li style="padding: 8px 0;"><strong>La Toxicología en Acción:</strong> Ejemplos de la cultura popular.</li>
+            </ul>
+        </div>
+        <div class="slide" id="slide-3">
+            <h2>Funciones y Campo de Acción</h2>
+            <p>El Químico Farmacéutico en esta área es un detective científico. Su misión es analizar muestras biológicas y evidencias físicas para aportar información crucial en investigaciones criminales, determinar causas de muerte o identificar intoxicaciones.</p>
+        </div>
+        <div class="slide" id="slide-4">
+            <h2>Áreas de Especialización</h2>
+            <div class="card-grid">
+                <div class="info-card"><div class="card-icon">⚖️</div><h3>Química Legal y Forense</h3><p>Como perito, analiza evidencias en escenas del crimen (drogas, venenos, residuos de disparo) para la justicia. Es el nexo entre la ciencia y la ley.</p></div>
+                <div class="info-card"><div class="card-icon">⚕️</div><h3>Toxicología Clínica</h3><p>Diagnostica y trata intoxicaciones en pacientes, determinando el agente causal y guiando el tratamiento en emergencias hospitalarias.</p></div>
+                <div class="info-card"><div class="card-icon">🍔</div><h3>Toxicología Alimentaria y Ambiental</h3><p>Garantiza la inocuidad de los alimentos y evalúa el impacto de contaminantes en el agua, suelo y aire, protegiendo la salud pública.</p></div>
+            </div>
+        </div>
+        <div class="slide" id="slide-5">
+            <h2>Oportunidades Laborales en Perú</h2>
+            <div class="card-grid" style="grid-template-columns: 1fr 1fr;">
+                <div class="info-card"><div class="card-icon">🏛️</div><h3>Sector Público (Peritaje)</h3><p>La principal fuente de empleo. Se requiere SERUMS para postular.</p><ul><li>Ministerio Público: Instituto de Medicina Legal.</li><li>Policía Nacional del Perú (PNP): Dirección de Criminalística (DIRCRI).</li></ul></div>
+                <div class="info-card"><div class="card-icon">🏢</div><h3>Sector Privado</h3><p>Roles enfocados en prevención, control y análisis.</p><ul><li>Empresas Mineras: Toxicología ocupacional.</li><li>Laboratorios Privados: Análisis antidoping.</li><li>Industria Alimentaria: Control de contaminantes.</li></ul></div>
+            </div>
+        </div>
+        <div class="slide" id="slide-6">
+            <h2>Escala Remunerativa en el Mercado Laboral</h2>
+            <p style="font-size: 0.9rem; margin-bottom: 20px;">Roles especializados con alta demanda. Los montos son estimados y varían según institución y experiencia.</p>
+            <div class="salary-chart">
+                <div class="salary-bar-container"><span class="salary-label">Analista Toxicológico (Privado)</span><div class="salary-bar" style="width: 55%;">S/ 4,000 - S/ 5,500</div></div>
+                <div class="salary-bar-container"><span class="salary-label">Perito Químico (MINP/PNP - Inicio)</span><div class="salary-bar" style="width: 70%;">S/ 5,000 - S/ 7,000</div></div>
+                <div class="salary-bar-container"><span class="salary-label">Toxicólogo Ocupacional (Minería)</span><div class="salary-bar" style="width: 85%;">S/ 6,500 - S/ 9,000+</div></div>
+                <div class="salary-bar-container"><span class="salary-label">Perito Químico con Experiencia</span><div class="salary-bar" style="width: 100%;">S/ 8,000 - S/ 11,000+</div></div>
+            </div>
+        </div>
+        <div class="slide" id="slide-7">
+            <h2>Tu Línea de Carrera en Toxicología</h2>
+            <div class="career-path">
+                <div class="career-step"><h3>1. Analista de Laboratorio</h3><p>Inicias procesando muestras bajo supervisión, aprendiendo técnicas y protocolos.</p></div>
+                <div class="career-step"><h3>2. Perito Químico / Toxicólogo</h3><p>Con experiencia, firmas dictámenes y asumes responsabilidad por los análisis.</p></div>
+                <div class="career-step"><h3>3. Especialista / Coordinador</h3><p>Supervisas a otros peritos. Requiere maestría y/o certificaciones avanzadas.</p></div>
+                <div class="career-step"><h3>4. Jefe de Laboratorio</h3><p>Lideras el área, gestionando personal, presupuesto y asegurando la calidad.</p></div>
+            </div>
+        </div>
+        <div class="slide" id="slide-8">
+            <h2>Desafíos Actuales en la Toxicología</h2>
+             <div class="card-grid">
+                <div class="info-card"><div class="card-icon">🧪</div><h3>Nuevas Drogas Sintéticas (NPS)</h3><p>La constante aparición de nuevas sustancias requiere métodos analíticos innovadores y rápidos para su identificación.</p></div>
+                <div class="info-card"><div class="card-icon">🌍</div><h3>Contaminación Emergente</h3><p>Evaluar el riesgo de microplásticos, pesticidas modernos y otros contaminantes que afectan la salud pública y ambiental.</p></div>
+                <div class="info-card"><div class="card-icon">📈</div><h3>Validación y Acreditación</h3><p>Mantener los laboratorios acreditados bajo normas internacionales (ISO/IEC 17025) es un desafío constante y crucial.</p></div>
+            </div>
+        </div>
+        <div class="slide" id="slide-9">
+            <h2>Programas de Capacitación y Desarrollo</h2>
+             <div class="card-grid" style="grid-template-columns: 1fr 1fr;">
+                <div class="info-card"><h3>Formación Académica</h3><ul><li><strong>Segunda Especialidad:</strong> Toxicología y Química Legal.</li><li><strong>Maestrías:</strong> Ciencias Forenses, Toxicología, Salud Ocupacional.</li><li><strong>Doctorados:</strong> Para roles de investigación y docencia.</li></ul></div>
+                 <div class="info-card"><h3>Desarrollo Continuo</h3><ul><li><strong>Certificaciones:</strong> En instrumentación (ej. HPLC, GC-MS).</li><li><strong>Congresos y Seminarios:</strong> Nacionales e internacionales.</li><li><strong>Habilidades Blandas:</strong> Comunicación asertiva para juicios orales, liderazgo y trabajo en equipo.</li></ul></div>
+            </div>
+        </div>
+        <div class="slide" id="slide-10">
+            <h2>Consejos para Empezar en este Campo</h2>
+            <div class="card-grid">
+                <div class="info-card"><div class="card-icon">🔬</div><h3>Domina el Laboratorio</h3><p>Enfócate en tus cursos de química analítica e instrumental. La precisión y la técnica son tu carta de presentación.</p></div>
+                <div class="info-card"><div class="card-icon">🤝</div><h3>Busca Prácticas y Pasantías</h3><p>Intenta conseguir prácticas en laboratorios clínicos, de alimentos o, si es posible, en instituciones públicas. La experiencia es clave.</p></div>
+                <div class="info-card"><div class="card-icon">🌐</div><h3>Crea una Red de Contactos</h3><p>Asiste a charlas y congresos organizados por el Colegio Químico Farmacéutico. Conecta con profesionales del área en LinkedIn.</p></div>
+            </div>
+        </div>
+
+        <!-- **DIAPOSITIVA 11 ACTUALIZADA CON IMÁGENES ORIGINALES** -->
+        <div class="slide" id="slide-11">
+            <h2>La Toxicología en Acción: Del Laboratorio a la Pantalla</h2>
+            <div class="media-grid">
+                <div class="media-card">
+                    <img src="https://www.formulatv.com/images/series/0000/25-f1.webp" alt="CSI: Miami">
+                    <div class="media-card-content">
+                        <h3>CSI: Miami</h3>
+                        <p>El equipo forense es clave para resolver crímenes, usando la toxicología para analizar venenos, drogas y otras sustancias encontradas en la escena.</p>
+                        <a href="https://youtu.be/mR3jnW2kcUs?si=Lc2_QA8IMSGg3XD2" target="_blank">Ver Escena (YouTube)</a>
+                    </div>
+                </div>
+                <div class="media-card">
+                    <img src="https://www.infobae.com/resizer/v2/K7OE7AFYONBJROOWOQYYPN7724.jpg?auth=0284a2146d373a7d5ac3d69e022800102514f5a0530aa02266e4a04aeaa3f561&smart=true&width=992&height=558&quality=85" alt="Dr. House">
+                    <div class="media-card-content">
+                        <h3>Dr. House</h3>
+                        <p>En innumerables episodios, el diagnóstico final depende de un análisis toxicológico para detectar metales pesados, toxinas raras o sobredosis ocultas.</p>
+                        <a href="https://youtu.be/2h-heRVpfk4?si=zUwx1DkHaDwLvpHd" target="_blank">Ver Escena (YouTube)</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Diapositiva 12 (Final) -->
+        <div class="slide" id="slide-12">
+            <h2 style="font-size: 1.5rem; color: var(--color-texto);">Reflexión Final</h2>
+            <p style="font-size: 2.2rem; font-style: italic; font-weight: 600; color: var(--color-secundario); max-width: 700px;">"Toda sustancia es un veneno; es la dosis la que la diferencia de un remedio."</p>
+            <h3 style="color: var(--color-principal);">- Paracelso (Adaptado)</h3>
+        </div>
+
+        <!-- Elementos finales -->
+        <div class="slide-footer">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/0/0d/Autonoma_logov2.png" alt="Logo Universidad Autónoma del Perú">
+        </div>
+        <div class="navigation-controls">
+            <button id="prevBtn" class="nav-btn">Anterior</button>
+            <button id="nextBtn" class="nav-btn">Siguiente</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const slides = document.querySelectorAll('.slide');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            let currentSlide = 0;
+
+            function showSlide(n) {
+                slides.forEach(slide => slide.classList.remove('active'));
+                slides[n].classList.add('active');
+                prevBtn.disabled = (n === 0);
+                nextBtn.disabled = (n === slides.length - 1);
+            }
+
+            nextBtn.addEventListener('click', () => {
+                if (currentSlide < slides.length - 1) {
+                    currentSlide++;
+                    showSlide(currentSlide);
+                }
+            });
+
+            prevBtn.addEventListener('click', () => {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    showSlide(currentSlide);
+                }
+            });
+            
+            showSlide(currentSlide);
+        });
+    </script>
+</body>
+</html>
