@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Autoevaluación - Rol del Químico Farmacéutico: Análisis Clínicos, Bromatología y Radiofármacos</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    /* Estilos mantienen su forma original... */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 20px;
+      background-color: #fffaf0;
+    }
+    .institutional-header {
+      background-color: #FF8C00;
+      color: white;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+    h1.section-title, #customTitleInput {
+      text-align: center;
+      color: #FF8C00;
+      margin-bottom: 20px;
+    }
+    #customTitleInput {
+      display: block;
+      margin: 0 auto 20px;
+      padding: 10px;
+      width: 80%;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+      background-color: #fff0e6;
+    }
+    .question {
+      background: #ffffff;
+      padding: 20px;
+      margin-bottom: 15px;
+      border-radius: 10px;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    }
+    h2.question-title {
+      color: #8B4513;
+      font-size: 18px;
+      border-bottom: 2px solid #FF8C00;
+      padding-bottom: 5px;
+      margin-bottom: 10px;
+    }
+    label {
+      display: block;
+      margin: 5px 0;
+      cursor: pointer;
+    }
+    select, input[type="file"] {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background: #8B4513;
+      color: white;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      display: inline-block;
+      margin: 15px 10px;
+    }
+    button:hover {
+      background: #A0522D;
+    }
+    .mcq { background-color: #fff0e6; }
+    .tf { background-color: #FFEBCD; }
+    .fill { background-color: #FAEBD7; }
+    .multi { background-color: #F5DEB3; }
+    .drag { background-color: #F5F5DC; }
+    .feedback {
+      display: none;
+      margin-top: 5px;
+      font-weight: bold;
+      color: #8B4513;
+    }
+    #progress-container {
+      width: 100%;
+      background-color: #FFE4C4;
+      border-radius: 8px;
+      margin: 20px 0;
+    }
+    #progress-bar {
+      width: 0%;
+      height: 20px;
+      background-color: #FF8C00;
+      border-radius: 8px;
+      text-align: center;
+      color: white;
+      transition: width 0.3s ease-in-out;
+    }
+    #result {
+      text-align: center;
+      font-size: 20px;
+      margin-top: 20px;
+      color: #FF8C00;
+      white-space: pre-line;
+    }
+    #chartContainer {
+      margin-top: 30px;
+      display: none;
+    }
+    .drag-container {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      min-height: 50px;
+      border: 1px dashed #FF8C00;
+      padding: 10px;
+      border-radius: 5px;
+      background: #FFF8DC; /* Light background for contrast */
+    }
+    .draggable {
+      padding: 8px;
+      background: white;
+      color: #8B4513; /* Darker text */
+      border-radius: 4px;
+      cursor: grab;
+      border: 1px solid #FF8C00;
+      text-align: center;
+    }
+    .draggable.dragging {
+      background: #FFA500;
+      color: white;
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+  <!-- Cabecera -->
+  <div class="institutional-header">
+    <h1>Universidad Autónoma del Perú</h1>
+    <h2>Facultad de Ciencias de la Salud</h2>
+    <h3>Escuela de Farmacia y Bioquímica</h3>
+  </div>
+  <!-- Título personalizable -->
+  <input id="customTitleInput" type="text" value="Autoevaluación - Rol del Químico Farmacéutico: Análisis Clínicos, Bromatología y Radiofármacos" oninput="document.getElementById('dynamicTitle').textContent = this.value" />
+  <h1 id="dynamicTitle" class="section-title">Autoevaluación - Rol del Químico Farmacéutico: Análisis Clínicos, Bromatología y Radiofármacos</h1>
+  <!-- Temporizador -->
+  <div id="timer" style="text-align: center; font-size: 18px; color: #8B4513; margin-bottom: 20px;">
+    Tiempo restante: <span id="time">10:00</span>
+  </div>
+  <!-- Barra de progreso -->
+  <div id="progress-container">
+    <div id="progress-bar">0%</div>
+  </div>
+  <!-- Contador de intentos -->
+  <div id="attempts" style="text-align: center; font-size: 16px; color: #8B4513;">
+    Intentos: <span id="attemptCount">0</span>
+  </div>
+  <!-- Formulario de preguntas -->
+  <form id="quizForm"></form>
+  <!-- Botones -->
+  <button type="button" onclick="calculateScore()">Calificar</button>
+  <button type="button" id="retryButton" onclick="resetQuiz()" style="display:none">Intentar de nuevo</button>
+  <!-- Resultados -->
+  <div id="result"></div>
+  <!-- Gráfico -->
+  <div id="chartContainer">
+    <canvas id="performanceChart" width="400" height="300"></canvas>
+  </div>
+  <script>
+    let quizQuestions = [
+      // MCQ Questions (8 preguntas)
+      { id: 1, type: 'mcq', text: 'Un Químico Farmacéutico se especializa en el desarrollo de nuevos biomarcadores para la detección temprana de enfermedades. ¿Cuál de las siguientes áreas de desempeño (o sus funciones asociadas) sería la más directamente beneficiada por esta línea de investigación avanzada?', options: ['Bromatología y Control de Alimentos', 'Radiofarmacia, específicamente en terapia oncológica', 'Análisis Clínicos y Bioquímicos, en apoyo al diagnóstico', 'Dirección Técnica de un laboratorio de toxicología ambiental'], answer: 'c' },
+      { id: 2, type: 'mcq', text: 'La fiabilidad de un diagnóstico por imagen que utiliza radiofármacos depende críticamente del control de calidad. ¿Qué función clave dentro del laboratorio asegura la máxima exactitud y seguridad en la preparación y dispensación de estos compuestos, interconectando principios de la farmacotecnia con la medicina nuclear?', options: ['Investigación y Desarrollo de nuevas fuentes radiactivas', 'Control y Aseguramiento de la Calidad en la producción de radiofármacos', 'Gestión administrativa de insumos de laboratorio', 'Negociación con proveedores de equipos de imagen'], answer: 'b' },
+      { id: 3, type: 'mcq', text: 'La detección de microplásticos en alimentos es un desafío emergente que requiere metodologías analíticas sofisticadas. Un Químico Farmacéutico, al abordar este problema, integra conocimientos de:', options: ['Química Legal y Forense, exclusivamente', 'Análisis Clínicos y Bioquímicos, con énfasis en la fisiología humana', 'Bromatología y Control de Alimentos, aplicando técnicas de investigación y desarrollo', 'Radiofarmacia, para el rastreo de contaminantes'], answer: 'c' },
+      { id: 4, type: 'mcq', text: 'Un Químico Farmacéutico asume la Dirección Técnica de un laboratorio que procesa muestras biológicas y también realiza análisis de productos alimenticios. ¿Qué característica transversal de esta posición enfatiza la responsabilidad legal y administrativa sobre la calidad de ambos tipos de resultados?', options: ['La capacidad de negociar tarifas con los clientes', 'La gestión de recursos humanos y el cumplimiento normativo', 'La habilidad para diseñar campañas de marketing', 'La experiencia en mantenimiento de equipos de oficina'], answer: 'b' },
+      { id: 5, type: 'mcq', text: 'La carrera de un Químico Farmacéutico puede proyectarse desde Analista hasta Jefe de Laboratorio. ¿Qué nivel de responsabilidad, marcado por un aumento salarial significativo, implica una transición hacia la validación de métodos y la resolución de problemas técnicos complejos en cualquiera de las áreas de desempeño?', options: ['Analista de Laboratorio (inicio de carrera)', 'Analista Senior / Especialista', 'Coordinador / Supervisor de Calidad', 'Jefe de Laboratorio / Director Técnico'], answer: 'b' },
+      { id: 6, type: 'mcq', text: 'La inversión aproximada para una segunda especialidad en Laboratorio Clínico es considerable. Esta inversión se justifica por el rol del Químico Farmacéutico en:', options: ['Exclusivamente la formulación de medicamentos magistrales', 'El apoyo crítico al diagnóstico médico y seguimiento de tratamientos', 'La supervisión de plantas de producción de bebidas gaseosas', 'La gestión de redes de distribución de productos cosméticos'], answer: 'b' },
+      { id: 7, type: 'mcq', text: 'Un Químico Farmacéutico busca una oportunidad laboral en el sector público de Bromatología, específicamente en un ente regulador como DIGESA o SANIPES. ¿Qué tipo de requisito profesional, común en el sector público de salud en Perú, es indispensable para acceder a estas posiciones?', options: ['Una Maestría en Negocios Internacionales', 'La realización del Servicio Rural y Urbano Marginal de Salud (SERUMS)', 'Certificación en manejo de residuos radiactivos', 'Dominio avanzado de un tercer idioma extranjero'], answer: 'b' },
+      { id: 8, type: 'mcq', text: 'La constante aparición de Nuevas Drogas Sintéticas (NPS) es un desafío en toxicología que exige una rápida adaptación. ¿Qué programa de desarrollo profesional para Químicos Farmacéuticos es el más adecuado para abordar esta necesidad de métodos analíticos innovadores y rápidos en la identificación de sustancias?', options: ['Diplomados en Gestión de Calidad (HACCP)', 'Cursos de especialización en Protección Radiológica', 'Maestrías en Bioquímica o Ciencias Forenses', 'Seminarios sobre historia de la farmacología'], answer: 'c' },
+
+      // True/False Questions (5 preguntas)
+      { id: 9, type: 'tf', text: 'El Químico Farmacéutico que se desempeña en Bromatología es responsable únicamente de la detección de adulterantes, sin involucrarse en la garantía de la inocuidad o el cumplimiento normativo de los alimentos.', answer: 'false' },
+      { id: 10, type: 'tf', text: 'La Dirección Técnica de un laboratorio exige al Químico Farmacéutico una comprensión profunda de los sistemas de gestión de calidad (como ISO), aplicable tanto en un laboratorio de análisis clínicos como en una planta de producción de radiofármacos.', answer: 'true' },
+      { id: 11, type: 'tf', text: 'El concepto de "Línea de Carrera" para el Químico Farmacéutico implica que la progresión salarial es inversamente proporcional al nivel de responsabilidad y especialización.', answer: 'false' },
+      { id: 12, type: 'tf', text: 'La preparación de radiofármacos para diagnóstico por imágenes como PET o SPECT es una actividad que el Químico Farmacéutico realiza sin necesidad de conocimientos en física médica, dado que su rol se limita a la manipulación química.', answer: 'false' },
+      { id: 13, type: 'tf', text: 'La validación y acreditación de métodos analíticos bajo normas internacionales como ISO/IEC 17025 es un desafío transversal que afecta la fiabilidad de los resultados en Análisis Clínicos, Bromatología y Radiofarmacia.', answer: 'true' },
+
+      // Fill-in-the-blank Questions (6 preguntas)
+      { id: 14, type: 'fill', text: 'Un Químico Farmacéutico encargado de la ______ en un laboratorio de análisis clínicos tiene la responsabilidad de ejecutar los análisis y manejar los equipos bajo supervisión directa.', options: ['dirección', 'investigación', 'analista', 'coordinación'], answer: 'c' },
+      { id: 15, type: 'fill', text: 'Para asegurar la calidad e inocuidad en la industria alimentaria, el Químico Farmacéutico debe estar capacitado en la implementación de sistemas de gestión de calidad como ______ o ISO 22000.', options: ['BPM', 'BPL', 'HACCP', 'GLP'], answer: 'c' },
+      { id: 16, type: 'fill', text: 'La dispensación de compuestos radiactivos para tratamientos oncológicos es una función crítica en el área de ______ que requiere conocimientos avanzados en radiofarmacología y protección radiológica.', options: ['toxicología', 'bromatología', 'radiofarmacia', 'farmacotecnia'], answer: 'c' },
+      { id: 17, type: 'fill', text: 'Un Químico Farmacéutico que alcanza el rol de ______ /Supervisor de Calidad asume la gestión de un área específica y es responsable de asegurar la calidad y el cumplimiento normativo de los procesos.', options: ['analista', 'coordinador', 'director', 'especialista'], answer: 'b' },
+      { id: 18, type: 'fill', text: 'Para el avance profesional en Radiofarmacia, la ______ en Protección Radiológica es un curso de alta especialización que aborda la seguridad en el manejo de materiales radiactivos.', options: ['especialidad', 'certificación', 'maestría', 'diplomado'], answer: 'b' },
+      { id: 19, type: 'fill', text: 'El rango salarial para un Analista Toxicológico en el sector privado comúnmente inicia en S/ ______ a más.', options: ['2500', '3000', '4000', '5000'], answer: 'c' },
+
+      // Multiple Answer Questions (7 preguntas)
+      { id: 20, 'type': 'multi', text: '¿Cuáles de las siguientes son áreas de desempeño clave para el Químico Farmacéutico, que requieren un enfoque riguroso en el control y aseguramiento de la calidad? (Selecciona 3)', options: ['Análisis Clínicos y Bioquímicos', 'Bromatología y Control de Alimentos', 'Radiofarmacia', 'Marketing digital farmacéutico', 'Diseño de empaques de productos'], answer: 'a,b,c' },
+      { id: 21, 'type': 'multi', text: 'Dentro de las funciones clave en el laboratorio, ¿cuáles de estas responsabilidades son transversales a las áreas de Análisis Clínicos, Bromatología y Radiofarmacia? (Selecciona 3)', options: ['Control y Aseguramiento de la Calidad', 'Producción y Procesamiento de muestras o sustancias', 'Investigación y Desarrollo de nuevas técnicas', 'Negociación de contratos de distribución', 'Gestión de flotas de transporte'], answer: 'a,b,c' },
+      { id: 22, 'type': 'multi', text: '¿Qué organismos o entidades públicas en Lima Metropolitana ofrecen oportunidades laborales para Químicos Farmacéuticos en el campo de la Bromatología? (Selecciona 2)', options: ['DIGESA', 'EsSalud (Rebagliati)', 'SANIPES', 'Laboratorios ROE', 'Clínicas privadas'], answer: 'a,c' },
+      { id: 23, 'type': 'multi', text: 'Al considerar la progresión en la línea de carrera del Químico Farmacéutico, ¿qué roles implican un nivel significativo de liderazgo y responsabilidad estratégica sobre la operación del laboratorio? (Selecciona 2)', options: ['Analista de Laboratorio', 'Analista Senior / Especialista', 'Coordinador / Supervisor de Calidad', 'Jefe de Laboratorio / Director Técnico'], answer: 'c,d' },
+      { id: 24, 'type': 'multi', text: 'Un Químico Farmacéutico que busca fortalecer su perfil para roles de alta especialización en el sector público o privado, especialmente en investigación y docencia, debería considerar estudiar: (Selecciona 2)', options: ['Maestrías en Bioquímica o Inmunología', 'Doctorados en áreas afines', 'Cursos básicos de computación', 'Talleres de oratoria para principiantes'], answer: 'a,b' },
+      { id: 25, 'type': 'multi', text: '¿Cuáles de las siguientes habilidades blandas son particularmente importantes para un Químico Farmacéutico en roles de Dirección Técnica o Coordinación, que van más allá del conocimiento técnico puro? (Selecciona 2)', options: ['Comunicación asertiva para juicios orales', 'Liderazgo y trabajo en equipo', 'Programación avanzada', 'Reparación de equipos de laboratorio'], answer: 'a,b' },
+      { id: 26, 'type': 'multi', text: 'La constante aparición de nuevas sustancias sintéticas y la contaminación emergente (ej. microplásticos) representan desafíos importantes en el campo de la Toxicología y Bromatología. ¿Qué tipo de especialización o desarrollo profesional es clave para que el Químico Farmacéutico aborde eficazmente estos desafíos? (Selecciona 2)', options: ['Diplomados en sistemas de gestión de calidad alimentaria (HACCP)', 'Maestrías en Tecnología de Alimentos', 'Cursos de especialización en Protección Radiológica', 'Maestrías en Física Médica'], answer: 'a,b' },
+
+      // Drag and Drop Questions (4 preguntas)
+      { id: 27, type: 'drag', text: 'Ordena la progresión típica de una línea de carrera para un Químico Farmacéutico en el laboratorio, desde el nivel de entrada hasta el de máxima responsabilidad:', options: ['Analista de Laboratorio', 'Analista Senior / Especialista', 'Coordinador / Supervisor de Calidad', 'Jefe de Laboratorio / Director Técnico'], answer: 'a,b,c,d' },
+      { id: 28, type: 'drag', text: 'Ordena las áreas de desempeño del Químico Farmacéutico según su relevancia en el apoyo directo al diagnóstico médico, la seguridad alimentaria y la medicina nuclear, respectivamente:', options: ['Análisis Clínicos y Bioquímicos', 'Bromatología y Control de Alimentos', 'Radiofarmacia'], answer: 'a,b,c' },
+      { id: 29, type: 'drag', text: 'Ordena los tipos de capacitación y desarrollo profesional para el Químico Farmacéutico, desde la formación académica de postgrado hasta el desarrollo continuo de habilidades prácticas y de gestión:', options: ['Segunda Especialidad', 'Maestrías y Doctorados', 'Certificaciones en instrumentación', 'Habilidades Blandas (comunicación, liderazgo)'], answer: 'a,b,c,d' },
+      { id: 30, type: 'drag', text: 'Ordena los roles de laboratorio por su nivel de involucramiento creciente en la gestión integral de la calidad y la toma de decisiones estratégicas:', options: ['Producción y Procesamiento', 'Control y Aseguramiento de la Calidad', 'Dirección Técnica / Jefatura'], answer: 'a,b,c' }
+    ];
+
+    let attemptCount = 0;
+    let timeLeft = 600; // 10 minutes timer (600 seconds)
+    let timerInterval;
+    const timerDisplay = document.getElementById('time');
+    let attemptsData = [];
+    let chartInstance = null;
+
+    // Function to initialize drag and drop
+    function initDraggableElements() {
+        const draggables = document.querySelectorAll('.draggable');
+        const containers = document.querySelectorAll('.drag-container');
+
+        draggables.forEach(draggable => {
+            draggable.addEventListener('dragstart', () => {
+                draggable.classList.add('dragging');
+            });
+
+            draggable.addEventListener('dragend', () => {
+                draggable.classList.remove('dragging');
+                updateProgress(); // Update progress after dropping
+            });
+        });
+
+        containers.forEach(container => {
+            container.addEventListener('dragover', e => {
+                e.preventDefault();
+                const afterElement = getDragAfterElement(container, e.clientY);
+                const dragging = document.querySelector('.dragging');
+                if (!dragging || !container.contains(dragging.parentElement)) return; // Ensure dragging element belongs to a container
+
+                if (afterElement == null) {
+                    container.appendChild(dragging);
+                } else {
+                    container.insertBefore(dragging, afterElement);
+                }
+            });
+        });
+    }
+
+
+    function getDragAfterElement(container, y) {
+      const draggableElements = [...container.querySelectorAll('.draggable:not(.dragging)')];
+
+      return draggableElements.reduce((closest, child) => {
+        const box = child.getBoundingClientRect();
+        const offset = y - box.top - box.height / 2;
+        if (offset < 0 && offset > closest.offset) {
+          return { offset: offset, element: child };
+        } else {
+          return closest;
+        }
+      }, { offset: Number.NEGATIVE_INFINITY }).element;
+    }
+
+    function renderQuestions() {
+      const form = document.getElementById('quizForm');
+      form.innerHTML = ''; // Clear previous questions
+      quizQuestions.forEach(q => {
+        const div = document.createElement('div');
+        div.className = `question ${q.type}`;
+        div.id = `question-${q.id}`; // Add ID for easier selection
+
+        const h2 = document.createElement('h2');
+        h2.className = 'question-title';
+        h2.innerText = `${q.id}. ${q.text}`;
+        div.appendChild(h2);
+
+        if (q.type === 'mcq' || q.type === 'tf') {
+          const options = q.type === 'tf' ? ['Verdadero', 'Falso'] : q.options;
+          options.forEach((option, index) => {
+            const label = document.createElement('label');
+            const value = q.type === 'tf' ? (index === 0 ? 'true' : 'false') : String.fromCharCode(97 + index);
+            const sanitizedOption = document.createElement('span');
+            sanitizedOption.textContent = ` ${option}`;
+            label.innerHTML = `<input type="radio" name="q${q.id}" value="${value}">`;
+            label.appendChild(sanitizedOption);
+            div.appendChild(label);
+          });
+        } else if (q.type === 'multi') {
+          q.options.forEach((option, index) => {
+            const label = document.createElement('label');
+            const value = String.fromCharCode(97 + index);
+            const sanitizedOption = document.createElement('span');
+            sanitizedOption.textContent = ` ${option}`;
+            label.innerHTML = `<input type="checkbox" name="q${q.id}" value="${value}">`;
+            label.appendChild(sanitizedOption);
+            div.appendChild(label);
+          });
+        } else if (q.type === 'fill') {
+          const select = document.createElement('select');
+          select.name = `q${q.id}`;
+          const defaultOpt = document.createElement('option');
+          defaultOpt.value = '';
+          defaultOpt.text = 'Seleccione una opción';
+          select.appendChild(defaultOpt);
+          q.options.forEach((optionText, index) => { 
+            const opt = document.createElement('option');
+            opt.value = String.fromCharCode(97 + index); 
+            opt.text = optionText; 
+            select.appendChild(opt);
+          });
+          div.appendChild(select);
+        } else if (q.type === 'drag') {
+            const container = document.createElement('div');
+            container.className = 'drag-container';
+            container.setAttribute('data-question-id', q.id); // Link container to question ID
+
+            // Shuffle options for initial display
+            const shuffledOptions = [...q.options].map((option, index) => ({ option, index }))
+                                                  .sort(() => Math.random() - 0.5);
+
+            shuffledOptions.forEach(item => {
+                const elem = document.createElement('div');
+                elem.className = 'draggable';
+                elem.setAttribute('draggable', 'true');
+                // Use original index for value mapping (a, b, c)
+                elem.setAttribute('data-value', String.fromCharCode(97 + item.index));
+                elem.textContent = item.option; // Display option text
+                container.appendChild(elem);
+            });
+            div.appendChild(container);
+        }
+
+        const fb = document.createElement('div');
+        fb.className = 'feedback';
+        div.appendChild(fb);
+        form.appendChild(div);
+      });
+
+      // Add event listeners after rendering
+      document.querySelectorAll('input[type="radio"], input[type="checkbox"], select')
+        .forEach(input => input.addEventListener('change', updateProgress));
+
+      updateProgress(); // Initial progress calculation
+      initDraggableElements(); // Initialize drag and drop functionality
+    }
+
+    function calculateScore() {
+      if (!quizQuestions.length) {
+        alert("No hay preguntas cargadas.");
+        return;
+      }
+      attemptCount++;
+      document.getElementById('attemptCount').textContent = attemptCount;
+      document.getElementById('retryButton').style.display = 'inline-block';
+      let score = 0;
+      let feedbackText = ''; 
+
+      quizQuestions.forEach(q => {
+        const questionDiv = document.getElementById(`question-${q.id}`); 
+        if (!questionDiv) return; 
+
+        const fb = questionDiv.querySelector('.feedback');
+        fb.style.display = 'block'; 
+        let isCorrect = false;
+
+        try { 
+          if (q.type === 'mcq' || q.type === 'tf') {
+            const selected = questionDiv.querySelector(`input[name="q${q.id}"]:checked`);
+            isCorrect = selected && selected.value === q.answer;
+          } else if (q.type === 'fill') {
+            const select = questionDiv.querySelector(`select[name="q${q.id}"]`);
+            isCorrect = select && select.value === q.answer;
+          } else if (q.type === 'multi') {
+            const selectedNodes = questionDiv.querySelectorAll(`input[name="q${q.id}"]:checked`);
+            const selectedValues = [...selectedNodes].map(i => i.value).sort().join(',');
+            const correctAnswer = q.answer.split(',').sort().join(',');
+            isCorrect = selectedValues === correctAnswer;
+          } else if (q.type === 'drag') {
+            const container = questionDiv.querySelector('.drag-container');
+            const items = container.querySelectorAll('.draggable');
+            const currentOrder = [...items].map(item => item.dataset.value).join(',');
+            const correctOrder = q.answer; 
+            isCorrect = currentOrder === correctOrder;
+          }
+        } catch (error) {
+          console.error(`Error processing question ${q.id}:`, error);
+          fb.textContent = `⚠️ Error al procesar`;
+        }
+
+        if (isCorrect) {
+          score++;
+          fb.textContent = '✔️ Correcto';
+          fb.style.color = 'green';
+        } else {
+          fb.textContent = '❌ Incorrecto';
+           fb.style.color = 'red';
+        }
+        feedbackText += `${q.id}. ${fb.textContent}\n`; 
+
+        // Disable inputs for the current question
+        const inputs = questionDiv.querySelectorAll('input, select, .draggable');
+        inputs.forEach(input => {
+            input.disabled = true;
+            input.style.cursor = 'not-allowed';
+            if (input.classList.contains('draggable')) {
+                input.setAttribute('draggable', 'false');
+            }
+        });
+      });
+
+      const percentage = (score / quizQuestions.length) * 100;
+      let level = '';
+      if (percentage >= 86) level = 'Dominio avanzado';
+      else if (percentage >= 71) level = 'Competente';
+      else if (percentage >= 56) level = 'En desarrollo';
+      else if (percentage >= 41) level = 'Básico';
+      else level = 'No competente';
+
+      let timeUsed = 600 - timeLeft; 
+      let minutesUsed = Math.floor(timeUsed / 60);
+      let secondsUsed = timeUsed % 60;
+      let formattedTime = `${minutesUsed}:${secondsUsed < 10 ? '0' : ''}${secondsUsed}`;
+
+      document.getElementById('result').innerText =
+        `Intento #: ${attemptCount}\n` +
+        `Puntuación: ${score}/${quizQuestions.length} (${Math.round(percentage)}%)\n` +
+        `Nivel: ${level}\n` +
+        `Tiempo utilizado: ${formattedTime}\n\n` +
+        `--- Retroalimentación ---\n` +
+        feedbackText; 
+
+      clearInterval(timerInterval); 
+
+      attemptsData.push({
+        attempt: attemptCount,
+        score: Math.round(percentage),
+        level
+      });
+
+      document.getElementById('chartContainer').style.display = 'block';
+      updateChart();
+    }
+
+
+    function updateTimer() {
+      const minutes = Math.floor(timeLeft / 60);
+      const seconds = timeLeft % 60;
+      timerDisplay.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+      if (timeLeft <= 0) {
+        clearInterval(timerInterval);
+        alert('¡Tiempo terminado! Se calificará automáticamente.');
+        calculateScore(); // Auto-submit
+      }
+      timeLeft--;
+    }
+
+    function resetQuiz() {
+        if (!confirm("¿Está seguro que desea reiniciar el cuestionario? Esto contará como un nuevo intento.")) return;
+
+        clearInterval(timerInterval);
+        timeLeft = 600; 
+        updateTimer(); 
+        timerInterval = setInterval(updateTimer, 1000); 
+
+        document.getElementById('result').innerText = '';
+        document.getElementById('retryButton').style.display = 'none'; 
+
+        document.getElementById('progress-bar').style.width = '0%';
+        document.getElementById('progress-bar').textContent = '0%';
+
+        renderQuestions();
+    }
+
+
+    function updateProgress() {
+        const total = quizQuestions.length;
+        if (!total) return;
+        let answeredCount = 0;
+
+        quizQuestions.forEach(q => {
+            const questionDiv = document.getElementById(`question-${q.id}`);
+            if (!questionDiv) return;
+
+            let isAnswered = false;
+            if (q.type === 'mcq' || q.type === 'tf') {
+                if (questionDiv.querySelector(`input[name="q${q.id}"]:checked`)) {
+                    isAnswered = true;
+                }
+            } else if (q.type === 'fill') {
+                const select = questionDiv.querySelector(`select[name="q${q.id}"]`);
+                if (select && select.value !== '') { 
+                    isAnswered = true;
+                }
+            } else if (q.type === 'multi') {
+                if (questionDiv.querySelector(`input[name="q${q.id}"]:checked`)) {
+                    isAnswered = true;
+                }
+            } else if (q.type === 'drag') {
+                 const container = questionDiv.querySelector('.drag-container');
+                 if (container && container.querySelectorAll('.draggable').length > 0) {
+                    isAnswered = true; 
+                 }
+            }
+
+            if (isAnswered) {
+                answeredCount++;
+            }
+        });
+
+        const percent = Math.min(Math.round((answeredCount / total) * 100), 100);
+        const progressBar = document.getElementById('progress-bar');
+        progressBar.style.width = percent + '%';
+        progressBar.textContent = percent + '%';
+    }
+
+
+    function updateChart() {
+      const ctx = document.getElementById('performanceChart').getContext('2d');
+      if (chartInstance) {
+        chartInstance.destroy(); 
+      }
+      chartInstance = new Chart(ctx, {
+        type: 'bar', 
+        data: {
+          labels: attemptsData.map(d => `Intento ${d.attempt}`), 
+          datasets: [{
+            label: 'Puntuación (%)', 
+            data: attemptsData.map(d => d.score), 
+            backgroundColor: '#FF8C00', 
+            borderColor: '#A0522D', 
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true, 
+          maintainAspectRatio: false, 
+          scales: {
+            y: { 
+              beginAtZero: true, 
+              max: 100, 
+              title: { display: true, text: 'Porcentaje (%)' } 
+            },
+            x: { 
+              title: { display: true, text: 'Intentos' } 
+            }
+          },
+          plugins: {
+            tooltip: { 
+              callbacks: {
+                label: function(context) {
+                  let label = context.dataset.label || '';
+                  if (label) {
+                    label += ': ';
+                  }
+                  if (context.parsed.y !== null) {
+                    label += `${context.parsed.y}%`;
+                    const attemptData = attemptsData[context.dataIndex];
+                    if (attemptData && attemptData.level) {
+                        label += ` (${attemptData.level})`;
+                    }
+                  }
+                  return label;
+                }
+              }
+            },
+            legend: {
+                display: true, 
+                position: 'top',
+            }
+          }
+        }
+      });
+    }
+
+    // Initialize quiz on page load
+    window.addEventListener('DOMContentLoaded', () => {
+      renderQuestions(); 
+      updateTimer(); 
+      timerInterval = setInterval(updateTimer, 1000); 
+    });
+  </script>
+</body>
+</html>

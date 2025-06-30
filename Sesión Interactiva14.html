@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presentación: Análisis Clínicos, Bromatología y Radiofármacos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-principal: #F39C12; --color-secundario: #2c3e50; --color-texto: #34495e;
+            --color-fondo: #f4f6f9; --color-blanco: #ffffff;
+        }
+        body, html {
+            margin: 0; padding: 0; font-family: 'Poppins', sans-serif; background-color: var(--color-fondo);
+        }
+        .presentation-container {
+            width: 100vw; height: 100vh; background: var(--color-blanco); position: relative; overflow: hidden;
+        }
+        .slide {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; padding: 40px 60px;
+            box-sizing: border-box; display: flex; flex-direction: column; justify-content: center;
+            align-items: center; text-align: center; opacity: 0; visibility: hidden;
+            transition: opacity 0.6s ease-in-out; background-size: cover; background-position: center;
+        }
+        .slide.active { opacity: 1; visibility: visible; }
+        .slide h1 { font-size: 2.8rem; color: var(--color-principal); margin: 0 0 10px 0; font-weight: 700; }
+        .slide h2 { font-size: 2rem; color: var(--color-secundario); margin: 0 0 25px 0; font-weight: 600; }
+        .slide p { font-size: 1.1rem; color: var(--color-texto); line-height: 1.6; max-width: 800px; }
+        
+        #slide-1 { background-color: var(--color-secundario); color: var(--color-blanco); }
+        #slide-1 h1, #slide-1 h2 { color: var(--color-blanco); }
+        #slide-1 h1 { color: var(--color-principal); }
+
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; width: 100%; margin-top: 20px; text-align: left; }
+        .info-card { background-color: #f8f9fa; border-left: 5px solid var(--color-principal); padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); display: flex; flex-direction: column; }
+        .info-card h3 { font-size: 1.2rem; margin-top: 0; color: var(--color-secundario); }
+        .info-card p, .info-card li { font-size: 0.9rem; line-height: 1.5; color: var(--color-texto);}
+        .info-card .card-icon { font-size: 2.5rem; color: var(--color-principal); margin-bottom: 10px; }
+        .info-card ul { list-style: none; padding: 0; margin-top: auto; }
+        .info-card li { padding: 5px 0; }
+        .info-card li::before { content: '✓'; color: var(--color-principal); font-weight: bold; display: inline-block; width: 1em; margin-left: -1.2em; }
+        
+        .career-path { display: flex; justify-content: space-between; width: 100%; margin-top: 20px; gap: 15px; }
+        .career-step { flex: 1; padding: 15px; border-top: 5px solid var(--color-principal); background-color: #fafafa; border-radius: 5px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .career-step h3 { font-size: 1.1rem; color: var(--color-secundario); margin-top: 0; }
+        .career-step p { font-size: 0.85rem; line-height: 1.4; margin-bottom: 10px; }
+        .career-step .salary-tag { display: inline-block; background-color: var(--color-principal); color: var(--color-blanco); padding: 5px 10px; border-radius: 5px; font-weight: 600; font-size: 0.9rem; }
+        
+        .video-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; width: 100%; max-width: 900px; }
+        .video-card { background-color: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.1); text-align: center; padding: 20px; display: flex; flex-direction: column; align-items: center; justify-content: space-between; }
+        .video-card img { width: 100%; height: 120px; object-fit: cover; border-radius: 8px; margin-bottom: 15px; }
+        .video-card h3 { font-size: 1.1rem; margin: 0 0 15px 0; color: var(--color-secundario); }
+        .video-card a { display: inline-block; text-decoration: none; background-color: #e74c3c; color: white; padding: 10px 20px; border-radius: 5px; font-weight: 600; font-size: 0.9rem; transition: background-color 0.3s; }
+        .video-card a:hover { background-color: #c0392b; }
+
+        .investment-tag { font-weight: bold; color: var(--color-secundario); background-color: #f1c40f40; padding: 2px 8px; border-radius: 4px; font-size: 0.85rem; }
+
+        .slide-footer { position: absolute; bottom: 25px; right: 40px; z-index: 5;}
+        .slide-footer img { height: 40px; }
+        .navigation-controls { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); display: flex; gap: 15px; z-index: 10; }
+        .nav-btn { padding: 10px 25px; border: none; background-color: var(--color-secundario); color: var(--color-blanco); border-radius: 50px; cursor: pointer; font-size: 1rem; transition: background-color 0.3s, transform 0.2s; }
+        .nav-btn:hover { background-color: var(--color-principal); transform: translateY(-2px); }
+        .nav-btn:disabled { background-color: #ccc; cursor: not-allowed; transform: none; }
+        
+        @media (min-width: 769px) {
+             body, html { display: flex; justify-content: center; align-items: center; height: 100vh; }
+            .presentation-container {
+                width: 90vw; max-width: 1100px; height: 60vh; max-height: 620px; aspect-ratio: 16 / 9;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-radius: 10px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .slide { padding: 60px 20px; overflow-y: auto; justify-content: flex-start; }
+            .slide h1 { font-size: 1.8rem; }
+            .slide h2 { font-size: 1.5rem; margin-bottom: 20px; }
+            .slide p { font-size: 0.95rem; }
+            .card-grid, .career-path, .video-grid { display: flex; flex-direction: column; gap: 15px; }
+            .navigation-controls { padding-bottom: 10px; }
+            .slide-footer { right: 20px; bottom: 80px; }
+            .slide-footer img { height: 30px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+
+        <!-- Diapositivas 1 a 6 sin cambios -->
+        <div class="slide active" id="slide-1" style="background-image: url('https://images.unsplash.com/photo-1581093450021-4a7360e9a6b5?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'); background-blend-mode: overlay; background-color: rgba(44, 62, 80, 0.7);">
+            <h1>DESARROLLO EN EL CAMPO LABORAL</h1>
+            <h2>Análisis Clínicos, Bromatología y Radiofármacos</h2>
+        </div>
+        <div class="slide" id="slide-2">
+            <h2>Un Vistazo a Nuestros Campos de Acción</h2>
+            <div class="video-grid">
+                <div class="video-card"><img src="https://img.youtube.com/vi/KJY-Im7Oqjs/hqdefault.jpg" alt="Análisis Clínicos"><h3>Análisis Clínicos</h3><a href="https://www.youtube.com/watch?v=KJY-Im7Oqjs" target="_blank">Ver Video</a></div>
+                <div class="video-card"><img src="https://img.youtube.com/vi/2mM66iApa9A/hqdefault.jpg" alt="Análisis Bromatológicos"><h3>Bromatología</h3><a href="https://youtu.be/2mM66iApa9A?si=q8aIlNpJRV_rrM-I" target="_blank">Ver Video</a></div>
+                <div class="video-card"><img src="https://img.youtube.com/vi/fiPPNk78UK4/hqdefault.jpg" alt="Radiofármacos"><h3>Radiofármacos</h3><a href="https://youtu.be/fiPPNk78UK4?si=u3el4m3J20v8x08L" target="_blank">Ver Video</a></div>
+            </div>
+        </div>
+        <div class="slide" id="slide-3">
+            <h2>Áreas de Desempeño del Químico Farmacéutico</h2>
+            <div class="card-grid">
+                <div class="info-card"><div class="card-icon">🩸</div><h3>Análisis Clínicos y Bioquímicos</h3><p>Procesas muestras biológicas para obtener información crucial que apoya el diagnóstico, pronóstico y seguimiento de enfermedades.</p></div>
+                <div class="info-card"><div class="card-icon">🍏</div><h3>Bromatología y Control de Alimentos</h3><p>Aseguras la inocuidad y calidad de los alimentos, analizando su composición, detectando contaminantes y garantizando el cumplimiento de normativas.</p></div>
+                <div class="info-card"><div class="card-icon">⚛️</div><h3>Radiofarmacia</h3><p>Preparas, controlas y dispensas compuestos radiactivos (radiofármacos) para procedimientos de diagnóstico por imágenes (PET, SPECT) y tratamientos oncológicos.</p></div>
+            </div>
+        </div>
+        <div class="slide" id="slide-4">
+            <h2>Funciones Clave dentro del Laboratorio</h2>
+            <div class="card-grid" style="grid-template-columns: 1fr 1fr;">
+                <div class="info-card"><h3>Control y Aseguramiento de la Calidad</h3><p>Implementas y supervisas sistemas de gestión de calidad (ISO), validas métodos analíticos y garantizas la fiabilidad de los resultados.</p></div>
+                <div class="info-card"><h3>Producción y Procesamiento</h3><p>Eres responsable de la correcta ejecución de los análisis, la preparación de radiofármacos o el control de procesos en la industria alimentaria.</p></div>
+                <div class="info-card"><h3>Investigación y Desarrollo (I+D)</h3><p>Desarrollas y optimizas nuevas técnicas analíticas para mejorar la precisión y eficiencia del diagnóstico o control.</p></div>
+                <div class="info-card"><h3>Dirección Técnica / Jefatura</h3><p>Asumes la responsabilidad legal y administrativa del laboratorio, gestionando recursos, personal y el cumplimiento de la normativa vigente.</p></div>
+            </div>
+        </div>
+        <div class="slide" id="slide-5">
+            <h2>Oportunidades Laborales en Lima Metropolitana</h2>
+            <div class="card-grid">
+                <div class="info-card"><div class="card-icon">🏥</div><h3>Análisis Clínicos</h3><ul><li><strong>Público:</strong> EsSalud (Rebagliati), INEN, Hospitales MINSA.</li><li><strong>Privado:</strong> Laboratorios ROE, Unilabs, Suiza Lab, Clínicas.</li></ul></div>
+                <div class="info-card"><div class="card-icon">🏭</div><h3>Bromatología</h3><ul><li><strong>Público:</strong> DIGESA, SANIPES.</li><li><strong>Privado:</strong> Gloria, Alicorp, Nestlé, SGS, Intertek.</li></ul></div>
+                <div class="info-card"><div class="card-icon">☢️</div><h3>Radiofarmacia</h3><ul><li><strong>Público:</strong> Instituto Peruano de Energía Nuclear (IPEN).</li><li><strong>Privado:</strong> Centros de medicina nuclear en clínicas.</li></ul></div>
+            </div>
+        </div>
+        <div class="slide" id="slide-6">
+            <h2>Línea de Carrera y Proyección Salarial</h2>
+            <div class="career-path">
+                <div class="career-step"><h3>1. Analista de Laboratorio</h3><p>Ejecutas análisis y manejas equipos bajo supervisión.</p><div class="salary-tag">S/ 2,800 - S/ 4,000</div></div>
+                <div class="career-step"><h3>2. Analista Senior / Especialista</h3><p>Validas métodos, resuelves problemas técnicos y capacitas.</p><div class="salary-tag">S/ 4,000 - S/ 6,000</div></div>
+                <div class="career-step"><h3>3. Coordinador / Supervisor de Calidad</h3><p>Gestionas un área, aseguras la calidad y cumples normativas.</p><div class="salary-tag">S/ 6,000 - S/ 8,500</div></div>
+                <div class="career-step"><h3>4. Jefe de Laboratorio / Director Técnico</h3><p>Lideras toda la operación, con responsabilidad legal y estratégica.</p><div class="salary-tag">S/ 9,000 +</div></div>
+            </div>
+        </div>
+        
+        <!-- **NUEVA DIAPOSITIVA 7** Capacitación -->
+        <div class="slide" id="slide-7">
+            <h2>Capacitación y Desarrollo Profesional</h2>
+            <div class="card-grid">
+                <div class="info-card">
+                    <h3>Análisis Clínicos</h3>
+                    <p><strong>Qué estudiar:</strong> Segunda Especialidad en Laboratorio Clínico, Maestrías en Bioquímica o Inmunología.<br>
+                       <strong>Dónde:</strong> UNMSM, UPCH.<br>
+                       <strong>Inversión (aprox.):</strong> <span class="investment-tag">S/ 15,000 - S/ 40,000</span>
+                    </p>
+                </div>
+                 <div class="info-card">
+                    <h3>Bromatología</h3>
+                    <p><strong>Qué estudiar:</strong> Diplomados en Sistemas de Gestión de Calidad (HACCP, ISO 22000), Maestrías en Tecnología de Alimentos.<br>
+                       <strong>Dónde:</strong> UNALM, UNMSM.<br>
+                       <strong>Inversión (aprox.):</strong> <span class="investment-tag">S/ 5,000 - S/ 30,000</span>
+                    </p>
+                </div>
+                 <div class="info-card">
+                    <h3>Radiofarmacia</h3>
+                    <p><strong>Qué estudiar:</strong> Cursos de especialización en Protección Radiológica, Maestría en Física Médica.<br>
+                       <strong>Dónde:</strong> IPEN, universidades con convenios internacionales.<br>
+                       <strong>Inversión (aprox.):</strong> <span class="investment-tag">Variable (alta especialización)</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide" id="slide-8">
+            <h2>Reflexión Final</h2>
+            <p>El Químico Farmacéutico en el laboratorio es el pilar invisible de la salud pública y la seguridad. Desde confirmar un diagnóstico hasta garantizar que un alimento es seguro o preparar la dosis que detectará un cáncer, tu trabajo es sinónimo de <strong>precisión, calidad y confianza</strong>.</p>
+        </div>
+
+        <!-- Elementos finales -->
+        <div class="slide-footer">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/0/0d/Autonoma_logov2.png" alt="Logo Universidad Autónoma del Perú">
+        </div>
+        <div class="navigation-controls">
+            <button id="prevBtn" class="nav-btn">Anterior</button>
+            <button id="nextBtn" class="nav-btn">Siguiente</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const slides = document.querySelectorAll('.slide');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            let currentSlide = 0;
+
+            function showSlide(n) {
+                slides.forEach(slide => slide.classList.remove('active'));
+                slides[n].classList.add('active');
+                prevBtn.disabled = (n === 0);
+                nextBtn.disabled = (n === slides.length - 1);
+            }
+
+            nextBtn.addEventListener('click', () => {
+                if (currentSlide < slides.length - 1) {
+                    currentSlide++;
+                    showSlide(currentSlide);
+                }
+            });
+
+            prevBtn.addEventListener('click', () => {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    showSlide(currentSlide);
+                }
+            });
+            
+            showSlide(currentSlide);
+        });
+    </script>
+</body>
+</html>
