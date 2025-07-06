@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presentación: Investigación y Docencia</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-principal: #F39C12; --color-secundario: #2c3e50; --color-texto: #34495e;
+            --color-fondo: #f4f6f9; --color-blanco: #ffffff;
+        }
+        body, html {
+            margin: 0; padding: 0; font-family: 'Poppins', sans-serif; background-color: var(--color-fondo);
+        }
+        .presentation-container {
+            width: 100vw; height: 100vh; background: var(--color-blanco); position: relative; overflow: hidden;
+        }
+        .slide {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            /* --- CORRECCIÓN CLAVE AQUÍ --- */
+            padding: 40px 60px 100px; /* Aumentado el padding inferior para dejar espacio a los botones */
+            box-sizing: border-box; display: flex; flex-direction: column; justify-content: center;
+            align-items: center; text-align: center; opacity: 0; visibility: hidden;
+            transition: opacity 0.6s ease-in-out; background-size: cover; background-position: center;
+        }
+        .slide.active { opacity: 1; visibility: visible; }
+        .slide h1 { font-size: 2.8rem; color: var(--color-principal); margin: 0 0 10px 0; font-weight: 700; }
+        .slide h2 { font-size: 2rem; color: var(--color-secundario); margin: 0 0 25px 0; font-weight: 600; }
+        .slide p { font-size: 1.1rem; color: var(--color-texto); line-height: 1.6; max-width: 800px; }
+        
+        #slide-1 { background-color: var(--color-secundario); color: var(--color-blanco); }
+        #slide-1 h1, #slide-1 h2 { color: var(--color-blanco); }
+        #slide-1 h1 { color: var(--color-principal); }
+
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; width: 100%; margin-top: 20px; text-align: left; }
+        .info-card { background-color: #f8f9fa; border-left: 5px solid var(--color-principal); padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); display: flex; flex-direction: column; }
+        .info-card h3 { font-size: 1.2rem; margin-top: 0; color: var(--color-secundario); }
+        .info-card p, .info-card li { font-size: 0.9rem; line-height: 1.5; color: var(--color-texto);}
+        .info-card .card-icon { font-size: 2.5rem; color: var(--color-principal); margin-bottom: 10px; }
+        .info-card ul { list-style: none; padding-left: 1.2em; margin-top: 5px; }
+        .info-card li { padding: 4px 0; }
+        .info-card li::before { content: '✓'; color: var(--color-principal); font-weight: bold; display: inline-block; width: 1em; margin-left: -1.2em; }
+        
+        .career-path { display: flex; justify-content: space-between; width: 100%; margin-top: 20px; gap: 15px; }
+        .career-step { flex: 1; padding: 15px; border-top: 5px solid var(--color-principal); background-color: #fafafa; border-radius: 5px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .career-step h3 { font-size: 1.1rem; color: var(--color-secundario); margin-top: 0; }
+        .career-step p { font-size: 0.85rem; line-height: 1.4; margin-bottom: 10px; }
+        .career-step .salary-tag { display: inline-block; background-color: var(--color-principal); color: var(--color-blanco); padding: 5px 10px; border-radius: 5px; font-weight: 600; font-size: 0.9rem; }
+        
+        .video-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; width: 100%; max-width: 700px; }
+        .video-card { background-color: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.1); text-align: center; padding: 20px; display: flex; flex-direction: column; align-items: center; justify-content: space-between; }
+        .video-card img { width: 100%; height: 140px; object-fit: cover; border-radius: 8px; margin-bottom: 15px; }
+        .video-card h3 { font-size: 1.1rem; margin: 0 0 15px 0; color: var(--color-secundario); }
+        .video-card a { display: inline-block; text-decoration: none; background-color: #e74c3c; color: white; padding: 10px 20px; border-radius: 5px; font-weight: 600; font-size: 0.9rem; transition: background-color 0.3s; }
+        .video-card a:hover { background-color: #c0392b; }
+
+        .slide-footer { position: absolute; bottom: 25px; right: 40px; z-index: 5;}
+        .slide-footer img { height: 40px; }
+        .navigation-controls { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); display: flex; gap: 15px; z-index: 10; }
+        .nav-btn { padding: 10px 25px; border: none; background-color: var(--color-secundario); color: var(--color-blanco); border-radius: 50px; cursor: pointer; font-size: 1rem; transition: background-color 0.3s, transform 0.2s; }
+        .nav-btn:hover { background-color: var(--color-principal); transform: translateY(-2px); }
+        .nav-btn:disabled { background-color: #ccc; cursor: not-allowed; transform: none; }
+        
+        @media (min-width: 769px) {
+             body, html { display: flex; justify-content: center; align-items: center; height: 100vh; }
+            .presentation-container {
+                width: 90vw; max-width: 1100px; height: 60vh; max-height: 620px; aspect-ratio: 16 / 9;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-radius: 10px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .slide { padding: 60px 20px 120px; /* Más espacio inferior para móvil */ overflow-y: auto; justify-content: flex-start; }
+            .slide h1 { font-size: 1.8rem; }
+            .slide h2 { font-size: 1.5rem; margin-bottom: 20px; }
+            .slide p { font-size: 0.95rem; }
+            .card-grid, .career-path, .video-grid { display: flex; flex-direction: column; gap: 15px; }
+            .navigation-controls { padding-bottom: 10px; }
+            .slide-footer { right: 20px; bottom: 80px; }
+            .slide-footer img { height: 30px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        
+        <!-- Contenido de las diapositivas (sin cambios en el HTML, solo el CSS de .slide afecta a todas) -->
+        <div class="slide active" id="slide-1" style="background-image: url('https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'); background-blend-mode: overlay; background-color: rgba(44, 62, 80, 0.7);">
+            <h1>DESARROLLO EN EL CAMPO LABORAL</h1>
+            <h2>Investigación y Docencia</h2>
+        </div>
+        <div class="slide" id="slide-2">
+            <h2>Agenda de la Sesión</h2>
+             <ul style="list-style: none; padding: 0; text-align: center;">
+                <li style="padding: 8px 0;"><strong>Funciones y Roles Clave:</strong> Investigador vs. Docente.</li>
+                <li style="padding: 8px 0;"><strong>Oportunidades Laborales:</strong> ¿Dónde puedes trabajar?</li>
+                <li style="padding: 8px 0;"><strong>Rutas de Carrera y Salarios:</strong> Academia vs. Industria (CROs).</li>
+                <li style="padding: 8px 0;"><strong>Competencias y Desafíos:</strong> Cómo prepararte para el éxito.</li>
+            </ul>
+        </div>
+        <div class="slide" id="slide-3">
+            <h2>Funciones y Campo de Acción: Dos Caminos, Una Pasión</h2>
+            <div class="card-grid" style="grid-template-columns: 1fr 1fr;">
+                <div class="info-card"><div class="card-icon">🔬</div><h3>El Investigador</h3><p>Busca generar nuevo conocimiento. Diseña experimentos, analiza datos, publica artículos científicos y desarrolla nuevos productos o terapias. Su rol es descubrir.</p></div>
+                <div class="info-card"><div class="card-icon">👨‍🏫</div><h3>El Docente</h3><p>Busca formar a las futuras generaciones. Diseña cursos, imparte clases, evalúa aprendizajes y guía a los estudiantes. Su rol es inspirar y educar.</p></div>
+            </div>
+        </div>
+        <div class="slide" id="slide-4">
+            <h2>Roles Clave en Investigación</h2>
+            <div class="card-grid">
+                <div class="info-card"><h3>Investigador en I+D</h3><p>Trabaja en la industria farmacéutica para descubrir y desarrollar nuevos medicamentos, desde la molécula hasta el producto final.</p></div>
+                <div class="info-card"><h3>Monitor de Ensayos Clínicos (CRA)</h3><p>Asegura que los ensayos clínicos se realicen de acuerdo a los protocolos y normativas, garantizando la calidad de los datos y la seguridad de los pacientes.</p></div>
+                <div class="info-card"><h3>Investigador Académico</h3><p>Lidera proyectos en universidades o institutos, buscando financiamiento (grants) y publicando en revistas científicas para avanzar en su campo.</p></div>
+            </div>
+        </div>
+        <div class="slide" id="slide-5">
+            <h2>Oportunidades Laborales: ¿Dónde Dejarás tu Huella?</h2>
+            <div class="card-grid">
+                <div class="info-card"><div class="card-icon">🏛️</div><h3>Universidades e Institutos</h3><ul><li><strong>Investigación y Docencia:</strong> UNMSM, UPCH, Cayetano Heredia, Instituto Nacional de Salud (INS).</li></ul></div>
+                <div class="info-card"><div class="card-icon">🏭</div><h3>Industria Farmacéutica</h3><ul><li><strong>Investigación y Desarrollo (I+D):</strong> Medifarma, QUIMFA, Hersil.</li><li><strong>Ensayos Clínicos:</strong> Laboratorios transnacionales como Pfizer, MSD, Roche.</li></ul></div>
+                <div class="info-card"><div class="card-icon">🌐</div><h3>CROs (Contract Research Org.)</h3><ul><li><strong>Monitoreo de Ensayos:</strong> IQVIA, Parexel, Syneos Health. Son empresas especializadas que gestionan estudios para farmacéuticas.</li></ul></div>
+            </div>
+        </div>
+        <div class="slide" id="slide-6">
+            <h2>Línea de Carrera: Academia e Investigación Pura</h2>
+            <div class="career-path">
+                <div class="career-step"><h3>1. Asistente de Investigación / Docente Auxiliar</h3><p>Apoyas en proyectos o cursos, aprendiendo metodologías.</p><div class="salary-tag">S/ 3,000 - S/ 4,500</div></div>
+                <div class="career-step"><h3>2. Investigador / Docente Contratado</h3><p>Lideras tus propios proyectos o cursos. Se requiere grado de Magíster.</p><div class="salary-tag">S/ 4,500 - S/ 7,000</div></div>
+                <div class="career-step"><h3>3. Investigador Principal / Docente Principal (RENACYT)</h3><p>Eres un referente, ganas grants y publicas constantemente. Doctorado es clave.</p><div class="salary-tag">S/ 8,000 - S/ 15,000+</div></div>
+                <div class="career-step"><h3>4. Director de I+D / Decano</h3><p>Lideras la estrategia de investigación o académica de una institución.</p><div class="salary-tag">S/ 16,000 +</div></div>
+            </div>
+        </div>
+        <div class="slide" id="slide-7">
+            <h2>Línea de Carrera: Investigación Clínica (CROs y Farmacéuticas)</h2>
+             <div class="career-path">
+                <div class="career-step"><h3>1. Asistente de Ensayo Clínico (CTA)</h3><p>Apoyas en la gestión documental y logística de los estudios. Es la puerta de entrada al mundo de los CROs.</p><div class="salary-tag">S/ 3,500 - S/ 5,000</div></div>
+                <div class="career-step"><h3>2. Monitor Clínico (CRA I)</h3><p>Viajas a los centros de investigación para verificar datos, asegurar el cumplimiento del protocolo y la seguridad del paciente.</p><div class="salary-tag">S/ 6,000 - S/ 8,500</div></div>
+                <div class="career-step"><h3>3. Senior CRA / Líder de Equipo</h3><p>Manejas estudios más complejos, actúas como mentor de otros CRAs y te involucras en la estrategia del proyecto.</p><div class="salary-tag">S/ 9,000 - S/ 13,000</div></div>
+                <div class="career-step"><h3>4. Gerente de Proyecto Clínico (CPM)</h3><p>Lideras todo el ensayo clínico, gestionando el presupuesto, los plazos y la comunicación con el cliente.</p><div class="salary-tag">S/ 14,000 +</div></div>
+            </div>
+        </div>
+        <div class="slide" id="slide-8">
+            <h2>Competencias Clave para el Éxito</h2>
+             <div class="card-grid" style="grid-template-columns: 1fr 1fr;">
+                <div class="info-card">
+                    <h3>Investigador y Docente</h3>
+                    <p><strong>Hard Skills:</strong></p>
+                    <ul><li>Metodología de la Investigación</li><li>Bioestadística y Análisis de Datos</li><li>Redacción Científica (Papers/Grants)</li><li>Dominio de Técnicas de Laboratorio</li></ul>
+                    <p><strong>Soft Skills:</strong></p>
+                    <ul><li>Curiosidad y Pensamiento Crítico</li><li>Paciencia y Resiliencia</li><li>Comunicación Efectiva y Oratoria</li></ul>
+                </div>
+                 <div class="info-card">
+                    <h3>Investigación Clínica (CRA/CRO)</h3>
+                    <p><strong>Hard Skills:</strong></p>
+                    <ul><li>Dominio de Buenas Prácticas Clínicas (GCP)</li><li>Conocimiento de Regulación (ICH, FDA)</li><li>Gestión de Proyectos y Monitoreo</li><li>Inglés Avanzado (Indispensable)</li></ul>
+                    <p><strong>Soft Skills:</strong></p>
+                    <ul><li>Atención Meticulosa al Detalle</li><li>Organización y Planificación</li><li>Negociación y Resolución de Conflictos</li></ul>
+                </div>
+            </div>
+        </div>
+        <div class="slide" id="slide-9">
+            <h2>El Investigador en Acción: Videos Ilustrativos</h2>
+            <div class="video-grid">
+                <div class="video-card"><img src="https://img.youtube.com/vi/qqahuDczOv4/hqdefault.jpg" alt="Investigación de Productos Naturales"><h3>Investigación de Productos Naturales</h3><a href="https://www.youtube.com/watch?v=qqahuDczOv4" target="_blank">Ver Video</a></div>
+                <div class="video-card"><img src="https://cadnea.com/wp-content/uploads/2022/03/fablabs-solidworks-min.jpg" alt="Monitor de Ensayos Clínicos"><h3>¿Qué hace un Monitor de Ensayos Clínicos?</h3><a href="https://youtu.be/3-LcnvQzo6Y?si=FWfXABv2bUpSxm2Z" target="_blank">Ver Video</a></div>
+            </div>
+        </div>
+        <div class="slide" id="slide-10">
+            <h2>Desafíos del Sector Académico y de Investigación</h2>
+             <div class="card-grid">
+                <div class="info-card"><h3>"Publicar o Perecer"</h3><p>La presión por publicar constantemente en revistas de alto impacto para mantener la relevancia y el financiamiento (ej. bonos RENACYT).</p></div>
+                <div class="info-card"><h3>Financiamiento Competitivo</h3><p>Conseguir "grants" o fondos de investigación es un proceso altamente competitivo que requiere propuestas sólidas y una buena red de contactos.</p></div>
+                <div class="info-card"><h3>Actualización Constante</h3><p>La ciencia y la tecnología avanzan a una velocidad vertiginosa. Mantenerse actualizado es un requisito indispensable y un desafío diario.</p></div>
+            </div>
+        </div>
+        <div class="slide" id="slide-11">
+            <h2>Reflexión Final</h2>
+            <p>Ya sea descubriendo la cura del mañana o formando a quienes lo harán, el Químico Farmacéutico en investigación y docencia tiene un rol trascendental. Es un camino de <strong>curiosidad infinita, rigor intelectual y un profundo deseo de dejar un legado</strong> en la ciencia y en la sociedad.</p>
+        </div>
+
+        <!-- Elementos finales -->
+        <div class="slide-footer">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/0/0d/Autonoma_logov2.png" alt="Logo Universidad Autónoma del Perú">
+        </div>
+        <div class="navigation-controls">
+            <button id="prevBtn" class="nav-btn">Anterior</button>
+            <button id="nextBtn" class="nav-btn">Siguiente</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const slides = document.querySelectorAll('.slide');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            let currentSlide = 0;
+
+            function showSlide(n) {
+                slides.forEach(slide => slide.classList.remove('active'));
+                slides[n].classList.add('active');
+                prevBtn.disabled = (n === 0);
+                nextBtn.disabled = (n === slides.length - 1);
+            }
+
+            nextBtn.addEventListener('click', () => {
+                if (currentSlide < slides.length - 1) {
+                    currentSlide++;
+                    showSlide(currentSlide);
+                }
+            });
+
+            prevBtn.addEventListener('click', () => {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    showSlide(currentSlide);
+                }
+            });
+            
+            showSlide(currentSlide);
+        });
+    </script>
+</body>
+</html>
