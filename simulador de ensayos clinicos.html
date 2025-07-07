@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Simulador de Ensayo Clínico (Móvil y Escritorio)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Chart.js y el plugin para etiquetas de datos -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.1.0"></script>
+  <style>
+    :root {
+      --primary-color: #005a9c;
+      --primary-hover: #003e6b;
+      --treatment-color: #28a745;
+      --placebo-color: #fd7e14;
+      --background-color: #f4f6f8;
+      --card-background: #ffffff;
+      --text-color: #333;
+      --border-color: #dee2e6;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: var(--background-color);
+      color: var(--text-color);
+      margin: 0;
+      padding: 20px;
+      font-size: 16px;
+    }
+    .container {
+      max-width: 1400px;
+      margin: auto;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+    .card {
+      background-color: var(--card-background);
+      border: 1px solid var(--border-color);
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    }
+    .card h1 { font-size: 1.8rem; }
+    .card h2, .card h3 {
+      margin-top: 0;
+      color: var(--primary-color);
+      border-bottom: 2px solid var(--background-color);
+      padding-bottom: 10px;
+      font-size: 1.4rem;
+    }
+    .criteria-card ul { list-style-type: none; padding-left: 0; }
+    .criteria-card li { margin-bottom: 10px; padding-left: 30px; position: relative; line-height: 1.4; }
+    .criteria-card li::before { position: absolute; left: 0; top: 2px; font-size: 1.2rem; }
+    .criteria-card .inclusion li::before { content: '✅'; }
+    .criteria-card .exclusion li::before { content: '🚫'; }
+    .info-box {
+        background-color: #eaf3fb;
+        border-left: 5px solid var(--primary-color);
+        padding: 1px 20px;
+        margin-top: 20px;
+        border-radius: 5px;
+    }
+    .info-box .legend {
+        display: inline-block;
+        width: 20px;
+        height: 10px;
+        margin-right: 8px;
+        vertical-align: middle;
+    }
+    button {
+      padding: 12px 25px; border: none; background-color: var(--primary-color);
+      color: white; border-radius: 5px; cursor: pointer; font-size: 16px;
+      margin-top: 20px; transition: background-color 0.3s; width: 100%;
+    }
+    button:hover:not(:disabled) { background-color: var(--primary-hover); }
+    button:disabled { background-color: #ccc; cursor: not-allowed; }
+    .hidden { display: none; }
+    .chart-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        margin-top: 20px;
+    }
+    .chart-wrapper {
+        position: relative;
+        height: 400px;
+    }
+    .filter-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        align-items: flex-end;
+        padding: 15px; border: 1px solid var(--border-color);
+        border-radius: 8px; background-color: #fdfdfd;
+    }
+    #patient-data, #group-data {
+        max-height: 200px; overflow-y: auto; border: 1px solid var(--border-color);
+        padding: 10px; border-radius: 5px; margin-top: 10px;
+    }
+    .table-summary { margin-top: 20px; overflow-x: auto; }
+    .table-summary table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.9em;
+    }
+    .table-summary th, .table-summary td {
+        border: 1px solid var(--border-color);
+        padding: 8px;
+        text-align: center;
+    }
+    .table-summary th { background-color: #e9ecef; }
+    .table-summary td:first-child { text-align: left; font-weight: bold; }
+
+    @media (max-width: 992px) {
+        body { padding: 10px; font-size: 14px; }
+        .card h1 { font-size: 1.5rem; }
+        .card h3 { font-size: 1.2rem; }
+        .chart-grid, .filter-container, .criteria-card .chart-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="card">
+      <h1>Simulador Interactivo: Ensayo Clínico Controlado con Placebo</h1>
+    </div>
+
+    <div class="card criteria-card">
+        <h3>Contexto del Estudio: Ensayo Clínico de un Nuevo Antihipertensivo</h3>
+        <p>El primer paso en cualquier ensayo clínico es la <strong>selección (screening)</strong> de participantes. Este proceso es crucial para garantizar la seguridad de los voluntarios y la validez científica de los resultados. Se define un perfil muy específico de paciente a través de los criterios de inclusión y exclusión.</p>
+        <div class="chart-grid">
+            <div>
+                <h4>Criterios de Inclusión (Quién puede participar)</h4>
+                <ul class="inclusion">
+                    <li><strong>Diagnóstico de Hipertensión:</strong> Presión Arterial Sistólica (PAS) ≥ 140 mmHg o Presión Arterial Diastólica (PAD) ≥ 90 mmHg, confirmada en al menos dos visitas.</li>
+                    <li><strong>Edad:</strong> Hombres y mujeres entre 30 y 79 años.</li>
+                    <li><strong>Consentimiento Informado:</strong> El paciente debe comprender el estudio y firmar voluntariamente el documento de consentimiento.</li>
+                    <li><strong>Estado del Tratamiento:</strong> Pacientes sin tratamiento previo (naive) o cuyo tratamiento actual no logra controlar adecuadamente la presión arterial.</li>
+                </ul>
+            </div>
+            <div>
+                <h4>Criterios de Exclusión (Quién NO puede participar)</h4>
+                <ul class="exclusion">
+                    <li><strong>Hipertensión Secundaria:</strong> Hipertensión causada por otra condición (ej. enfermedad renal, problemas endocrinos).</li>
+                    <li><strong>Condiciones Médicas Graves:</strong> Insuficiencia renal o hepática severa, diabetes no controlada o cáncer activo.</li>
+                    <li><strong>Eventos Cardiovasculares Recientes:</strong> Infarto de miocardio, ACV o arritmias graves en los últimos 6 meses.</li>
+                    <li><strong>Poblaciones Especiales:</strong> Mujeres embarazadas, en período de lactancia o que planean un embarazo.</li>
+                    <li><strong>Medicación Concomitante:</strong> Uso de otros fármacos que puedan interferir con la acción del antihipertensivo en estudio.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- PASOS DEL SIMULADOR -->
+    <div class="card"><h3>1. Generar la Cohorte del Ensayo</h3><p>Se genera una población base y se seleccionan solo aquellos que cumplen los criterios de inclusión.</p><button id="btnGenerate" onclick="generatePatients()">Generar Cohorte</button><div id="patientList" class="hidden"><h4><span id="patientCount"></span> Pacientes Incluidos:</h4><div id="patient-data"></div></div></div>
+    <div class="card hidden" id="randomizationCard"><h3>2. Asignación Aleatoria a Grupos</h3><p>Los pacientes se asignan al azar (50/50) al grupo "Nuevo Tratamiento" o "Placebo".</p><button id="btnRandomize" onclick="randomizeGroups()" disabled>Asignar a Grupos</button><div id="groupList" class="hidden"><h4>Asignación de Grupos:</h4><div id="group-data"></div></div></div>
+    <div class="card hidden" id="dashboardCard">
+        <h3>3. Simulación y Tablero de Resultados</h3>
+        <p>Presiona para asignar resultados. El grupo "Placebo" mostrará una respuesta menor, sirviendo como línea base para la comparación.</p>
+        <button id="btnSimulate" onclick="simulateAndShowResults()" disabled>Simular Resultados y Ver Tablero</button>
+        
+        <div id="results-container" class="hidden">
+            <div class="info-box">
+                <h4>Cómo Leer las Gráficas</h4>
+                <p><span class="legend" style="background-color: var(--treatment-color);"></span><strong>Verde:</strong> Pacientes que recibieron el <strong>Nuevo Tratamiento</strong>.</p>
+                <p><span class="legend" style="background-color: var(--placebo-color);"></span><strong>Naranja:</strong> Pacientes que recibieron el <strong>Placebo</strong>.</p>
+                <p>La diferencia vertical entre las áreas verde y naranja representa el beneficio neto del fármaco.</p>
+            </div>
+            <div class="filter-container">
+                <div><label for="ageFilter">Filtrar por Grupo Etario:</label><select id="ageFilter" onchange="updateCharts()"></select></div>
+                <div><label for="sexFilter">Filtrar por Sexo:</label><select id="sexFilter" onchange="updateCharts()"><option value="todos">Ambos Sexos</option><option value="masculino">Masculino</option><option value="femenino">Femenino</option></select></div>
+            </div>
+            <div class="chart-grid">
+                <div><div class="chart-wrapper"><canvas id="efficacyChart"></canvas></div><div id="efficacyTableContainer" class="table-summary"></div></div>
+                <div><div class="chart-wrapper"><canvas id="safetyChart"></canvas></div><div id="safetyTableContainer" class="table-summary"></div></div>
+            </div>
+        </div>
+    </div>
+  </div>
+
+<script>
+    let trialPatients = [];
+    let efficacyChart, safetyChart;
+
+    const treatmentPercentages = { '30-39 años': { 'masculino': { 'control_pa': [0,10,32,52,59,60,61,61], 'reacciones_adversas': [0,2,5,9,10,10,10,10]}, 'femenino': { 'control_pa': [0,10,30,49,56,57,58,58], 'reacciones_adversas': [0,2,6,10,12,12,12,12]}}, '40-49 años': { 'masculino': { 'control_pa': [0,10,31,51,58,59,60,60], 'reacciones_adversas': [0,2,8,13,15,15,15,15]}, 'femenino': { 'control_pa': [0,9,29,47,53,54,55,55], 'reacciones_adversas': [0,3,10,17,19,20,20,20]}}, '50-59 años': { 'masculino': { 'control_pa': [0,8,26,43,48,49,50,50], 'reacciones_adversas': [0,3,9,15,17,18,18,18]}, 'femenino': { 'control_pa': [0,8,24,39,44,45,46,46], 'reacciones_adversas': [0,4,12,19,21,22,22,22]}}, '60-69 años': { 'masculino': { 'control_pa': [0,7,22,35,40,40,41,41], 'reacciones_adversas': [0,3,10,17,19,20,20,20]}, 'femenino': { 'control_pa': [0,5,17,27,31,31,32,32], 'reacciones_adversas': [0,4,14,22,25,26,26,26]}}, '70-79 años': { 'masculino': { 'control_pa': [0,6,19,31,35,35,36,36], 'reacciones_adversas': [0,4,13,21,24,25,25,25]}, 'femenino': { 'control_pa': [0,5,16,26,29,30,30,30], 'reacciones_adversas': [0,5,16,26,29,30,30,30]}}};
+    const placeboPercentages = { '30-39 años': { 'masculino': { 'control_pa': [0,2,4,6,8,9,10,10], 'reacciones_adversas': [0,1,2,3,4,4,4,4]}, 'femenino': { 'control_pa': [0,2,5,7,9,10,11,11], 'reacciones_adversas': [0,1,2,3,4,4,4,4]}}, '40-49 años': { 'masculino': { 'control_pa': [0,2,4,6,7,8,8,9], 'reacciones_adversas': [0,2,3,4,5,5,5,5]}, 'femenino': { 'control_pa': [0,2,4,6,8,8,9,9], 'reacciones_adversas': [0,2,3,4,5,5,5,5]}}, '50-59 años': { 'masculino': { 'control_pa': [0,1,3,5,6,7,7,8], 'reacciones_adversas': [0,2,3,5,6,6,6,6]}, 'femenino': { 'control_pa': [0,1,3,5,7,7,8,8], 'reacciones_adversas': [0,2,4,5,6,6,6,6]}}, '60-69 años': { 'masculino': { 'control_pa': [0,1,2,4,5,6,6,7], 'reacciones_adversas': [0,2,4,6,7,7,7,7]}, 'femenino': { 'control_pa': [0,1,2,4,6,6,7,7], 'reacciones_adversas': [0,2,4,6,7,7,7,7]}}, '70-79 años': { 'masculino': { 'control_pa': [0,1,2,3,4,5,5,6], 'reacciones_adversas': [0,3,5,7,8,8,8,8]}, 'femenino': { 'control_pa': [0,1,2,3,5,5,6,6], 'reacciones_adversas': [0,3,5,7,8,8,8,8]}}};
+    
+    Chart.register(ChartDataLabels);
+
+    function generatePatients() {
+        let allCandidates = [];
+        for (let i = 1; i <= 500; i++) { const age = Math.floor(Math.random() * 50) + 30; const meetsInclusion = Math.random() < 0.7; allCandidates.push({ id: i, edad: age, sexo: Math.random() < 0.5 ? 'masculino' : 'femenino', criterio: meetsInclusion ? 'Inclusión' : 'Exclusión' }); }
+        trialPatients = allCandidates.filter(p => p.criterio === 'Inclusión');
+        trialPatients.forEach(p => { if (p.edad <= 39) p.grupo_etario = '30-39 años'; else if (p.edad <= 49) p.grupo_etario = '40-49 años'; else if (p.edad <= 59) p.grupo_etario = '50-59 años'; else if (p.edad <= 69) p.grupo_etario = '60-69 años'; else if (p.edad <= 79) p.grupo_etario = '70-79 años';});
+        
+        document.getElementById("patientCount").textContent = trialPatients.length;
+        let html = '<ul>' + trialPatients.map(p => `<li>ID ${p.id}: ${p.sexo}, ${p.edad} años (${p.grupo_etario})</li>`).join('') + '</ul>';
+        document.getElementById("patient-data").innerHTML = html;
+        document.getElementById("patientList").classList.remove("hidden");
+        document.getElementById("randomizationCard").classList.remove("hidden");
+        document.getElementById("btnGenerate").disabled = true;
+        document.getElementById("btnRandomize").disabled = false;
+    }
+
+    function randomizeGroups() {
+        let shuffled = trialPatients.sort(() => 0.5 - Math.random());
+        let half = Math.ceil(shuffled.length / 2);
+        shuffled.forEach((p, i) => { p.group = i < half ? 'Tratamiento' : 'Placebo'; });
+        trialPatients.sort((a,b) => a.id - b.id);
+
+        let html = '<ul>' + trialPatients.map(p => `<li>ID ${p.id} (${p.grupo_etario}, ${p.sexo}): Asignado a <strong>${p.group}</strong></li>`).join('') + '</ul>';
+        document.getElementById("group-data").innerHTML = html;
+        document.getElementById("groupList").classList.remove("hidden");
+        document.getElementById("dashboardCard").classList.remove("hidden");
+        document.getElementById("btnRandomize").disabled = true;
+        document.getElementById("btnSimulate").disabled = false;
+    }
+
+    function simulateAndShowResults() {
+        trialPatients.forEach(p => { p.control_pa_semana = Infinity; p.reaccion_adversa_semana = Infinity; });
+        const assignEvents = (metric, ageGroup, sex, group) => {
+            const subGroupPatients = trialPatients.filter(p => p.grupo_etario === ageGroup && p.sexo === sex && p.group === group); if (subGroupPatients.length === 0) return;
+            const percentages = group === 'Tratamiento' ? treatmentPercentages[ageGroup][sex][metric] : placeboPercentages[ageGroup][sex][metric];
+            const cumulativeCounts = percentages.map(p => Math.round(subGroupPatients.length * p / 100)); const newEventsPerWeek = cumulativeCounts.map((count, i) => i === 0 ? count : count - cumulativeCounts[i - 1]);
+            let availablePatients = [...subGroupPatients];
+            newEventsPerWeek.forEach((count, weekIndex) => { if (count > 0 && availablePatients.length > 0) { const week = weekIndex + 1; availablePatients.sort(() => 0.5 - Math.random()); const selectedPatients = availablePatients.splice(0, Math.min(count, availablePatients.length)); selectedPatients.forEach(p => { if (metric === 'control_pa') p.control_pa_semana = week; else p.reaccion_adversa_semana = week; }); }});
+        };
+        for (const ageGroup in treatmentPercentages) { for (const sex in treatmentPercentages[ageGroup]) { assignEvents('control_pa', ageGroup, sex, 'Tratamiento'); assignEvents('reacciones_adversas', ageGroup, sex, 'Tratamiento'); assignEvents('control_pa', ageGroup, sex, 'Placebo'); assignEvents('reacciones_adversas', ageGroup, sex, 'Placebo'); } }
+
+        document.getElementById("results-container").classList.remove("hidden");
+        document.getElementById("btnSimulate").disabled = true;
+        
+        const ageGroups = ['Todos', ...[...new Set(trialPatients.map(p => p.grupo_etario))].sort()];
+        const ageSelect = document.getElementById('ageFilter');
+        ageSelect.innerHTML = ageGroups.map(g => `<option value="${g.toLowerCase().replace(/ /g, '-')}">${g}</option>`).join('');
+
+        updateCharts();
+    }
+    
+    function updateCharts() {
+        const treatmentColorValue = getComputedStyle(document.documentElement).getPropertyValue('--treatment-color').trim();
+        const placeboColorValue = getComputedStyle(document.documentElement).getPropertyValue('--placebo-color').trim();
+
+        const ageFilter = document.getElementById('ageFilter').value;
+        const sexFilter = document.getElementById('sexFilter').value;
+
+        let patientsToAnalyze = trialPatients;
+        if (ageFilter !== 'todos') {
+            patientsToAnalyze = patientsToAnalyze.filter(p => p.grupo_etario.toLowerCase().replace(/ /g, '-') === ageFilter);
+        }
+        if (sexFilter !== 'todos') {
+            patientsToAnalyze = patientsToAnalyze.filter(p => p.sexo === sexFilter);
+        }
+
+        const treatmentGroup = patientsToAnalyze.filter(p => p.group === 'Tratamiento');
+        const placeboGroup = patientsToAnalyze.filter(p => p.group === 'Placebo');
+
+        const efficacyDatasets = [
+            createDataset(treatmentGroup, 'Tratamiento', treatmentColorValue, 'control_pa'),
+            createDataset(placeboGroup, 'Placebo', placeboColorValue, 'control_pa')
+        ];
+        const safetyDatasets = [
+            createDataset(treatmentGroup, 'Tratamiento', treatmentColorValue, 'reacciones_adversas'),
+            createDataset(placeboGroup, 'Placebo', placeboColorValue, 'reacciones_adversas')
+        ];
+
+        renderChart('efficacyChart', 'Eficacia: % Pacientes con Presión Controlada', efficacyDatasets);
+        renderChart('safetyChart', 'Seguridad: % Pacientes con Reacciones Adversas', safetyDatasets);
+
+        renderSummaryTable('efficacyTableContainer', efficacyDatasets);
+        renderSummaryTable('safetyTableContainer', safetyDatasets);
+    }
+
+    function createDataset(patientGroup, label, color, metric) {
+        const total = patientGroup.length;
+        if (total === 0) return { label, data: Array(8).fill(0) };
+
+        const weeks = [1, 2, 3, 4, 5, 6, 7, 8];
+        const data = weeks.map(week => {
+            const eventWeekField = metric === 'control_pa' ? 'control_pa_semana' : 'reaccion_adversa_semana';
+            const count = patientGroup.filter(p => p[eventWeekField] <= week).length;
+            return total > 0 ? (count / total * 100) : 0;
+        });
+        return { 
+            label, 
+            data, 
+            borderColor: color, 
+            backgroundColor: color + '33',
+            fill: true, 
+            tension: 0.2
+        };
+    }
+
+    function renderChart(canvasId, title, datasets) {
+        const chartCanvas = document.getElementById(canvasId);
+        let chartInstance = Chart.getChart(chartCanvas);
+        if (chartInstance) chartInstance.destroy();
+        new Chart(chartCanvas.getContext('2d'), {
+            type: 'line', data: { labels: ['Semana 1', 'Semana 2', 'Semana 3', 'Semana 4', 'Semana 5', 'Semana 6', 'Semana 7', 'Semana 8'], datasets: datasets },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: { display: true, text: title, font: { size: 18 } },
+                    legend: { position: 'top' },
+                    tooltip: { mode: 'index', intersect: false, callbacks: { label: function(context) { let label = context.dataset.label || ''; if (label) { label += ': '; } if (context.parsed.y !== null) { label += context.parsed.y.toFixed(1) + '%'; } return label; } } },
+                    datalabels: {
+                        anchor: 'end',
+                        align: 'top',
+                        font: { size: 10 },
+                        color: '#555',
+                        formatter: (value) => value > 0.1 ? value.toFixed(1) + '%' : null,
+                    }
+                },
+                scales: { y: { beginAtZero: true, max: 100, title: { display: true, text: 'Porcentaje de Pacientes (%)' } } }
+            }
+        });
+    }
+
+    function renderSummaryTable(containerId, datasets) {
+        let tableHTML = `<div class="table-summary"><table><thead><tr><th>Grupo</th>`;
+        for (let i = 1; i <= 8; i++) {
+            tableHTML += `<th>Sem ${i}</th>`;
+        }
+        tableHTML += `</tr></thead><tbody>`;
+
+        datasets.forEach(dataset => {
+            if (dataset.data.length > 0) {
+                tableHTML += `<tr><td><span class="legend" style="background-color: ${dataset.borderColor};"></span>${dataset.label}</td>`;
+                dataset.data.forEach(value => {
+                    tableHTML += `<td>${parseFloat(value).toFixed(1)}%</td>`;
+                });
+                tableHTML += `</tr>`;
+            }
+        });
+
+        tableHTML += `</tbody></table></div>`;
+        document.getElementById(containerId).innerHTML = tableHTML;
+    }
+</script>
+</body>
+</html>
