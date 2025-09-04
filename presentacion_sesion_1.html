@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sesión 1: Identificación de Necesidades y Generación de Ideas</title>
+    <style>
+        :root {
+            --color-primary: #005f73;
+            --color-secondary: #0a9396;
+            --color-background: #f8f9fa;
+            --color-text: #212529;
+            --color-card-bg: #ffffff;
+            --color-accent: #ee9b00;
+            --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        body { font-family: var(--font-family); background-color: var(--color-background); color: var(--color-text); line-height: 1.6; margin: 0; padding: 0; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
+        header { background-color: var(--color-primary); color: white; padding: 40px 20px; text-align: center; border-radius: 0 0 15px 15px; }
+        header h1 { margin: 0; font-size: 2.5em; }
+        header p { font-size: 1.2em; opacity: 0.9; }
+        .slide { background-color: var(--color-card-bg); border-radius: 15px; padding: 30px; margin-top: 30px; box-shadow: var(--box-shadow); transition: transform 0.3s; }
+        .slide:hover { transform: translateY(-5px); }
+        .slide h2 { color: var(--color-secondary); border-bottom: 3px solid var(--color-secondary); padding-bottom: 10px; margin-top: 0; }
+        .highlight-box { background-color: #e9ecef; border-left: 5px solid var(--color-accent); padding: 20px; margin: 20px 0; border-radius: 5px; }
+        .highlight-box h3 { color: var(--color-primary); margin-top: 0; }
+        code { background-color: #e0e0e0; padding: 3px 5px; border-radius: 4px; font-family: "Courier New", Courier, monospace; display: block; white-space: pre-wrap; word-wrap: break-word; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; table-layout: auto; }
+        th, td { border: 1px solid #dee2e6; padding: 12px; text-align: left; vertical-align: top; font-size: 0.95em; }
+        th { background-color: var(--color-secondary); color: white; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+        footer { text-align: center; margin-top: 40px; padding: 20px; font-size: 0.9em; color: #6c757d; }
+        a { color: var(--color-secondary); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .dt-graphic { text-align: center; margin: 30px 0; }
+        .dt-graphic svg { max-width: 100%; height: auto; }
+        .video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        @media (max-width: 768px) { header h1 { font-size: 2em; } .slide { padding: 20px; } table { display: block; overflow-x: auto; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Sesión 1: Identificación de Necesidades y Generación de Ideas Innovadoras</h1>
+            <p>Objetivo: Identificar problemas reales en salud y generar ideas de solución mediante Design Thinking e IA.</p>
+        </header>
+
+        <main>
+            <section class="slide">
+                <h2>Introducción: ¿Por qué es crucial identificar necesidades en salud?</h2>
+                <p>El sector de la salud es uno de los campos más complejos y regulados. Muchos emprendimientos fracasan no por falta de tecnología o financiamiento, sino porque crean soluciones para problemas que no existen o que no son prioritarios para los usuarios (pacientes, médicos, etc.). Identificar una necesidad real y validada es el cimiento de un emprendimiento exitoso en salud.</p>
+            </section>
+
+            <section class="slide">
+                <h2>Fase 1: Design Thinking en Salud</h2>
+                <p>El Design Thinking es una metodología centrada en el ser humano para la innovación. Nos ayuda a entender profundamente a nuestros usuarios y a diseñar soluciones que realmente quieran y necesiten.</p>
+                <div class="dt-graphic">
+                    <svg width="800" height="150" viewBox="0 0 800 150" xmlns="http://www.w3.org/2000/svg">
+                        <defs><marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#0a9396"/></marker></defs>
+                        <line x1="100" y1="75" x2="700" y2="75" stroke="#0a9396" stroke-width="2" marker-end="url(#arrow)"/>
+                        <g transform="translate(50, 60)"><circle cx="50" cy="15" r="15" fill="#005f73"/><text x="50" y="18" font-size="10" fill="white" text-anchor="middle">1</text><text x="50" y="50" text-anchor="middle">Empatizar</text></g>
+                        <g transform="translate(180, 60)"><circle cx="50" cy="15" r="15" fill="#005f73"/><text x="50" y="18" font-size="10" fill="white" text-anchor="middle">2</text><text x="50" y="50" text-anchor="middle">Definir</text></g>
+                        <g transform="translate(310, 60)"><circle cx="50" cy="15" r="15" fill="#005f73"/><text x="50" y="18" font-size="10" fill="white" text-anchor="middle">3</text><text x="50" y="50" text-anchor="middle">Idear</text></g>
+                        <g transform="translate(440, 60)"><circle cx="50" cy="15" r="15" fill="#005f73"/><text x="50" y="18" font-size="10" fill="white" text-anchor="middle">4</text><text x="50" y="50" text-anchor="middle">Prototipar</text></g>
+                        <g transform="translate(570, 60)"><circle cx="50" cy="15" r="15" fill="#005f73"/><text x="50" y="18" font-size="10" fill="white" text-anchor="middle">5</text><text x="50" y="50" text-anchor="middle">Testear</text></g>
+                    </svg>
+                </div>
+                <table>
+                    <thead><tr><th>Etapa</th><th>Descripción</th><th>Ejemplo en Salud</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Empatizar</strong></td><td>Observar, interactuar y sumergirse en el entorno del usuario para comprender sus experiencias y motivaciones.</td><td>Entrevistar a 10 padres de niños con asma para entender sus miedos y desafíos diarios.</td></tr>
+                        <tr><td><strong>Definir</strong></td><td>Sintetizar los hallazgos de la etapa de empatía para formular un "punto de vista" o una declaración clara del problema.</td><td>"Los padres de niños con asma necesitan una forma de monitorear la calidad del aire en tiempo real para prevenir crisis."</td></tr>
+                        <tr><td><strong>Idear</strong></td><td>Generar una amplia gama de ideas creativas que podrían resolver el problema definido. No hay ideas malas en esta etapa.</td><td>Lluvia de ideas: un sensor portátil, una app con alertas, un peluche inteligente que cambia de color, etc.</td></tr>
+                        <tr><td><strong>Prototipar</strong></td><td>Construir versiones de bajo costo y simplificadas de las mejores ideas para investigar las soluciones.</td><td>Crear un prototipo en papel de la app o un modelo 3D simple del sensor.</td></tr>
+                        <tr><td><strong>Testear</strong></td><td>Probar los prototipos con los usuarios para obtener retroalimentación y refinar la solución.</td><td>Mostrar el prototipo de la app a los padres entrevistados y observar su reacción y comentarios.</td></tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="slide">
+                <h2>Fase 2: Lluvia de Ideas con IA</h2>
+                <p>Las IAs generativas son excelentes herramientas para expandir nuestra creatividad. Podemos usarlas para generar ideas, analizar tendencias y obtener diferentes perspectivas.</p>
+                <table>
+                    <thead><tr><th>Herramienta IA</th><th>Fortalezas</th><th>Ideal para...</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>ChatGPT (OpenAI)</strong></td><td>Gran capacidad creativa, bueno para generar texto y conversar de forma fluida.</td><td>Generar listas de ideas, escribir borradores de propuestas de valor, simular entrevistas.</td></tr>
+                        <tr><td><strong>Gemini (Google)</strong></td><td>Integrado con el ecosistema de Google, bueno para investigar y resumir información de la web.</td><td>Analizar tendencias de mercado, buscar papers científicos, encontrar startups similares.</td></tr>
+                        <tr><td><strong>Perplexity AI</strong></td><td>Enfocado en la búsqueda y citación de fuentes, excelente para la investigación basada en evidencia.</td><td>Validar la base científica de un problema, encontrar estadísticas y datos epidemiológicos.</td></tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="slide">
+                <h2>Fase 3: Science Lean Canvas</h2>
+                <p>El Science Lean Canvas es una adaptación del Lean Canvas para emprendimientos científico-tecnológicos. Nos obliga a pensar no solo en el negocio, sino también en la validación científica y la tecnología.</p>
+                <div class="highlight-box">
+                    <h3>Ejemplo de Science Lean Canvas: Adheretech</h3>
+                    <p><strong>Idea:</strong> Un pastillero inteligente que usa sensores y una app para mejorar la adherencia a medicamentos en pacientes mayores.</p>
+                </div>
+                <table style="table-layout: fixed; word-wrap: break-word;">
+                    <tbody>
+                        <tr><th style="width: 20%;">Problema</th><td>La baja adherencia a tratamientos crónicos en adultos mayores ( > 65 años) genera complicaciones de salud y altos costos hospitalarios. Olvidan las tomas o se confunden con los horarios.</td></tr>
+                        <tr><th>Solución</th><td>Un pastillero inteligente (hardware) con alertas de luz y sonido, conectado a una app móvil (software) que notifica al paciente y a un familiar/cuidador si una dosis no se ha tomado.</td></tr>
+                        <tr><th>Métricas Clave</th><td>% de adherencia (dosis tomadas/dosis prescritas), nº de hospitalizaciones evitadas, puntuación de satisfacción del usuario (NPS).</td></tr>
+                        <tr><th>Propuesta de Valor Única</th><td>"Tu guardián de la salud en casa". Aseguramos la toma correcta de tus medicamentos y damos tranquilidad a tu familia, combinando un dispositivo fácil de usar con una red de apoyo digital.</td></tr>
+                        <tr><th>Ventaja Injusta</th><td>Algoritmo propio de patrones de olvido. Equipo fundador con un geriatra y un ingeniero biomédico. Acuerdos iniciales con 2 asociaciones de pacientes.</td></tr>
+                        <tr><th>Segmentos de Clientes</th><td><strong>Usuarios:</strong> Adultos mayores de 65 con polifarmacia. <strong>Clientes:</strong> Hijos o cuidadores de estos adultos (pagan la suscripción), aseguradoras de salud (interesadas en reducir costos).</td></tr>
+                        <tr><th>Canales</th><td>Venta directa online (B2C), alianzas con farmacias, convenios con aseguradoras y programas de salud domiciliaria (B2B).</td></tr>
+                        <tr><th>Estructura de Costos</th><td>Fabricación del hardware, desarrollo y mantenimiento de la app, marketing digital, personal (soporte, ventas).</td></tr>
+                        <tr><th>Fuentes de Ingresos</th><td>Venta del dispositivo (pago único) + suscripción mensual a la app para monitoreo familiar y reportes avanzados. Modelo freemium para la app básica.</td></tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="slide">
+                <h2>🎥 Videos de Apoyo</h2>
+                <p>Estos videos te ayudarán a profundizar en las metodologías que usaremos en esta sesión.</p>
+                <div class="video-grid">
+                    <div class="highlight-box">
+                        <h3>¿Qué es Design Thinking?</h3>
+                        <p>Una explicación visual y concisa de las 5 fases del Design Thinking.</p>
+                        <a href="https://youtu.be/Fs_n3g5mrvA?si=FF-CTe4cOrb6b6yq" target="_blank">Ver video en YouTube</a>
+                    </div>
+                    <div class="highlight-box">
+                        <h3>Cómo Rellenar un Lean Canvas</h3>
+                        <p>Aunque se enfoca en el Lean Canvas general, los principios son directamente aplicables a nuestro Science Lean Canvas.</p>
+                        <a href="https://youtu.be/CuZKAFKhdbU?si=mKovX58K3BTEnK1G" target="_blank">Ver video en YouTube</a>
+                    </div>
+                     <div class="highlight-box">
+                        <h3>Ejemplo Práctico de Ideación</h3>
+                        <p>Observa un equipo real en una sesión de brainstorming para resolver un problema.</p>
+                        <a href="https://youtu.be/YPTYQ3yrpHw?si=dWxux6tx5JX3oI57" target="_blank">Ver video en YouTube</a>
+                    </div>
+                </div>
+            </section>
+
+            <section class="slide">
+                <h2>Rúbrica de Evaluación (100 Puntos)</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 20%;">Criterio de Evaluación</th>
+                            <th>Excelente (20-17 pts)</th>
+                            <th>Bueno (16-13 pts)</th>
+                            <th>Regular (12-9 pts)</th>
+                            <th>Deficiente (8-1 pts)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Identificación del Problema (20 pts)</strong><br><small><em>Claridad, relevancia e impacto del problema.</em></small></td>
+                            <td>Problema muy claro, real y con alto impacto social/clínico. Bien documentado.</td>
+                            <td>Problema bien definido, pero con un enfoque amplio o impacto menos claro.</td>
+                            <td>Problema vago o poco relevante para el sector farmacéutico/bioquímico.</td>
+                            <td>Problema irrelevante o ausente.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Uso de IA para Ideación (25 pts)</strong><br><small><em>Calidad y documentación del uso de IA.</em></small></td>
+                            <td>Se documentan 3+ ideas innovadoras, con prompts estratégicos y resultados claros.</td>
+                            <td>Se presentan 2 ideas buenas, con un uso básico y documentado de la IA.</td>
+                            <td>Se presenta 1 idea, con documentación mínima del proceso de IA.</td>
+                            <td>No hay evidencia del uso de IA para la ideación.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Originalidad y Aplicabilidad (25 pts)</strong><br><small><em>Nivel de innovación y viabilidad de la idea.</em></small></td>
+                            <td>La idea es altamente innovadora, original y viable en el contexto del sector.</td>
+                            <td>La idea es innovadora, pero presenta algunos desafíos de implementación.</td>
+                            <td>La idea es convencional o poco aplicable al sector.</td>
+                            <td>Es una copia de soluciones ya existentes.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Science Lean Canvas (30 pts)</strong><br><small><em>Calidad del lienzo y la presentación general.</em></small></td>
+                            <td>El canvas está completo, es coherente y las suposiciones son claras. La presentación es profesional.</td>
+                            <td>El canvas está completo, pero algunas secciones son débiles o poco claras.</td>
+                            <td>El canvas está incompleto o es confuso. La presentación es desorganizada.</td>
+                            <td>El canvas es muy deficiente o no se entrega.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </main>
+
+        <footer>
+            <p>Curso Emprendimiento en Salud - Preparación para Shark Tank</p>
+        </footer>
+    </div>
+</body>
+</html>

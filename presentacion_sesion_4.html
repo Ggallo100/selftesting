@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sesión 4: Modelo de Negocio y Ventaja Competitiva Sostenible</title>
+    <style>
+        :root {
+            --color-primary: #005f73;
+            --color-secondary: #0a9396;
+            --color-background: #f8f9fa;
+            --color-text: #212529;
+            --color-card-bg: #ffffff;
+            --color-accent: #ee9b00;
+            --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        body { font-family: var(--font-family); background-color: var(--color-background); color: var(--color-text); line-height: 1.6; margin: 0; padding: 0; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
+        header { background-color: var(--color-primary); color: white; padding: 40px 20px; text-align: center; border-radius: 0 0 15px 15px; }
+        header h1 { margin: 0; font-size: 2.5em; }
+        header p { font-size: 1.2em; opacity: 0.9; }
+        .slide { background-color: var(--color-card-bg); border-radius: 15px; padding: 30px; margin-top: 30px; box-shadow: var(--box-shadow); transition: transform 0.3s; }
+        .slide:hover { transform: translateY(-5px); }
+        .slide h2 { color: var(--color-secondary); border-bottom: 3px solid var(--color-secondary); padding-bottom: 10px; margin-top: 0; }
+        .highlight-box { background-color: #e9ecef; border-left: 5px solid var(--color-accent); padding: 20px; margin: 20px 0; border-radius: 5px; }
+        .highlight-box h3 { color: var(--color-primary); margin-top: 0; }
+        code { background-color: #e0e0e0; padding: 3px 5px; border-radius: 4px; font-family: "Courier New", Courier, monospace; display: block; white-space: pre-wrap; word-wrap: break-word; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; table-layout: auto; }
+        th, td { border: 1px solid #dee2e6; padding: 12px; text-align: left; vertical-align: top; font-size: 0.95em; }
+        th { background-color: var(--color-secondary); color: white; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+        footer { text-align: center; margin-top: 40px; padding: 20px; font-size: 0.9em; color: #6c757d; }
+        a { color: var(--color-secondary); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .bmc-graphic { text-align: center; margin: 30px 0; }
+        .bmc-graphic svg { max-width: 800px; height: auto; }
+        .video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        @media (max-width: 768px) { header h1 { font-size: 2em; } .slide { padding: 20px; } table { display: block; overflow-x: auto; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Sesión 4: Modelo de Negocio y Ventaja Competitiva Sostenible</h1>
+            <p>Objetivo: Diseñar la arquitectura de cómo creamos, entregamos y capturamos valor.</p>
+        </header>
+
+        <main>
+            <section class="slide">
+                <h2>Introducción: El ADN de tu Negocio</h2>
+                <p>Un modelo de negocio es mucho más que una simple fuente de ingresos; es el plano completo de tu emprendimiento. Define cómo todas las piezas (clientes, producto, operaciones, finanzas) encajan para crear una máquina que funcione y crezca. Usaremos el <strong>Business Model Canvas</strong>, una herramienta visual y estratégica, para mapear, discutir y diseñar el modelo de negocio de tu proyecto de manera clara y estructurada.</p>
+            </section>
+
+            <section class="slide">
+                <h2>Fase 1: El Business Model Canvas</h2>
+                <p>El canvas se compone de 9 bloques de construcción que cubren las cuatro áreas principales de un negocio: clientes, oferta, infraestructura y viabilidad financiera.</p>
+                <div class="bmc-graphic">
+                    <svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="1" y="1" width="798" height="398" fill="#f8f9fa" stroke="#dee2e6"/>
+                        <path d="M400 1 H400 399 V300 H0 V1 Z" stroke="#dee2e6" fill="none"/>
+                        <path d="M0 300 H800 V400 H0 Z" stroke="#dee2e6" fill="none"/>
+                        <path d="M160 1 V300 M320 1 V150 M480 1 V300 M640 1 V300 M320 150 H480" stroke="#dee2e6" fill="none"/>
+                        <text x="80" y="20" text-anchor="middle">8. Key Partnerships</text>
+                        <text x="240" y="20" text-anchor="middle">7. Key Activities</text>
+                        <text x="400" y="20" text-anchor="middle">2. Value Propositions</text>
+                        <text x="560" y="20" text-anchor="middle">4. Customer Relationships</text>
+                        <text x="720" y="20" text-anchor="middle">1. Customer Segments</text>
+                        <text x="240" y="170" text-anchor="middle">6. Key Resources</text>
+                        <text x="400" y="170" text-anchor="middle">3. Channels</text>
+                        <text x="200" y="320" text-anchor="middle">9. Cost Structure</text>
+                        <text x="600" y="320" text-anchor="middle">5. Revenue Streams</text>
+                    </svg>
+                </div>
+                <h4>Los 9 Bloques del Canvas</h4>
+                <table>
+                    <tr><td><strong>1. Segmentos de Clientes:</strong> ¿Para quién creamos valor? ¿Quiénes son nuestros clientes más importantes?</td><td><strong>2. Propuesta de Valor:</strong> ¿Qué problema resolvemos? ¿Qué necesidad satisfacemos? ¿Qué valor entregamos?</td></tr>
+                    <tr><td><strong>3. Canales:</strong> ¿Cómo llegamos a nuestros clientes? ¿Cómo se enteran, evalúan, compran y reciben soporte?</td><td><strong>4. Relaciones con Clientes:</strong> ¿Qué tipo de relación espera cada segmento? (Ej: automatizada, personal, etc.)</td></tr>
+                    <tr><td><strong>5. Fuentes de Ingresos:</strong> ¿Por qué valor están dispuestos a pagar nuestros clientes? (Ej: suscripción, venta, licencia).</td><td><strong>6. Recursos Clave:</strong> ¿Qué activos son esenciales? (Ej: físicos, intelectuales, humanos, financieros).</td></tr>
+                    <tr><td><strong>7. Actividades Clave:</strong> ¿Qué acciones son cruciales para entregar nuestra propuesta de valor? (Ej: I+D, producción, marketing).</td><td><strong>8. Socios Clave:</strong> ¿Quiénes son nuestros socios y proveedores estratégicos?</td></tr>
+                    <tr><td colspan="2"><strong>9. Estructura de Costos:</strong> ¿Cuáles son los costos más importantes inherentes a nuestro modelo de negocio?</td></tr>
+                </table>
+            </section>
+
+            <section class="slide">
+                <h2>Fase 2: Construyendo tu "Foso" (Moat) Competitivo</h2>
+                <p>Una buena idea atrae competencia. Una ventaja competitiva sostenible (o "foso") es una barrera que protege a tu negocio de ser copiado. No se trata de ser el primero, sino de ser difícil de seguir.</p>
+                <table>
+                    <thead><tr><th>Tipo de Ventaja</th><th>Descripción</th><th>Ejemplo en Health-Tech</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Propiedad Intelectual (Patentes)</strong></td><td>Protección legal sobre una invención única.</td><td>Una patente sobre un nuevo biomarcador para el diagnóstico temprano de una enfermedad.</td></tr>
+                        <tr><td><strong>Efecto de Red (Network Effects)</strong></td><td>El valor del servicio aumenta a medida que más gente lo usa.</td><td>Una plataforma de telemedicina donde más médicos atraen a más pacientes, y viceversa.</td></tr>
+                        <tr><td><strong>Altos Costos de Cambio (Switching Costs)</strong></td><td>Es difícil o costoso para un cliente cambiarse a un competidor.</td><td>Un sistema de gestión de historias clínicas electrónicas que está profundamente integrado en los flujos de trabajo de un hospital.</td></tr>
+                        <tr><td><strong>Ventaja de Marca (Brand)</strong></td><td>La confianza y reputación que has construido con tus clientes.</td><td>Una marca de suplementos nutricionales que es sinónimo de calidad y evidencia científica.</td></tr>
+                        <tr><td><strong>Datos Propietarios</strong></td><td>Acumular un conjunto de datos único y valioso que es difícil de replicar.</td><td>Un algoritmo de IA entrenado con 10 años de datos clínicos anonimizados de una red de hospitales.</td></tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="slide">
+                <h2>Ejemplo de Business Model Canvas: "Adheretech"</h2>
+                <div class="highlight-box">
+                    <p>A continuación, un resumen del canvas para nuestro caso de estudio, el pastillero inteligente.</p>
+                </div>
+                <table style="word-wrap: break-word;">
+                    <tr><th>Segmentos de Clientes</th><td>Cuidadores de adultos mayores (50-65 años, preocupados por la salud de sus padres). Hijos/as con poder adquisitivo.</td></tr>
+                    <tr><th>Propuesta de Valor</th><td>Tranquilidad para los cuidadores al asegurar la correcta adherencia al tratamiento de sus seres queridos, a través de un sistema inteligente y no invasivo.</td></tr>
+                    <tr><th>Canales</th><td>Venta online (e-commerce), alianzas con farmacias de barrio, convenios con aseguradoras.</td></tr>
+                    <tr><th>Relaciones con Clientes</th><td>Soporte técnico vía chat/teléfono. Comunidad online para cuidadores.</td></tr>
+                    <tr><th>Fuentes de Ingresos</th><td>Venta del dispositivo (hardware) + Suscripción mensual (SaaS) por el servicio de monitoreo y notificaciones.</td></tr>
+                    <tr><th>Recursos Clave</th><td>El dispositivo (hardware), la plataforma de software (app), el algoritmo de IA, la marca "Adheretech".</td></tr>
+                    <tr><th>Actividades Clave</th><td>I+D en hardware y software, gestión de la cadena de suministro, marketing digital, soporte al cliente.</td></tr>
+                    <tr><th>Socios Clave</th><td>Fabricantes de componentes electrónicos, desarrolladores de software, distribuidores farmacéuticos.</td></tr>
+                    <tr><th>Estructura de Costos</th><td>Costos de fabricación, salarios (ingenieros, soporte), marketing, mantenimiento de servidores.</td></tr>
+                </table>
+            </section>
+
+            <section class="slide">
+                <h2>🎥 Videos de Apoyo</h2>
+                <div class="video-grid">
+                    <div class="highlight-box">
+                        <h3>Business Model Canvas Explicado</h3>
+                        <p>Una explicación de 10 minutos de los creadores del canvas, Strategyzer.</p>
+                        <a href="https://youtu.be/OnvW8vbM02U?si=1UIGIx-ts8TF5VO8" target="_blank">Ver video en YouTube</a>
+                    </div>
+                    <div class="highlight-box">
+                        <h3>Modelos de Negocio (SaaS)</h3>
+                        <p>Una explicación rápida y clara del modelo de Software como Servicio (SaaS), dominante en el sector tecnológico.</p>
+                        <a href="https://youtu.be/-MFutxyFm8E?si=NOWEGjoy44Ha1orZ" target="_blank">Ver video en YouTube</a>
+                    </div>
+                     <div class="highlight-box">
+                        <h3>Ventaja Competitiva (Foso)</h3>
+                        <p>Una explicación sencilla del concepto de "foso económico" o ventaja competitiva sostenible de Warren Buffett.</p>
+                        <a href="https://youtu.be/OwW5-hZ8b1M?si=pAvUB1Bwr8hnCkz6" target="_blank">Ver video en YouTube</a>
+                    </div>
+                </div>
+            </section>
+
+            <section class="slide">
+                <h2>Rúbrica de Evaluación (100 Puntos)</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 20%;">Criterio de Evaluación</th>
+                            <th>Excelente (25-21 pts)</th>
+                            <th>Bueno (20-16 pts)</th>
+                            <th>Regular (15-11 pts)</th>
+                            <th>Deficiente (1-10 pts)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Coherencia del Business Model Canvas</strong></td>
+                            <td>Todos los 9 bloques del lienzo son sólidos, coherentes y están lógicamente conectados entre sí. La historia que cuenta es creíble.</td>
+                            <td>El lienzo está completo, pero algunas conexiones entre bloques son débiles o poco claras.</td>
+                            <td>El lienzo está incompleto o las secciones son contradictorias entre sí.</td>
+                            <td>Lienzo muy deficiente o no entregado.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Claridad de las Fuentes de Ingreso</strong></td>
+                            <td>El modelo de ingresos es claro, justificado y adecuado para los segmentos de clientes definidos.</td>
+                            <td>El modelo de ingresos es claro, pero podría no ser el más adecuado o estar poco justificado.</td>
+                            <td>El modelo de ingresos es confuso o poco realista.</td>
+                            <td>Modelo de ingresos ausente o inviable.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Estrategia de Diferenciación (Foso)</strong></td>
+                            <td>La estrategia de diferenciación es clara, sostenible y se basa en una o más ventajas competitivas difíciles de copiar (ej. tecnología, red).</td>
+                            <td>La diferenciación es clara, pero podría no ser sostenible a largo plazo o es fácilmente imitable.</td>
+                            <td>La diferenciación se basa en características débiles (ej. "ser el primero" o "mejor diseño").</td>
+                            <td>No hay una estrategia de diferenciación clara.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Viabilidad General del Modelo</strong></td>
+                            <td>El modelo de negocio en su conjunto es realista, escalable y financieramente atractivo. Los costos y recursos están alineados con la propuesta de valor.</td>
+                            <td>El modelo es posible, pero puede tener supuestos demasiado optimistas o desequilibrios entre costos e ingresos.</td>
+                            <td>La viabilidad del modelo es cuestionable o es difícil de escalar.</td>
+                            <td>El modelo de negocio no es viable.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </main>
+
+        <footer>
+            <p>Curso Emprendimiento en Salud - Preparación para Shark Tank</p>
+        </footer>
+    </div>
+</body>
+</html>

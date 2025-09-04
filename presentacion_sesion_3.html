@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sesión 3: Validación de Mercado y Cliente</title>
+    <style>
+        :root {
+            --color-primary: #005f73;
+            --color-secondary: #0a9396;
+            --color-background: #f8f9fa;
+            --color-text: #212529;
+            --color-card-bg: #ffffff;
+            --color-accent: #ee9b00;
+            --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        body { font-family: var(--font-family); background-color: var(--color-background); color: var(--color-text); line-height: 1.6; margin: 0; padding: 0; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
+        header { background-color: var(--color-primary); color: white; padding: 40px 20px; text-align: center; border-radius: 0 0 15px 15px; }
+        header h1 { margin: 0; font-size: 2.5em; }
+        header p { font-size: 1.2em; opacity: 0.9; }
+        .slide { background-color: var(--color-card-bg); border-radius: 15px; padding: 30px; margin-top: 30px; box-shadow: var(--box-shadow); transition: transform 0.3s; }
+        .slide:hover { transform: translateY(-5px); }
+        .slide h2 { color: var(--color-secondary); border-bottom: 3px solid var(--color-secondary); padding-bottom: 10px; margin-top: 0; }
+        .highlight-box { background-color: #e9ecef; border-left: 5px solid var(--color-accent); padding: 20px; margin: 20px 0; border-radius: 5px; }
+        .highlight-box h3 { color: var(--color-primary); margin-top: 0; }
+        code { background-color: #e0e0e0; padding: 3px 5px; border-radius: 4px; font-family: "Courier New", Courier, monospace; display: block; white-space: pre-wrap; word-wrap: break-word; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; table-layout: auto; }
+        th, td { border: 1px solid #dee2e6; padding: 12px; text-align: left; vertical-align: top; font-size: 0.95em; }
+        th { background-color: var(--color-secondary); color: white; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+        footer { text-align: center; margin-top: 40px; padding: 20px; font-size: 0.9em; color: #6c757d; }
+        a { color: var(--color-secondary); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .fit-graphic { text-align: center; margin: 30px 0; }
+        .fit-graphic svg { max-width: 600px; height: auto; }
+        .video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .persona-card { background: #fdfdfd; border: 1px solid #eee; border-radius: 10px; padding: 20px; }
+        @media (max-width: 768px) { header h1 { font-size: 2em; } .slide { padding: 20px; } table { display: block; overflow-x: auto; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Sesión 3: Validación de Mercado y Cliente</h1>
+            <p>Objetivo: Salir del laboratorio y validar si a alguien realmente le importa nuestra idea.</p>
+        </header>
+
+        <main>
+            <section class="slide">
+                <h2>Introducción: El Costo de No Validar</h2>
+                <p>La principal causa de fracaso en las startups no es la tecnología, sino la falta de clientes. Construir una solución que nadie quiere es el error más caro que un emprendedor puede cometer. La validación temprana a través de entrevistas nos ayuda a mitigar este riesgo, permitiéndonos aprender y pivotar antes de invertir recursos significativos. Buscamos el <strong>"Problem-Solution Fit"</strong>: la evidencia de que tenemos un problema que vale la pena resolver y una solución que la gente está dispuesta a usar.</p>
+                <div class="fit-graphic">
+                    <svg viewBox="0 0 300 150" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="75" cy="75" r="60" fill="#e9ecef"/>
+                        <text x="75" y="75" text-anchor="middle" dy=".3em" font-size="14">Problema del Cliente</text>
+                        <circle cx="225" cy="75" r="60" fill="#e9ecef"/>
+                        <text x="225" y="75" text-anchor="middle" dy=".3em" font-size="14">Tu Solución</text>
+                        <path d="M 130 75 C 150 50, 180 50, 200 75 C 180 100, 150 100, 130 75 Z" fill="#0a9396" opacity="0.7"/>
+                        <text x="165" y="75" text-anchor="middle" dy=".3em" font-size="12" fill="white">Fit</text>
+                    </svg>
+                </div>
+            </section>
+
+            <section class="slide">
+                <h2>Fase 1: El Arte de la Entrevista de Validación</h2>
+                <p>El objetivo no es vender, es aprender. Debemos hacer preguntas que nos den hechos y compromisos, no opiniones y cumplidos. Para ello, aplicaremos los principios de "The Mom Test".</p>
+                <h4>Do's y Don'ts de las Entrevistas</h4>
+                <table>
+                    <thead><tr><th>Do's (Hacer)</th><th>Don'ts (No Hacer)</th></tr></thead>
+                    <tbody>
+                        <tr><td>✅ Hablar sobre la vida del cliente, no sobre tu idea.</td><td>❌ Preguntar "¿Crees que es una buena idea?"</td></tr>
+                        <tr><td>✅ Preguntar sobre experiencias pasadas específicas.</td><td>❌ Hablar de características o funcionalidades hipotéticas.</td></tr>
+                        <tr><td>✅ Escuchar más de lo que hablas.</td><td>❌ Vender o defender tu idea.</td></tr>
+                        <tr><td>✅ Buscar hechos y compromisos (tiempo, dinero, reputación).</td><td>❌ Aceptar cumplidos como validación.</td></tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="slide">
+                <h2>Fase 2: Definiendo tu Cliente Ideal (Customer Persona)</h2>
+                <p>No podemos venderle a todo el mundo. Un "Customer Persona" o arquetipo es una representación semi-ficticia de nuestro cliente ideal. Nos ayuda a empatizar y a tomar decisiones de producto y marketing centradas en quien realmente importa.</p>
+                <div class="highlight-box persona-card">
+                    <h3>Ejemplo de Persona: "Adheretech"</h3>
+                    <p><strong>Nombre:</strong> Elena, 52 años.</p>
+                    <p><strong>Rol:</strong> Cuidadora principal de su padre de 80 años, que tiene diabetes y hipertensión.</p>
+                    <p><strong>Demografía:</strong> Trabaja a tiempo completo como contadora, casada, con dos hijos adolescentes. Vive a 20 minutos en coche de su padre.</p>
+                    <p><strong>Metas:</strong> Quiere que su padre mantenga su independencia y salud el mayor tiempo posible. Busca tranquilidad y reducir su carga de estrés diario.</p>
+                    <p><strong>Frustraciones:</strong> "No sé si papá se tomó las pastillas correctas hoy. Lo llamo todos los días, pero a veces se le olvida o se confunde. Me da pánico que tenga una crisis por un descuido."
+                    </p>
+                    <p><strong>Un día en su vida:</strong> Se levanta temprano, prepara a su familia, trabaja 8 horas, sale corriendo a casa de su padre para organizar sus pastillas, vuelve a casa para hacer la cena y ayudar con las tareas. Antes de dormir, vuelve a llamar a su padre para recordarle la pastilla de la noche.</p>
+                </div>
+            </section>
+
+            <section class="slide">
+                <h2>Fase 3: Cuantificando la Oportunidad (TAM, SAM, SOM)</h2>
+                <p>Los inversores y socios querrán saber el potencial de tu idea en cifras. El análisis TAM, SAM, SOM es el estándar para dimensionar tu mercado.</p>
+                <table>
+                    <thead><tr><th>Término</th><th>Definición</th><th>Ejemplo: Adheretech</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>TAM (Total Addressable Market)</strong></td><td>El mercado total para tu tipo de solución. ¿Cuánta gente en el mundo tiene este problema?</td><td>Mercado global de adherencia a medicamentos (~$500 mil millones).</td></tr>
+                        <tr><td><strong>SAM (Serviceable Addressable Market)</strong></td><td>La porción del TAM a la que puedes llegar con tus canales de venta, dentro de tus límites geográficos.</td><td>Adultos mayores de 65 con enfermedades crónicas en LATAM que tienen un smartphone (~$10 mil millones).</td></tr>
+                        <tr><td><strong>SOM (Serviceable Obtainable Market)</strong></td><td>La porción del SAM que realísticamente puedes capturar en los primeros 3-5 años, considerando la competencia.</td><td>1% del SAM en Perú y Colombia en 3 años (~$20 millones).</td></tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="slide">
+                <h2>🎥 Videos de Apoyo</h2>
+                <div class="video-grid">
+                    <div class="highlight-box">
+                        <h3>The Mom Test (Resumen)</h3>
+                        <p>Un resumen de 6 minutos con los principios clave para hacer preguntas que importan.</p>
+                        <a href="https://youtu.be/l1fTWBEmg2Y?si=CLnKH5g4mrQ1i09z" target="_blank">Ver video en YouTube</a>
+                    </div>
+                    <div class="highlight-box">
+                        <h3>Cómo Crear Customer Personas</h3>
+                        <p>Una guía de HubSpot para desarrollar arquetipos de cliente detallados y útiles.</p>
+                        <a href="https://youtu.be/SaCwR9qwe8w?si=aZyoEGdDFIlMCsy1" target="_blank">Ver video en YouTube</a>
+                    </div>
+                     <div class="highlight-box">
+                        <h3>Cómo Calcular TAM, SAM, SOM</h3>
+                        <p>Una explicación clara con ejemplos sobre cómo dimensionar tu mercado para startups.</p>
+                        <a href="https://youtu.be/xcNYkHX4hO0?si=YjHyQJnMWd6R-heW" target="_blank">Ver video en YouTube</a>
+                    </div>
+                </div>
+            </section>
+
+            <section class="slide">
+                <h2>Rúbrica de Evaluación (100 Puntos)</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 20%;">Criterio de Evaluación</th>
+                            <th>Excelente (25-21 pts)</th>
+                            <th>Bueno (20-16 pts)</th>
+                            <th>Regular (15-11 pts)</th>
+                            <th>Deficiente (1-10 pts)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Análisis de Mercado (TAM/SAM/SOM)</strong></td>
+                            <td>Los cálculos son lógicos, bien justificados y basados en fuentes creíbles. Demuestra un profundo entendimiento del mercado.</td>
+                            <td>Los cálculos son lógicos, aunque las fuentes o supuestos podrían ser más claros.</td>
+                            <td>Los números parecen estimaciones sin mucha justificación o las definiciones son confusas.</td>
+                            <td>Análisis ausente o no creíble.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Profundidad del Customer Persona</strong></td>
+                            <td>Se presentan 2+ personas vívidas y detalladas, incluyendo dolores, motivaciones y comportamientos que se sienten reales.</td>
+                            <td>Se presenta al menos 1 persona bien definida más allá de la demografía.</td>
+                            <td>La persona es superficial, centrada en datos demográficos y generalidades.</td>
+                            <td>Arquetipo vago, irreal o ausente.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Guion de Entrevista de Validación</strong></td>
+                            <td>Presenta un guion con 5+ preguntas abiertas, no sesgadas y enfocadas en problemas pasados, siguiendo los principios de The Mom Test.</td>
+                            <td>El guion tiene buenas preguntas, aunque algunas podrían ser más abiertas o menos directas.</td>
+                            <td>El guion contiene preguntas sesgadas o enfocadas en la solución.</td>
+                            <td>Guion ausente o de muy baja calidad.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Uso de IA para Investigación</strong></td>
+                            <td>Se documenta el uso de IA para generar borradores de personas, encontrar datos de mercado o refinar preguntas de entrevista.</td>
+                            <td>Se evidencia el uso de IA en al menos una de las áreas (personas, mercado, entrevistas).</td>
+                            <td>Uso limitado o no documentado de la IA.</td>
+                            <td>No se evidencia uso de IA.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </main>
+
+        <footer>
+            <p>Curso Emprendimiento en Salud - Preparación para Shark Tank</p>
+        </footer>
+    </div>
+</body>
+</html>

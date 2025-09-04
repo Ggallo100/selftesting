@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sesión 5: Planificación Financiera y Retorno de Inversión (ROI)</title>
+    <style>
+        :root {
+            --color-primary: #005f73;
+            --color-secondary: #0a9396;
+            --color-background: #f8f9fa;
+            --color-text: #212529;
+            --color-card-bg: #ffffff;
+            --color-accent: #ee9b00;
+            --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        body { font-family: var(--font-family); background-color: var(--color-background); color: var(--color-text); line-height: 1.6; margin: 0; padding: 0; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
+        header { background-color: var(--color-primary); color: white; padding: 40px 20px; text-align: center; border-radius: 0 0 15px 15px; }
+        header h1 { margin: 0; font-size: 2.5em; }
+        header p { font-size: 1.2em; opacity: 0.9; }
+        .slide { background-color: var(--color-card-bg); border-radius: 15px; padding: 30px; margin-top: 30px; box-shadow: var(--box-shadow); transition: transform 0.3s; }
+        .slide:hover { transform: translateY(-5px); }
+        .slide h2 { color: var(--color-secondary); border-bottom: 3px solid var(--color-secondary); padding-bottom: 10px; margin-top: 0; }
+        .highlight-box { background-color: #e9ecef; border-left: 5px solid var(--color-accent); padding: 20px; margin: 20px 0; border-radius: 5px; }
+        .highlight-box h3 { color: var(--color-primary); margin-top: 0; }
+        code { background-color: #e0e0e0; padding: 3px 5px; border-radius: 4px; font-family: "Courier New", Courier, monospace; display: block; white-space: pre-wrap; word-wrap: break-word; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; table-layout: auto; }
+        th, td { border: 1px solid #dee2e6; padding: 12px; text-align: left; vertical-align: top; font-size: 0.95em; }
+        th { background-color: var(--color-secondary); color: white; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+        footer { text-align: center; margin-top: 40px; padding: 20px; font-size: 0.9em; color: #6c757d; }
+        a { color: var(--color-secondary); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .finance-flow { text-align: center; margin: 30px 0; }
+        .finance-flow svg { max-width: 800px; height: auto; }
+        .video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        @media (max-width: 768px) { header h1 { font-size: 2em; } .slide { padding: 20px; } table { display: block; overflow-x: auto; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Sesión 5: Planificación Financiera y Retorno de Inversión (ROI)</h1>
+            <p>Objetivo: Traducir tu modelo de negocio a números y entender el lenguaje de los inversores.</p>
+        </header>
+
+        <main>
+            <section class="slide">
+                <h2>Introducción: El Chequeo Médico de tu Startup</h2>
+                <p>La planificación financiera es como un chequeo médico para tu emprendimiento. Nos permite diagnosticar la salud de nuestra idea, anticipar problemas y, lo más importante, comunicar su potencial de forma clara y convincente. Unas proyecciones financieras sólidas no son solo para conseguir inversión; son una hoja de ruta para tomar decisiones inteligentes y asegurar la supervivencia y el crecimiento de tu proyecto.</p>
+            </section>
+
+            <section class="slide">
+                <h2>Fase 1: Anatomía de tus Finanzas</h2>
+                <p>Antes de proyectar, debemos entender los componentes básicos. Estos son los signos vitales de tu negocio.</p>
+                <div class="finance-flow">
+                    <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+                        <text x="200" y="20" text-anchor="middle" font-weight="bold">Ingresos Totales</text>
+                        <rect x="150" y="30" width="100" height="20" fill="#0a9396"/>
+                        <text x="200" y="43" fill="white" font-size="12" text-anchor="middle">Ventas</text>
+                        <path d="M200 50 V70" stroke="black" marker-end="url(#arrow)"/>
+                        <text x="200" y="85" text-anchor="middle" font-weight="bold">- COGS</text>
+                        <rect x="150" y="95" width="100" height="20" fill="#ee9b00"/>
+                        <text x="200" y="108" fill="white" font-size="12" text-anchor="middle">Costos Directos</text>
+                        <path d="M200 115 V135" stroke="black" marker-end="url(#arrow)"/>
+                        <text x="200" y="150" text-anchor="middle" font-weight="bold">= Margen Bruto</text>
+                         <path d="M200 160 V180" stroke="black" marker-end="url(#arrow)"/>
+                        <text x="200" y="195" text-anchor="middle" font-weight="bold">- Gastos Operativos</text>
+                    </svg>
+                </div>
+                <table>
+                    <thead><tr><th>Concepto Financiero</th><th>Explicación Simple</th><th>Ejemplo: Adheretech</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Ingresos (Revenue)</strong></td><td>El dinero total que entra por la venta de tu producto o servicio.</td><td>Venta de 100 pastilleros a S/200 c/u = S/20,000.</td></tr>
+                        <tr><td><strong>Costo de Bienes Vendidos (COGS)</strong></td><td>Los costos directamente ligados a la producción de una unidad. Si no vendes nada, este costo es cero.</td><td>Costo de los componentes electrónicos y el ensamblaje de un pastillero (S/50).</td></tr>
+                        <tr><td><strong>Margen Bruto (Gross Margin)</strong></td><td>Ingresos - COGS. Muestra cuánto ganas por cada producto vendido, antes de otros gastos.</td><td>S/200 (precio) - S/50 (COGS) = S/150 por pastillero.</td></tr>
+                        <tr><td><strong>Gastos Operativos (OpEx)</strong></td><td>Los costos fijos para mantener el negocio funcionando, vendas o no.</td><td>Salarios de ingenieros, alquiler de oficina, marketing, software.</td></tr>
+                        <tr><td><strong>Beneficio Neto (Net Profit)</strong></td><td>La ganancia final después de restar TODOS los costos (COGS + OpEx).</td><td>Margen Bruto Total - Gastos Operativos.</td></tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="slide">
+                <h2>Fase 2: Proyecciones Financieras a 3 Años</h2>
+                <p>Aquí es donde estimamos el futuro. Sé optimista pero realista. Basa tus números en tu análisis de mercado (SOM) y en supuestos claros.</p>
+                <h4>Plantilla de Proyecciones Simplificada</h4>
+                <table style="word-wrap: break-word;">
+                    <thead><tr><th>Métrica</th><th>Año 1</th><th>Año 2</th><th>Año 3</th><th>Guía / Supuesto</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Unidades Vendidas</strong></td><td><i>1,000</i></td><td><i>3,000</i></td><td><i>7,500</i></td><td>Basado en capturar un % de tu SOM cada año.</td></tr>
+                        <tr><td><strong>Precio por Unidad</strong></td><td><i>S/200</i></td><td><i>S/200</i></td><td><i>S/190</i></td><td>¿Mantendrás el precio o lo bajarás para ganar mercado?</td></tr>
+                        <tr><td><strong>Ingresos Totales</strong></td><td><i>S/200,000</i></td><td><i>S/600,000</i></td><td><i>S/1,425,000</i></td><td>(Unidades * Precio)</td></tr>
+                        <tr><td><strong>COGS por Unidad</strong></td><td><i>S/50</i></td><td><i>S/45</i></td><td><i>S/40</i></td><td>El costo por unidad debería bajar con economías de escala.</td></tr>
+                        <tr><td><strong>Costo Total (COGS)</strong></td><td><i>S/50,000</i></td><td><i>S/135,000</i></td><td><i>S/300,000</i></td><td>(Unidades * COGS por Unidad)</td></tr>
+                        <tr><td><strong>Gastos Operativos (OpEx)</strong></td><td><i>S/180,000</i></td><td><i>S/250,000</i></td><td><i>S/400,000</i></td><td>Incluye salarios, marketing, etc. Crece a medida que escalas.</td></tr>
+                        <tr><td><strong>Beneficio Neto (Anual)</strong></td><td><i>-S/30,000</i></td><td><i>S/215,000</i></td><td><i>S/725,000</i></td><td>(Ingresos - COGS Total - OpEx). Es normal tener pérdidas el primer año.</td></tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="slide">
+                <h2>Fase 3: ROI y Capital Requerido</h2>
+                <p>El <strong>Capital Inicial</strong> es el dinero que necesitas para cubrir tus costos hasta que el negocio genere suficiente efectivo para sostenerse. El <strong>Retorno de la Inversión (ROI)</strong> le dice a un inversor cuánta ganancia obtendrá por apostar en tu idea.</p>
+                <div class="highlight-box">
+                    <h3>Cálculo del ROI</h3>
+                    <p><strong>Fórmula:</strong> ROI = ( (Beneficio Neto Acumulado - Inversión Inicial) / Inversión Inicial ) * 100</p>
+                    <p><strong>Ejemplo Adheretech:</strong></p>
+                    <ul>
+                        <li><strong>Capital Inicial Requerido:</strong> S/200,000 (para cubrir pérdidas del Año 1 y tener un colchón).</li>
+                        <li><strong>Beneficio Neto Acumulado (Año 1 a 3):</strong> -30,000 + 215,000 + 725,000 = S/910,000</li>
+                        <li><strong>Cálculo:</strong> ( (910,000 - 200,000) / 200,000 ) * 100 = <strong>355%</strong></li>
+                        <li><strong>Interpretación:</strong> Por cada sol invertido, el inversor recibe S/3.55 de ganancia después de 3 años.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="slide">
+                <h2>🎥 Videos de Apoyo</h2>
+                <div class="video-grid">
+                    <div class="highlight-box">
+                        <h3>Proyecciones Financieras para Startups</h3>
+                        <p>Una guía de QuickBooks para crear tus primeras proyecciones financieras sin ser un experto.</p>
+                        <a href="https://youtu.be/zvfsRJmN6Qc?si=gxgXVUbXgrvMiNpW" target="_blank">Ver video en YouTube</a>
+                    </div>
+                    <div class="highlight-box">
+                        <h3>COGS vs. Gastos Operativos (OpEx)</h3>
+                        <p>Una explicación clara sobre la diferencia entre costos directos e indirectos.</p>
+                        <a href="https://youtu.be/TjtTf9ZXlEo?si=wwZ5crKu_ETwz4rF" target="_blank">Ver video en YouTube</a>
+                    </div>
+                     <div class="highlight-box">
+                        <h3>Cómo Calcular el ROI</h3>
+                        <p>Una guía sencilla para calcular e interpretar el Retorno de la Inversión.</p>
+                        <a href="https://youtu.be/R4AKO8c2kBo?si=oB97nf5cAJc_A24r" target="_blank">Ver video en YouTube</a>
+                    </div>
+                </div>
+            </section>
+
+            <section class="slide">
+                <h2>Rúbrica de Evaluación (100 Puntos)</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 20%;">Criterio de Evaluación</th>
+                            <th>Excelente (25-21 pts)</th>
+                            <th>Bueno (20-16 pts)</th>
+                            <th>Regular (15-11 pts)</th>
+                            <th>Deficiente (1-10 pts)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Lógica de los Supuestos</strong></td>
+                            <td>Los supuestos de ventas, precios y costos son realistas y están claramente justificados con datos del mercado o la validación.</td>
+                            <td>Los supuestos son razonables, pero la justificación podría ser más sólida.</td>
+                            <td>Los supuestos son demasiado optimistas o no están justificados.</td>
+                            <td>Supuestos ausentes o ilógicos.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Claridad de las Proyecciones</strong></td>
+                            <td>La hoja de cálculo es clara, fácil de entender y está bien estructurada. Las fórmulas son correctas.</td>
+                            <td>La hoja de cálculo es funcional, pero podría estar mejor organizada.</td>
+                            <td>La hoja de cálculo es confusa, desorganizada o contiene errores de cálculo.</td>
+                            <td>Ausente o incomprensible.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Análisis de Sensibilidad</strong></td>
+                            <td>Se modelan 3 escenarios (optimista, realista, pesimista) de forma clara, mostrando el impacto en el beneficio y el ROI.</td>
+                            <td>Se modelan los 3 escenarios, pero el análisis del impacto es superficial.</td>
+                            <td>Se modelan menos de 3 escenarios o el análisis es incorrecto.</td>
+                            <td>Análisis ausente.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Cálculo de Capital y ROI</strong></td>
+                            <td>El capital inicial requerido está bien justificado y el cálculo del ROI es correcto y está bien interpretado.</td>
+                            <td>El cálculo es correcto, pero la justificación del capital inicial es débil.</td>
+                            <td>El cálculo del ROI o del capital contiene errores.</td>
+                            <td>Cálculos ausentes o incorrectos.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </main>
+
+        <footer>
+            <p>Curso Emprendimiento en Salud - Preparación para Shark Tank</p>
+        </footer>
+    </div>
+</body>
+</html>

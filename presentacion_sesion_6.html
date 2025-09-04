@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sesión 6: Escalabilidad, Alianzas y Propiedad Intelectual</title>
+    <style>
+        :root {
+            --color-primary: #005f73;
+            --color-secondary: #0a9396;
+            --color-background: #f8f9fa;
+            --color-text: #212529;
+            --color-card-bg: #ffffff;
+            --color-accent: #ee9b00;
+            --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        body { font-family: var(--font-family); background-color: var(--color-background); color: var(--color-text); line-height: 1.6; margin: 0; padding: 0; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
+        header { background-color: var(--color-primary); color: white; padding: 40px 20px; text-align: center; border-radius: 0 0 15px 15px; }
+        header h1 { margin: 0; font-size: 2.5em; }
+        header p { font-size: 1.2em; opacity: 0.9; }
+        .slide { background-color: var(--color-card-bg); border-radius: 15px; padding: 30px; margin-top: 30px; box-shadow: var(--box-shadow); transition: transform 0.3s; }
+        .slide:hover { transform: translateY(-5px); }
+        .slide h2 { color: var(--color-secondary); border-bottom: 3px solid var(--color-secondary); padding-bottom: 10px; margin-top: 0; }
+        .highlight-box { background-color: #e9ecef; border-left: 5px solid var(--color-accent); padding: 20px; margin: 20px 0; border-radius: 5px; }
+        .highlight-box h3 { color: var(--color-primary); margin-top: 0; }
+        code { background-color: #e0e0e0; padding: 3px 5px; border-radius: 4px; font-family: "Courier New", Courier, monospace; display: block; white-space: pre-wrap; word-wrap: break-word; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; table-layout: auto; }
+        th, td { border: 1px solid #dee2e6; padding: 12px; text-align: left; vertical-align: top; font-size: 0.95em; }
+        th { background-color: var(--color-secondary); color: white; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+        footer { text-align: center; margin-top: 40px; padding: 20px; font-size: 0.9em; color: #6c757d; }
+        a { color: var(--color-secondary); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .j-curve-graphic { text-align: center; margin: 30px 0; }
+        .j-curve-graphic svg { max-width: 600px; height: auto; }
+        .video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        @media (max-width: 768px) { header h1 { font-size: 2em; } .slide { padding: 20px; } table { display: block; overflow-x: auto; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Sesión 6: Escalabilidad, Alianzas y Propiedad Intelectual</h1>
+            <p>Objetivo: Definir cómo escalar el negocio y proteger la innovación.</p>
+        </header>
+
+        <main>
+            <section class="slide">
+                <h2>Introducción: Los Pilares del Crecimiento Sostenible</h2>
+                <p>Para que un emprendimiento en salud no solo sobreviva, sino que prospere a largo plazo, necesita tres pilares fundamentales: la capacidad de crecer eficientemente (<strong>Escalabilidad</strong>), la habilidad de colaborar estratégicamente con otros (<strong>Alianzas</strong>), y la protección de sus ideas y creaciones únicas (<strong>Propiedad Intelectual</strong>). Esta sesión te equipará con las herramientas para construir estos cimientos sólidos.</p>
+            </section>
+
+            <section class="slide">
+                <h2>Fase 1: Estrategias de Escalabilidad</h2>
+                <p>Escalar no es solo crecer en ventas, es crecer de forma eficiente, sin que los costos aumenten proporcionalmente. Implica optimizar procesos, tecnología y equipo.</p>
+                <div class="j-curve-graphic">
+                    <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+                        <line x1="50" y1="150" x2="350" y2="150" stroke="black" stroke-width="2"/>
+                        <line x1="50" y1="150" x2="50" y2="50" stroke="black" stroke-width="2"/>
+                        <path d="M50 150 C 100 180, 150 180, 200 150 C 250 120, 300 80, 350 50" fill="none" stroke="#0a9396" stroke-width="3"/>
+                        <text x="20" y="155" font-size="12">Tiempo</text>
+                        <text x="40" y="40" font-size="12" transform="rotate(-90 40 40)">Valor/Crecimiento</text>
+                        <text x="100" y="170" font-size="10" fill="#ee9b00">Inversión Inicial</text>
+                        <text x="300" y="40" font-size="10" fill="#005f73">Crecimiento Exponencial</text>
+                    </svg>
+                </div>
+                <h4>Tipos de Escalabilidad</h4>
+                <table>
+                    <thead><tr><th>Tipo</th><th>Descripción</th><th>Ejemplo en Health-Tech</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Escalabilidad Técnica</strong></td><td>Capacidad de tu tecnología (software, hardware) para manejar un aumento masivo de usuarios o datos sin fallar.</td><td>Una plataforma de telemedicina que puede soportar 100,000 consultas simultáneas.</td></tr>
+                        <tr><td><strong>Escalabilidad Operacional</strong></td><td>Capacidad de tus procesos (producción, logística, soporte al cliente) para manejar un mayor volumen de trabajo.</td><td>Un sistema automatizado de empaquetado y envío de medicamentos a domicilio.</td></tr>
+                        <tr><td><strong>Escalabilidad Financiera</strong></td><td>La capacidad de tus márgenes de beneficio para mejorar a medida que aumentan las ventas (economías de escala).</td><td>El costo de producir cada pastillero inteligente disminuye a medida que fabricas más unidades.</td></tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="slide">
+                <h2>Fase 2: Alianzas Estratégicas</h2>
+                <p>Las alianzas son un atajo para el crecimiento. Te permiten acceder a recursos, mercados y conocimientos que no tienes, acelerando tu desarrollo y reduciendo riesgos.</p>
+                <h4>Tipos de Alianzas y Socios Potenciales</h4>
+                <table>
+                    <thead><tr><th>Tipo de Alianza</th><th>Socios Potenciales</th><th>Beneficio Mutuo</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Validación Clínica/Científica</strong></td><td>Universidades, hospitales de investigación, centros de salud.</td><td>Para ti: Credibilidad, acceso a pacientes, datos. Para ellos: Proyectos innovadores, publicaciones, financiación.</td></tr>
+                        <tr><td><strong>Acceso a Mercado/Distribución</strong></td><td>Cadenas de farmacias, aseguradoras, distribuidores de equipos médicos, clínicas.</td><td>Para ti: Canales de venta, alcance. Para ellos: Nuevos productos, diferenciación, ingresos.</td></tr>
+                        <tr><td><strong>Tecnología/Desarrollo</strong></td><td>Empresas de software, laboratorios de I+D, startups complementarias.</td><td>Para ti: Expertise técnico, co-desarrollo. Para ellos: Nuevas soluciones, diversificación, acceso a tu tecnología.</td></tr>
+                        <tr><td><strong>Financiamiento Estratégico</strong></td><td>Fondos de Venture Capital corporativos, inversores ángeles con experiencia en el sector.</td><td>Para ti: Capital, mentoría, red de contactos. Para ellos: Retorno financiero, acceso a innovación.</td></tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="slide">
+                <h2>Fase 3: Protección de la Propiedad Intelectual (PI)</h2>
+                <p>Tu innovación es tu activo más valioso. Protegerla es crucial para mantener tu ventaja competitiva y atraer inversores.</p>
+                <h4>Tipos de Propiedad Intelectual en Health-Tech</h4>
+                <table>
+                    <thead><tr><th>Tipo de PI</th><th>Qué Protege</th><th>Ejemplo en Health-Tech</th><th>Consideraciones</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Patentes</strong></td><td>Invenciones (productos, procesos, máquinas) que son nuevas, útiles y no obvias.</td><td>Un nuevo diseño de sensor para glucosa, un método innovador de diagnóstico.</td><td>Costosas y lentas de obtener, pero ofrecen fuerte protección por 20 años.</td></tr>
+                        <tr><td><strong>Secretos Industriales</strong></td><td>Información confidencial que da una ventaja competitiva (fórmulas, algoritmos, listas de clientes).</td><td>La base de datos de pacientes anonimizados, el algoritmo de IA predictivo.</td><td>No tienen fecha de caducidad, pero requieren medidas de seguridad estrictas.</td></tr>
+                        <tr><td><strong>Marcas Registradas</strong></td><td>Nombres, logotipos, eslóganes que identifican tu producto o servicio.</td><td>El nombre "Adheretech", el logo de tu app.</td><td>Protege tu marca y evita confusión en el mercado.</td></tr>
+                        <tr><td><strong>Derechos de Autor (Copyright)</strong></td><td>Obras originales de autoría (código de software, contenido de la app, material educativo).</td><td>El código fuente de tu app, los videos educativos para pacientes.</td><td>Protección automática al crear la obra, pero el registro ofrece más ventajas legales.</td></tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="slide">
+                <h2>Ejemplo Integrado: Estrategia de Crecimiento de "Adheretech"</h2>
+                <div class="highlight-box">
+                    <h3>Plan de Escalabilidad</h3>
+                    <p><strong>Año 1:</strong> Enfoque en el mercado local (Lima, Perú) con venta directa online. Validar la cadena de suministro y el soporte al cliente para 1,000 usuarios.</p>
+                    <p><strong>Año 2:</strong> Expandir a 3 ciudades principales de Perú y explorar alianzas con 2 cadenas de farmacias para distribución. Optimizar la producción para 5,000 unidades.</p>
+                    <p><strong>Año 3:</strong> Expansión internacional a Colombia y México. Buscar alianzas con aseguradoras de salud. Preparar la infraestructura tecnológica para 20,000 usuarios.</p>
+
+                    <h3>Alianzas Estratégicas Clave</h3>
+                    <ul>
+                        <li><strong>Universidad Peruana Cayetano Heredia (UPCH):</strong> Para un estudio clínico de validación del impacto de Adheretech en la adherencia a medicamentos.</li>
+                        <li><strong>Inkafarma/Mifarma:</strong> Para distribución y visibilidad en puntos de venta físicos.</li>
+                        <li><strong>Asociación de Diabéticos del Perú:</strong> Para acceso a la comunidad de pacientes y feedback continuo.</li>
+                    </ul>
+
+                    <h3>Estrategia de Propiedad Intelectual</h3>
+                    <ul>
+                        <li><strong>Patente:</strong> Iniciar el proceso para patentar el algoritmo de IA predictivo de adherencia.</li>
+                        <li><strong>Secreto Industrial:</strong> Mantener la base de datos de patrones de adherencia y los detalles de la implementación del algoritmo como secreto industrial.</li>
+                        <li><strong>Marca Registrada:</strong> Registrar el nombre "Adheretech" y su logotipo en Perú y en los países de expansión.</li>
+                        <li><strong>Derechos de Autor:</strong> Proteger el código fuente de la aplicación móvil y el material educativo para usuarios.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="slide">
+                <h2>🎥 Videos de Apoyo</h2>
+                <p><strong>Nota:</strong> Debido a limitaciones con la herramienta de búsqueda, los enlaces a continuación son marcadores de posición. Por favor, busca videos actualizados en YouTube sobre estos temas.</p>
+                <div class="video-grid">
+                    <div class="highlight-box">
+                        <h3>Escalabilidad de Negocios</h3>
+                        <p>Conceptos clave sobre cómo hacer crecer tu startup de forma sostenible.</p>
+                        <a href="#" target="_blank">Buscar en YouTube</a>
+                    </div>
+                    <div class="highlight-box">
+                        <h3>Alianzas Estratégicas para Startups</h3>
+                        <p>Cómo identificar y formar asociaciones que impulsen tu crecimiento.</p>
+                        <a href="#" target="_blank">Buscar en YouTube</a>
+                    </div>
+                     <div class="highlight-box">
+                        <h3>Propiedad Intelectual para Emprendedores</h3>
+                        <p>Una introducción a patentes, marcas, derechos de autor y secretos industriales.</p>
+                        <a href="#" target="_blank">Buscar en YouTube</a>
+                    </div>
+                </div>
+            </section>
+
+            <section class="slide">
+                <h2>Rúbrica de Evaluación (100 Puntos)</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 20%;">Criterio de Evaluación</th>
+                            <th>Excelente (25-21 pts)</th>
+                            <th>Bueno (20-16 pts)</th>
+                            <th>Regular (15-11 pts)</th>
+                            <th>Deficiente (1-10 pts)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Estrategia de Escalabilidad</strong></td>
+                            <td>El plan de escalabilidad es claro, ambicioso, realista y está definido con hitos y tecnología. Considera los tipos de escalabilidad (técnica, operacional, financiera).</td>
+                            <td>El plan de crecimiento es claro, pero poco detallado en uno o más tipos de escalabilidad.</td>
+                            <td>El plan es general o poco realista, sin considerar los diferentes tipos de escalabilidad.</td>
+                            <td>Ausente o inviable.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Alianzas Estratégicas</strong></td>
+                            <td>Se identifican 3+ alianzas clave con una justificación estratégica sólida y beneficios mutuos claros para ambos socios.</td>
+                            <td>Se identifican 2-3 alianzas con justificación, pero los beneficios mutuos no son totalmente claros.</td>
+                            <td>Se identifican alianzas poco relevantes o sin justificación clara.</td>
+                            <td>Ausente.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Estrategia de Propiedad Intelectual</strong></td>
+                            <td>Se define una estrategia de PI clara y defendible, considerando patentes, secretos industriales, marcas y derechos de autor, con justificación para cada elección.</td>
+                            <td>Se define una estrategia de PI básica, mencionando algunos tipos de protección, pero sin justificación detallada.</td>
+                            <td>La estrategia de PI es superficial o no considera los tipos de protección adecuados.</td>
+                            <td>Ausente o incorrecta.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Coherencia y Viabilidad General</strong></td>
+                            <td>La estrategia combinada de crecimiento, alianzas y PI es realista, coherente y está bien fundamentada, demostrando una visión a largo plazo.</td>
+                            <td>La estrategia es posible, pero con algunos puntos débiles o falta de coherencia entre los elementos.</td>
+                            <td>La viabilidad es cuestionable o los elementos no se integran bien.</td>
+                            <td>La estrategia no es viable o es incoherente.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </main>
+
+        <footer>
+            <p>Curso Emprendimiento en Salud - Preparación para Shark Tank</p>
+        </footer>
+    </div>
+</body>
+</html>

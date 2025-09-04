@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sesión 7: Proyecciones Financieras y "El Pedido"</title>
+    <style>
+        :root {
+            --color-primary: #005f73;
+            --color-secondary: #0a9396;
+            --color-background: #f8f9fa;
+            --color-text: #212529;
+            --color-card-bg: #ffffff;
+            --color-accent: #ee9b00;
+            --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        body { font-family: var(--font-family); background-color: var(--color-background); color: var(--color-text); line-height: 1.6; margin: 0; padding: 0; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
+        header { background-color: var(--color-primary); color: white; padding: 40px 20px; text-align: center; border-radius: 0 0 15px 15px; }
+        header h1 { margin: 0; font-size: 2.5em; }
+        header p { font-size: 1.2em; opacity: 0.9; }
+        .slide { background-color: var(--color-card-bg); border-radius: 15px; padding: 30px; margin-top: 30px; box-shadow: var(--box-shadow); transition: transform 0.3s; }
+        .slide:hover { transform: translateY(-5px); }
+        .slide h2 { color: var(--color-secondary); border-bottom: 3px solid var(--color-secondary); padding-bottom: 10px; margin-top: 0; }
+        .highlight-box { background-color: #e9ecef; border-left: 5px solid var(--color-accent); padding: 20px; margin: 20px 0; border-radius: 5px; }
+        .highlight-box h3 { color: var(--color-primary); margin-top: 0; }
+        code { background-color: #e0e0e0; padding: 3px 5px; border-radius: 4px; font-family: "Courier New", Courier, monospace; display: block; white-space: pre-wrap; word-wrap: break-word; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; table-layout: auto; }
+        th, td { border: 1px solid #dee2e6; padding: 12px; text-align: left; vertical-align: top; font-size: 0.95em; }
+        th { background-color: var(--color-secondary); color: white; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+        footer { text-align: center; margin-top: 40px; padding: 20px; font-size: 0.9em; color: #6c757d; }
+        a { color: var(--color-secondary); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .valuation-graphic { text-align: center; margin: 30px 0; }
+        .valuation-graphic svg { max-width: 600px; height: auto; }
+        .video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        @media (max-width: 768px) { header h1 { font-size: 2em; } .slide { padding: 20px; } table { display: block; overflow-x: auto; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Sesión 7: Proyecciones Financieras y "El Pedido"</h1>
+            <p>Objetivo: Presentar tu historia de crecimiento en números y pedir la inversión adecuada.</p>
+        </header>
+
+        <main>
+            <section class="slide">
+                <h2>Introducción: Contando tu Historia con Números</h2>
+                <p>Las proyecciones financieras no son solo hojas de cálculo; son la narrativa de tu startup en el lenguaje de los inversores. Cada número cuenta una parte de tu historia de crecimiento, rentabilidad y potencial de retorno. "El Pedido" (The Ask) es el momento culminante donde, basándote en esta historia, solicitas la inversión necesaria para alcanzar tus próximos hitos. Es la síntesis de todo tu trabajo previo.</p>
+            </section>
+
+            <section class="slide">
+                <h2>Fase 1: Proyecciones Financieras Detalladas</h2>
+                <p>Más allá de los ingresos y costos básicos, los inversores querrán ver una comprensión profunda de tus finanzas. Aquí, profundizaremos en las métricas clave.</p>
+                <h4>Métricas Financieras Clave para Inversores</h4>
+                <table>
+                    <thead><tr><th>Métrica</th><th>Definición</th><th>Por qué le importa al Inversor</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Burn Rate (Tasa de Consumo)</strong></td><td>Cuánto dinero gasta tu startup cada mes.</td><td>Indica cuánto tiempo puedes operar sin ingresos adicionales.</td></tr>
+                        <tr><td><strong>Runway (Pista)</strong></td><td>Tiempo que te queda antes de quedarte sin dinero (Efectivo / Burn Rate).</td><td>Muestra la urgencia de la próxima ronda de financiación.</td></tr>
+                        <tr><td><strong>CAC (Costo de Adquisición de Cliente)</strong></td><td>Cuánto te cuesta adquirir un nuevo cliente.</td><td>Evalúa la eficiencia de tus estrategias de marketing y ventas.</td></tr>
+                        <tr><td><strong>LTV (Lifetime Value)</strong></td><td>Ingreso total que esperas de un cliente a lo largo de su vida útil.</td><td>Indica el valor a largo plazo de tu base de clientes.</td></tr>
+                        <tr><td><strong>LTV:CAC Ratio</strong></td><td>Relación entre el valor de vida del cliente y el costo de adquirirlo.</td><td>Un ratio saludable (ej. 3:1) sugiere un modelo de negocio rentable y escalable.</td></tr>
+                        <tr><td><strong>Gross Margin (Margen Bruto)</strong></td><td>Ingresos menos el costo directo de los bienes/servicios vendidos.</td><td>Muestra la rentabilidad de tu producto/servicio antes de gastos operativos.</td></tr>
+                    </tbody>
+                </table>
+                <h4>Plantilla de Proyecciones a 3 Años (Ejemplo Adheretech)</h4>
+                <table style="word-wrap: break-word;">
+                    <thead><tr><th>Métrica</th><th>Año 1</th><th>Año 2</th><th>Año 3</th><th>Notas / Supuestos</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Unidades Vendidas (Pastilleros)</strong></td><td>1,000</td><td>3,000</td><td>7,500</td><td>Crecimiento basado en SOM y canales de distribución.</td></tr>
+                        <tr><td><strong>Suscripciones Activas (App)</strong></td><td>800</td><td>2,500</td><td>6,500</td><td>80% de conversión de pastilleros a suscripción.</td></tr>
+                        <tr><td><strong>Precio Pastillero</strong></td><td>S/200</td><td>S/200</td><td>S/190</td><td>Ligera reducción en Año 3 para ganar volumen.</td></tr>
+                        <tr><td><strong>Precio Suscripción Mensual</strong></td><td>S/30</td><td>S/30</td><td>S/30</td><td>Modelo de ingresos recurrente.</td></tr>
+                        <tr><td><strong>Ingresos Totales</strong></td><td>S/224,000</td><td>S/675,000</td><td>S/1,615,000</td><td>(Venta Pastilleros + Suscripciones Anuales)</td></tr>
+                        <tr><td><strong>COGS Total</strong></td><td>S/50,000</td><td>S/135,000</td><td>S/300,000</td><td>Economías de escala en producción.</td></tr>
+                        <tr><td><strong>Gastos Operativos (OpEx)</strong></td><td>S/180,000</td><td>S/250,000</td><td>S/400,000</td><td>Salarios, marketing, I+D.</td></tr>
+                        <tr><td><strong>Beneficio Neto (Anual)</strong></td><td>-S/6,000</td><td>S/290,000</td><td>S/915,000</td><td>(Ingresos - COGS - OpEx)</td></tr>
+                        <tr><td><strong>Cash al Final del Año</strong></td><td>S/194,000</td><td>S/484,000</td><td>S/1,399,000</td><td>Asumiendo S/200k inversión inicial.</td></tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="slide">
+                <h2>Fase 2: Estructurando "El Pedido" (The Ask)</h2>
+                <p>Tu "Ask" es la culminación de tu pitch. Debe ser claro, conciso y justificado por tus proyecciones y hitos.</p>
+                <div class="highlight-box">
+                    <h3>Componentes de "El Pedido"</h3>
+                    <ul>
+                        <li><strong>Monto de la Inversión:</strong> La cantidad exacta de dinero que necesitas.</li>
+                        <li><strong>Porcentaje de Equity:</strong> El porcentaje de tu empresa que estás ofreciendo a cambio.</li>
+                        <li><strong>Uso de Fondos:</strong> Un desglose claro de cómo se utilizará cada sol de la inversión.</li>
+                        <li><strong>Hitos a Alcanzar:</strong> Qué lograrás con esa inversión y cómo aumentará la valoración de tu empresa.</li>
+                    </ul>
+                </div>
+                <div class="valuation-graphic">
+                    <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+                        <line x1="50" y1="150" x2="350" y2="150" stroke="black" stroke-width="2"/>
+                        <line x1="50" y1="150" x2="50" y2="50" stroke="black" stroke-width="2"/>
+                        <path d="M50 150 L 150 100 L 250 80 L 350 60" fill="none" stroke="#0a9396" stroke-width="3"/>
+                        <circle cx="50" cy="150" r="5" fill="#005f73"/>
+                        <text x="50" y="165" text-anchor="middle" font-size="10">Hoy (Pre-Seed)</text>
+                        <circle cx="150" cy="100" r="5" fill="#005f73"/>
+                        <text x="150" y="115" text-anchor="middle" font-size="10">Hito 1 (Seed)</text>
+                        <circle cx="250" cy="80" r="5" fill="#005f73"/>
+                        <text x="250" y="95" text-anchor="middle" font-size="10">Hito 2 (Serie A)</text>
+                        <circle cx="350" cy="60" r="5" fill="#005f73"/>
+                        <text x="350" y="75" text-anchor="middle" font-size="10">Hito 3 (Serie B)</text>
+                        <text x="20" y="140" font-size="12" transform="rotate(-90 20 140)">Valoración</text>
+                    </svg>
+                </div>
+                <div class="highlight-box">
+                    <h3>Ejemplo de "El Pedido" para Adheretech</h3>
+                    <p>"Pedimos <strong>S/200,000 por el 15%</strong> de Adheretech. Esta inversión nos permitirá:</p>
+                    <ul>
+                        <li><strong>S/80,000:</strong> Contratar a 2 desarrolladores para lanzar la versión 2.0 de la app con nuevas funcionalidades (ej. integración con wearables).</li>
+                        <li><strong>S/70,000:</strong> Expandir nuestras operaciones a 3 ciudades adicionales en Perú y lanzar una campaña de marketing digital intensiva.</li>
+                        <li><strong>S/50,000:</strong> Cubrir gastos operativos y legales durante los próximos 6 meses, asegurando una pista de aterrizaje sólida.</li>
+                    </ul>
+                    <p>Con esta inversión, proyectamos alcanzar 3,000 usuarios activos y un beneficio neto anual de S/290,000 para finales del Año 2, lo que justificará una valoración significativamente mayor para la siguiente ronda."</p>
+                </div>
+            </section>
+
+            <section class="slide">
+                <h2>Fase 3: Valoración de Startups (Conceptos Básicos)</h2>
+                <p>La valoración es el proceso de determinar el valor económico de tu empresa. En etapas tempranas, es más arte que ciencia, pero hay métodos que te ayudan a justificar tu "ask".</p>
+                <table>
+                    <thead><tr><th>Método de Valoración</th><th>Descripción Simple</th><th>Cuándo se Usa</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Método Scorecard</strong></td><td>Compara tu startup con otras startups similares que ya han sido financiadas, ajustando por factores como equipo, mercado, tecnología, etc.</td><td>Etapa Pre-Seed / Seed (sin ingresos o muy pocos).</td></tr>
+                        <tr><td><strong>Método Berkus</strong></td><td>Asigna un valor a la startup en función de 5 factores clave: idea, prototipo, equipo, alianzas estratégicas y tracción.</td><td>Etapa Pre-Seed / Seed (sin ingresos o muy pocos).</td></tr>
+                        <tr><td><strong>Venture Capital Method</strong></td><td>Calcula la valoración actual basándose en el retorno esperado por el inversor en el futuro.</td><td>Etapa Seed / Serie A (cuando hay proyecciones más claras).</td></tr>
+                        <tr><td><strong>Múltiplos de Ingresos/EBITDA</strong></td><td>Compara tu empresa con empresas públicas o adquiridas en tu sector, usando múltiplos de sus ingresos o ganancias.</td><td>Etapas más avanzadas (Serie B en adelante, con ingresos estables).</td></tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="slide">
+                <h2>🎥 Videos de Apoyo</h2>
+                <p><strong>Nota:</strong> Debido a limitaciones con la herramienta de búsqueda, los enlaces a continuación son marcadores de posición. Por favor, busca videos actualizados en YouTube sobre estos temas.</p>
+                <div class="video-grid">
+                    <div class="highlight-box">
+                        <h3>Proyecciones Financieras Avanzadas</h3>
+                        <p>Cómo construir modelos financieros más complejos para tu startup.</p>
+                        <a href="#" target="_blank">Buscar en YouTube</a>
+                    </div>
+                    <div class="highlight-box">
+                        <h3>Métricas Financieras para Inversores</h3>
+                        <p>Las métricas clave que los inversores analizan antes de invertir.</p>
+                        <a href="#" target="_blank">Buscar en YouTube</a>
+                    </div>
+                     <div class="highlight-box">
+                        <h3>Cómo Estructurar "El Pedido"</h3>
+                        <p>Consejos para pedir inversión de forma clara y convincente.</p>
+                        <a href="#" target="_blank">Buscar en YouTube</a>
+                    </div>
+                    <div class="highlight-box">
+                        <h3>Conceptos Básicos de Valoración de Startups</h3>
+                        <p>Una introducción a los métodos de valoración de empresas en etapa temprana.</p>
+                        <a href="#" target="_blank">Buscar en YouTube</a>
+                    </div>
+                </div>
+            </section>
+
+            <section class="slide">
+                <h2>Rúbrica de Evaluación (100 Puntos)</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 20%;">Criterio de Evaluación</th>
+                            <th>Excelente (25-21 pts)</th>
+                            <th>Bueno (20-16 pts)</th>
+                            <th>Regular (15-11 pts)</th>
+                            <th>Deficiente (1-10 pts)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Realismo y Justificación de Proyecciones</strong></td>
+                            <td>Las proyecciones son realistas, detalladas y cada supuesto está claramente justificado con datos o lógica sólida.</td>
+                            <td>Las proyecciones son razonables, pero algunos supuestos carecen de justificación detallada.</td>
+                            <td>Las proyecciones son demasiado optimistas o los supuestos son débiles.</td>
+                            <td>Proyecciones ausentes o arbitrarias.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Claridad y Coherencia de "El Pedido"</strong></td>
+                            <td>El monto, equity y uso de fondos son claros, concisos y están perfectamente alineados con los hitos y la estrategia.</td>
+                            <td>El "ask" es claro, pero la justificación o el desglose del uso de fondos podría ser más fuerte.</td>
+                            <td>El "ask" es ambiguo o el uso de fondos no está bien justificado.</td>
+                            <td>"Ask" ausente o incoherente.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Comprensión de Métricas Clave</strong></td>
+                            <td>Se demuestran las métricas clave (Burn Rate, CAC, LTV, etc.) y se interpretan correctamente en el contexto del negocio.</td>
+                            <td>Se mencionan las métricas clave, pero la interpretación es superficial o incompleta.</td>
+                            <td>Las métricas clave no se presentan o se usan incorrectamente.</td>
+                            <td>Desconocimiento de métricas clave.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Defensa de la Valoración Implícita</strong></td>
+                            <td>Se defiende la valoración implícita del "ask" con argumentos sólidos basados en el mercado, tracción, equipo o tecnología.</td>
+                            <td>Se intenta defender la valoración, pero los argumentos son débiles o poco convincentes.</td>
+                            <td>No se defiende la valoración o se basa en argumentos emocionales.</td>
+                            <td>No hay comprensión de la valoración.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </main>
+
+        <footer>
+            <p>Curso Emprendimiento en Salud - Preparación para Shark Tank</p>
+        </footer>
+    </div>
+</body>
+</html>
